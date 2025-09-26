@@ -1,39 +1,35 @@
 
 
-import supabase from '@/lib/supabase/client';
+import { prisma } from '@/lib/prisma/client';
 
 export default async function createNewUser(inputData){
     console.log("input data from create user: ", inputData)
     try{
-        const { data, error } = await supabase
-            .from('users')
-            .insert([{
+        const data = await prisma.user.create({
+            data: {
                 clerk_id: inputData.clerk_id,
                 name: inputData.name,
                 username: inputData.username,
                 email: inputData.email,
                 img_url: inputData.img_url,
-                created_at: new Date().toISOString(),
-                updated_at: new Date().toISOString()
-            }])
-            .select();
-
-        if (error) {
-            console.error('Supabase insert error:', error);
-            return {
-                state: false,
-                error: 'Failed to create user in database',
-                message: "Database insertion error"
-            };
-        }
+            }
+        });
 
         return {
             state: true,
-            data: data[0],
+            data: data,
             message: 'User created successfully',
         };
     } catch (err) {
         console.error('User creation error:', err);
+        // Handle unique constraint violations
+        if (err.code === 'P2002') {
+            return {
+                state: false,
+                error: 'User already exists',
+                message: 'User already exists in database'
+            };
+        }
         return {
             state: false,
             error: err.message || 'Something went wrong',

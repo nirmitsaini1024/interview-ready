@@ -1,8 +1,9 @@
 import { NextResponse } from 'next/server';
 import { currentUser } from '@clerk/nextjs/server';
-import supabase from '@/lib/supabase/client';
 import { isRateLimited } from '@/lib/utils/rateLimiter';
 import { ratelimit } from '@/lib/ratelimiter/rateLimiter';
+import { ensureUserExists } from '@/lib/utils/ensureUserExists';
+import { prisma } from '@/lib/prisma/client';
 
 
 
@@ -21,7 +22,7 @@ export async function GET(req) {
             return NextResponse.json({ state: false, error: 'Too many requests', message: 'Rate limit exceeded' }, { status: 429 });
         }
 
-        // 2. Authenticated user
+        // 2. Get authenticated user
         const user = await currentUser();
 
         console.log("************** user ********")
@@ -33,56 +34,51 @@ export async function GET(req) {
             return NextResponse.json({ state: false, error: 'Unauthorized', message: 'User not authenticated' }, { status: 401 });
         }
 
-        // 3. Validate user exists in Supabase
-        const { data: userRecord, error: userError } = await supabase
-            .from('users')
-            .select('*')
-            .eq('clerk_id', userId)
-            .single();
+        // 3. Ensure user exists in Supabase (auto-create if needed)
+        const { exists, user: userRecord, error: ensureError } = await ensureUserExists();
 
-        if (userError || !userRecord) {
-            return NextResponse.json({ state: false, error: 'User not found in database', message: 'Forbidden' }, { status: 403 });
+        if (!exists || !userRecord) {
+            return NextResponse.json({ state: false, error: ensureError || 'Cannot create user', message: 'Forbidden' }, { status: 403 });
         }
 
-        // 5. Get interview attempts data
-
-        const { data, error } = await supabase
-            .from("interview_attempts")
-            .select(`
-                *,
-                interviews (
-                interview_name,
-                interview_time,
-                company,
-                company_logo,
-                position,
-                location,
-                difficulty_level,
-                experience,
-                status,
-                duration,
-                interview_style,
-                job_description,
-                interview_link,
-                expiry_date,
-                salary,
-                recruiter_title,
-                employment_type,
-                job_type,
-                type,
-                current_duration
-                )
-            `)
-            .eq("user_id", userId) // Replace userId with actual Clerk user ID
-            .order("created_at", { ascending: false }); // Sort by latest
-
-
-            if (error) {
-                console.error("Error fetching interview attempts:", error);
-            } else {
-                console.log("Interview Attempts with Details:", data);
+        // 5. Get interview attempts data using Prisma
+        const data = await prisma.interviewAttempt.findMany({
+            where: {
+                user_id: userId
+            },
+            include: {
+                interview: {
+                    select: {
+                        id: true,
+                        interview_name: true,
+                        interview_time: true,
+                        company: true,
+                        company_logo: true,
+                        position: true,
+                        location: true,
+                        difficulty_level: true,
+                        experience: true,
+                        status: true,
+                        duration: true,
+                        interview_style: true,
+                        job_description: true,
+                        interview_link: true,
+                        expiry_date: true,
+                        salary: true,
+                        recruiter_title: true,
+                        employment_type: true,
+                        job_type: true,
+                        type: true,
+                        current_duration: true
+                    }
+                }
+            },
+            orderBy: {
+                created_at: 'desc'
             }
+        });
 
+        console.log("Interview Attempts with Details:", data);
 
         // 6. Success
         return NextResponse.json({ state: true, data, message: 'Updated Successfully' }, { status: 201 });

@@ -1,0 +1,66 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Candidate {
+  id         Int         @id @default(autoincrement())
+  name       String
+  email      String
+  phone      String?
+  resumeRaw  String      @default("")
+  resumeJson Json?
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime
+  jobId      Int
+  Job        Job         @relation(fields: [jobId], references: [id])
+  Interview  Interview[]
+}
+
+model Interview {
+  id          Int        @id @default(autoincrement())
+  status      String     @default("in_progress")
+  finalScore  Int?
+  summary     String?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime
+  candidateId Int
+  Candidate   Candidate  @relation(fields: [candidateId], references: [id])
+  Question    Question[]
+}
+
+model Interviewer {
+  id        Int      @id @default(autoincrement())
+  username  String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime
+  Job       Job[]
+}
+
+model Job {
+  id            Int         @id @default(autoincrement())
+  title         String
+  description   String
+  requirements  String
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime
+  interviewerId Int
+  Candidate     Candidate[]
+  Interviewer   Interviewer @relation(fields: [interviewerId], references: [id])
+}
+
+model Question {
+  id          Int       @id @default(autoincrement())
+  content     String
+  answer      String?
+  score       Int?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime
+  interviewId Int
+  Interview   Interview @relation(fields: [interviewId], references: [id])
+}

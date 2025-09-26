@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { currentUser } from '@clerk/nextjs/server';
 import supabase from '@/lib/supabase/client';
 import { ratelimit } from '@/lib/ratelimiter/rateLimiter';
+import { ensureUserExists } from '@/lib/utils/ensureUserExists';
 
  
 export async function GET(req) {
@@ -21,18 +22,11 @@ export async function GET(req) {
       return NextResponse.json({ state: false, error: 'Unauthorized', message: "Failed" }, { status: 401 });
     }
 
-    // Step 3: Verify the user exists in Supabase "users" table and get data
-    const { data: userRecord, error: userError } = await supabase
-      .from('users')
-      .select('*')
-      .eq('clerk_id', userId)
-      .single();
+    // Step 3: Ensure user exists in Supabase (auto-create if needed)
+    const { exists, user: userRecord, error: ensureError } = await ensureUserExists();
 
-    console.log("usererror", userError);
-    console.log("userRecord", userRecord);
-
-    if (userError || !userRecord) {
-      return NextResponse.json({ state: false, error: 'User not found in database', message: "Failed" }, { status: 403 });
+    if (!exists || !userRecord) {
+      return NextResponse.json({ state: false, error: ensureError || 'Cannot create user', message: "Failed" }, { status: 403 });
     }
 
     return NextResponse.json({ state: true, data: userRecord, message: "Success" }, { status: 200 });
