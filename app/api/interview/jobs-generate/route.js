@@ -59,7 +59,8 @@ If any field is missing, use defaults specified. Only return JSON.`;
     // Queue the OpenAI API call
     const result = await openaiQueue.add(async () => {
       return await openai.chat.completions.create({
-        model: 'openai/gpt-4o',
+        model: 'meta-llama/llama-3.3-8b-instruct:free',
+        max_tokens: 3000,
         messages: [{ role: 'user', content: prompt }],
         stream: true,
       });

@@ -1,7 +1,7 @@
 import { ratelimit } from '@/lib/ratelimiter/rateLimiter';
 import OpenAI from 'openai';
 import { NextRequest, NextResponse } from 'next/server';
-import openaiQueue from '@/lib/queue/geminiQueue'; // 🆕 Import the shared queue instance
+import openaiQueue from '@/lib/queue/openaiQueue'; // 🆕 Import the shared queue instance
 
 export const runtime = 'nodejs';
 
@@ -38,11 +38,12 @@ export async function POST(req) {
   try {
     const result = await openaiQueue.add(async () => {
       const response = await openai.chat.completions.create({
-        model: 'openai/gpt-4o',
+        model: 'meta-llama/llama-3.3-8b-instruct:free',
+        max_tokens: 3000,
         messages: [
           {
             role: 'system',
-            content: 'You are a smart AI assistant named Niko who generates modern top interview questions based on the given data.',
+            content: 'You are a smart AI assistant named Buddy who generates modern top interview questions based on the given data.',
           },
           {
             role: 'user',

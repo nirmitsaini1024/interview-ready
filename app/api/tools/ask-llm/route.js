@@ -21,7 +21,8 @@ export async function POST(req) {
       .join('\n\n')}`;
 
     const reportRes = await openai.chat.completions.create({
-      model: 'openai/gpt-4o',
+      model: 'meta-llama/llama-3.3-8b-instruct:free',
+      max_tokens: 3000,
       messages: [{ role: 'user', content: reportPrompt }],
     });
 
@@ -33,7 +34,8 @@ export async function POST(req) {
   // Start session
   if (!sessionId && prompt) {
     const qRes = await openai.chat.completions.create({
-      model: 'openai/gpt-4o',
+      model: 'meta-llama/llama-3.3-8b-instruct:free',
+      max_tokens: 3000,
       messages: [{ role: 'user', content: `Generate 10 mock interview questions on ${prompt}. Only output the questions.` }],
     });
 
