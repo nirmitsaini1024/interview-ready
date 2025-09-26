@@ -1,42 +1,43 @@
 
 
+import supabase from '@/lib/supabase/client';
+
 export default async function createNewUser(inputData){
     console.log("input data from create user: ", inputData)
     try{
-        const response = await fetch(`https://www.hirenom.com/api/user/create`, {
-        method: 'POST',
-        headers: {
-            'Content-type': 'application/json' 
-        },
-        body: JSON.stringify(inputData)
-    });
-    const result = await response.json();  
+        const { data, error } = await supabase
+            .from('users')
+            .insert([{
+                clerk_id: inputData.clerk_id,
+                name: inputData.name,
+                username: inputData.username,
+                email: inputData.email,
+                img_url: inputData.img_url,
+                created_at: new Date().toISOString(),
+                updated_at: new Date().toISOString()
+            }])
+            .select();
 
-    if(!response.ok){
+        if (error) {
+            console.error('Supabase insert error:', error);
+            return {
+                state: false,
+                error: 'Failed to create user in database',
+                message: "Database insertion error"
+            };
+        }
+
         return {
-        state: false,
-        error: 'Failed to create new user',
-         message: "Error in Inserting Data in createNewUser"
-      };
-    }
-    if (!result?.data) {
-      return {
-        state: false,
-        error: 'Failed to create new user',
-        message: 'No data',
-      };
-    }
-    return {
-      state: true,
-      data: result.data,
-      message: result.message || 'Success',
-    };
+            state: true,
+            data: data[0],
+            message: 'User created successfully',
+        };
     } catch (err) {
-    console.error('Interview fetch error:', err); // Remove or replace with monitoring logger
-    return {
-      state: false,
-      error: err.message || 'Something went wrong',
-      message: 'Failed',
-    };
-  }
+        console.error('User creation error:', err);
+        return {
+            state: false,
+            error: err.message || 'Something went wrong',
+            message: 'Failed to create user',
+        };
+    }
 }
