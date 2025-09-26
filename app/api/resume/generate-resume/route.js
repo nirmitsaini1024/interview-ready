@@ -1,12 +1,13 @@
 import { ratelimit } from '@/lib/ratelimiter/rateLimiter';
-import { GoogleGenAI } from '@google/genai';
+import OpenAI from 'openai';
 import { NextRequest, NextResponse } from 'next/server';
-import geminiQueue from '@/lib/queue/geminiQueue'; // 🆕 Import the shared queue instance
+import openaiQueue from '@/lib/queue/openaiQueue'; // 🆕 Import the shared queue instance
 
 export const runtime = 'nodejs';
 
-const ai = new GoogleGenAI({
-  apiKey: process.env.GEMINI_API_KEY || '',
+const openai = new OpenAI({
+  apiKey: process.env.OPENROUTER_AI_KEY,
+  baseURL: "https://openrouter.ai/api/v1",
 });
 
 export async function POST(req) {
@@ -26,17 +27,19 @@ export async function POST(req) {
 
   console.log("🧠 Generating for:", job_description);
 
-  // Wrap Gemini API call in queue
+  // Wrap OpenAI API call in queue
   try {
-    const result = await geminiQueue.add(async () => {
-      const response = await ai.models.generateContent({
-        model: 'gemini-1.5-flash',
-        contents: [
+    const result = await openaiQueue.add(async () => {
+      const response = await openai.chat.completions.create({
+        model: 'openai/gpt-4o',
+        messages: [
+          {
+            role: 'system',
+            content: 'You are a smart AI assistant named Niko who generates modern ATS friendly resume from job description.',
+          },
           {
             role: 'user',
-            parts: [
-              {
-text: `
+            content: `
 You are an expert resume writer and an ATS optimization specialist. 
  Based on the resume and job description provided, generate an improved, 
  ATS-optimized resume in the JSON format specified below.
@@ -105,24 +108,15 @@ resume: ${resume}
     same from the resume
   ]
 }
-
-
 `
-
-              },
-            ],
           },
         ],
-        config: {
-          systemInstruction:
-            'You are a smart AI assistant named Niko who generates modern ATS friendly resume from job description.',
-        },
       });
 
-      return response.text;
+      return response.choices[0].message.content;
     });
 
-    console.log("✅ Gemini API Success");
+    console.log("✅ OpenAI API Success");
 
     return new Response(
       JSON.stringify({
@@ -141,7 +135,7 @@ resume: ${resume}
       }
     );
   } catch (error) {
-    console.error("❌ Gemini Queue Error:", error);
+    console.error("❌ OpenAI Queue Error:", error);
     return NextResponse.json(
       {
         state: false,

@@ -1,14 +1,14 @@
 
-import geminiQueue from '@/lib/queue/geminiQueue';
+import openaiQueue from '@/lib/queue/openaiQueue';
 import { ratelimit } from '@/lib/ratelimiter/rateLimiter';
-import { GoogleGenAI } from '@google/genai';
+import OpenAI from 'openai';
 import { NextRequest, NextResponse } from 'next/server';
-
 
 export const runtime = 'nodejs';
 
-const ai = new GoogleGenAI({
-  apiKey: process.env.GEMINI_API_KEY || '',
+const openai = new OpenAI({
+  apiKey: process.env.OPENROUTER_AI_KEY,
+  baseURL: "https://openrouter.ai/api/v1",
 });
 
 export async function POST(req) {
@@ -23,16 +23,18 @@ export async function POST(req) {
   const { conversations } = await req.json();
 
   try {
-    // Enqueue the Gemini task
-    const response = await geminiQueue.add(async () => {
-      return await ai.models.generateContent({
-        model: "gemini-1.5-flash",
-        contents: [
+    // Enqueue the OpenAI task
+    const response = await openaiQueue.add(async () => {
+      return await openai.chat.completions.create({
+        model: 'openai/gpt-4o',
+        messages: [
+          {
+            role: "system",
+            content: "You are a smart AI assistant name Niko who generates Indepth Report card for an interview based on the given data"
+          },
           {
             role: "user",
-            parts: [
-          {
-            text: `### Interview Transcript
+            content: `### Interview Transcript
 
 The following is a structured array of messages between the candidate and the interviewer. Use this conversation to evaluate the candidate:
 
@@ -138,24 +140,17 @@ Output Format Example:
 }
 
 
-**Note**: Strictly follow this output format, dont generate any additional character/string/object/array
-
-`
-          }
-        ]
+**Note**: Strictly follow this output format, dont generate any additional character/string/object/array`
           }
         ],
-        config: {
-          systemInstruction: "You are a smart AI assistant name Niko who generates Indepth Report card for an interview based on the given data",
-        },
       });
     });
 
-    console.log(response.text);
+    console.log(response.choices[0].message.content);
 
     return new Response(JSON.stringify({
       state: true,
-      data: response.text,
+      data: response.choices[0].message.content,
       message: "Success",
     }), {
       headers: {
@@ -167,10 +162,10 @@ Output Format Example:
       },
     });
   } catch (err) {
-    console.error('Gemini Error:', err);
+    console.error('OpenAI Error:', err);
     return new Response(JSON.stringify({
       state: false,
-      error: "Gemini API failed",
+      error: "OpenAI API failed",
     }), {
       status: 500,
       headers: {

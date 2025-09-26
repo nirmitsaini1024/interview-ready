@@ -1,12 +1,13 @@
 import { ratelimit } from '@/lib/ratelimiter/rateLimiter';
-import { GoogleGenAI } from '@google/genai';
+import OpenAI from 'openai';
 import { NextRequest, NextResponse } from 'next/server';
-import geminiQueue from '@/lib/queue/geminiQueue'; // 🆕 Import the shared queue instance
+import openaiQueue from '@/lib/queue/openaiQueue'; // 🆕 Import the shared queue instance
 
 export const runtime = 'nodejs';
 
-const ai = new GoogleGenAI({
-  apiKey: process.env.GEMINI_API_KEY || '',
+const openai = new OpenAI({
+  apiKey: process.env.OPENROUTER_AI_KEY,
+  baseURL: "https://openrouter.ai/api/v1",
 });
 
 export async function POST(req) {
@@ -21,17 +22,19 @@ export async function POST(req) {
   // Extract JSON body
   const { type, resume, } = await req.json();
 
-  // Wrap Gemini API call in queue
+  // Wrap OpenAI API call in queue
   try {
-    const result = await geminiQueue.add(async () => {
-      const response = await ai.models.generateContent({
-        model: 'gemini-1.5-flash',
-        contents: [
+    const result = await openaiQueue.add(async () => {
+      const response = await openai.chat.completions.create({
+        model: 'openai/gpt-4o',
+        messages: [
+          {
+            role: 'system',
+            content: 'You are a smart AI assistant named Niko who generates modern top interview questions based on the given data.',
+          },
           {
             role: 'user',
-            parts: [
-              {
-                text: `
+            content: `
 
 You are an IIM Ahmedabad admissions panelist conducting a mock interview for an MBA aspirant. 
 IIM-A is known for its case-based pedagogy, academic rigor, and strong preference for analytical thinking and structured responses.
@@ -45,7 +48,6 @@ ${resume}
 Generate a 10 question mock interview simulating the IIM-A interview style in JSON format.
 Base your questions on the user's profile, their academic/work history, and their B-school of choice.
 
-
 Focus on:
 - Structured thinking
 - Real-world problem-solving
@@ -53,26 +55,18 @@ Focus on:
 - Justification of career goals
 - Decision-making skills
 
-
-Format each question in simple language. Don’t dump multiple questions at once. Maintain realism and timing.
+Format each question in simple language. Don't dump multiple questions at once. Maintain realism and timing.
 
 Provide the output in JSON format.
-
-`,
-              },
-            ],
+`
           },
         ],
-        config: {
-          systemInstruction:
-            'You are a smart AI assistant named Niko who generates modern top interview questions based on the given data.',
-        },
       });
 
-      return response.text;
+      return response.choices[0].message.content;
     });
 
-    console.log("✅ Gemini API Success");
+    console.log("✅ OpenAI API Success");
 
     return new Response(
       JSON.stringify({
@@ -91,7 +85,7 @@ Provide the output in JSON format.
       }
     );
   } catch (error) {
-    console.error("❌ Gemini Queue Error:", error);
+    console.error("❌ OpenAI Queue Error:", error);
     return NextResponse.json(
       {
         state: false,

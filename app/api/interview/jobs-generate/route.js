@@ -1,13 +1,14 @@
 // app/api/openai/job/route.ts
-import geminiQueue from '@/lib/queue/geminiQueue';
+import openaiQueue from '@/lib/queue/openaiQueue';
 import { ratelimit } from '@/lib/ratelimiter/rateLimiter';
-import { GoogleGenAI } from '@google/genai';
+import OpenAI from 'openai';
 import { NextRequest, NextResponse } from 'next/server';
 
 export const runtime = 'nodejs';
 
-const ai = new GoogleGenAI({
-  apiKey: process.env.GEMINI_API_KEY || '',
+const openai = new OpenAI({
+  apiKey: process.env.OPENROUTER_AI_KEY,
+  baseURL: "https://openrouter.ai/api/v1",
 });
 
 export async function POST(req) {
@@ -92,23 +93,22 @@ Do not add any explanations or extra text, just return the JSON.
 
 `.trim();
 
-    // Queue the Gemini API call
-    const result = await geminiQueue.add(() =>
-      ai.models.generateContentStream({
-        model: 'gemini-1.5-flash',
-        contents: [{ role: 'user', parts: [{ text: prompt }] }],
-      })
-    );
+    // Queue the OpenAI API call
+    const result = await openaiQueue.add(async () => {
+      return await openai.chat.completions.create({
+        model: 'openai/gpt-4o',
+        messages: [{ role: 'user', content: prompt }],
+        stream: true,
+      });
+    });
 
     const encoder = new TextEncoder();
-    let responseText = '';
 
     const stream = new ReadableStream({
       async start(controller) {
         for await (const chunk of result) {
-          const text = chunk?.candidates?.[0]?.content?.parts?.[0]?.text;
+          const text = chunk.choices[0]?.delta?.content;
           if (text) {
-            responseText += text;
             controller.enqueue(encoder.encode(text));
           }
         }

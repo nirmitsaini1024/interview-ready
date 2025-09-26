@@ -156,7 +156,7 @@ export async function POST(req) {
 //             <h3>AI Interview Assistant (Jina)</h3>
 //           </div>
 //           <ul>
-//             <li>Voice-based AI interviewer built using Vapi + Gemini</li>
+//             <li>Voice-based AI interviewer built using Vapi + Openrouter</li>
 //             <li>Follows structured logic to evaluate candidate responses</li>
 //             <li>Supports scheduling, candidate profiles, and evaluation metrics</li>
 //           </ul>
