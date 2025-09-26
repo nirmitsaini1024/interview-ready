@@ -34,31 +34,17 @@ export async function POST(req) {
           },
           {
             role: 'user',
-            content: `
+            content: `Generate 10 MBA interview questions for IIM Ahmedabad admissions.
 
-You are an IIM Ahmedabad admissions panelist conducting a mock interview for an MBA aspirant. 
-IIM-A is known for its case-based pedagogy, academic rigor, and strong preference for analytical thinking and structured responses.
-Your role is to generate 10 questions and it should be **realistic, college-specific and feel real interview** for the user.
+Resume: ${typeof resume === 'string' && resume.length > 500 ? resume.substring(0, 500) + '...' : resume || 'Not provided'}
 
-Generate 10 questions in JSON format based on the above data and user's resume.
+Create realistic interview questions focusing on:
+- Analytical thinking  
+- Problem solving
+- Career goals justification
+- Leadership experience
 
-## Resume
-${resume}
-
-Generate a 10 question mock interview simulating the IIM-A interview style in JSON format.
-Base your questions on the user's profile, their academic/work history, and their B-school of choice.
-
-Focus on:
-- Structured thinking
-- Real-world problem-solving
-- Academic depth
-- Justification of career goals
-- Decision-making skills
-
-Format each question in simple language. Don't dump multiple questions at once. Maintain realism and timing.
-
-Provide the output in JSON format.
-`
+Return JSON format: {"Question 1": "...", "Question 2": "...", etc}`
           },
         ],
       });

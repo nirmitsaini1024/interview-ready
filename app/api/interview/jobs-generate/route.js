@@ -33,65 +33,28 @@ export async function POST(req) {
       });
     }
 
-    const prompt = `
-          
-          You are a smart AI assistant that extracts detailed interview metadata from a job description.
-Given the job description below, extract the following fields and return a JSON object with these exact keys:
+    const prompt = `You are a smart AI assistant that extracts detailed interview metadata from a job description. Extract job metadata from this description and return a JSON object with these fields:
 
 Job Description: ${jobDescription}
 
-interview_name (string) — A suitable interview title or job title
+Return JSON with:
+- interview_name: job role/title
+- job_description: full description  
+- company: company name or ""
+- location: job location (default "India")
+- experience: required years (default "Not specified") 
+- difficulty_level: easy/medium/hard (default "medium")
+- interview_type: technical/HR/behavioral (default "technical")
+- Requirements: array of requirements
+- Tech_Stack: array of technologies/tools
+- Skills: array of skills needed
+- Employment_Type: Full-time/Part-time/Contract
+- interview_style: one-on-one/panel/group
+- duration: interview time in minutes (default 30)
+- status: open/closed/upcoming (default "open")
+- interview_time: current date in ISO format
 
-job_description (string) — The full job description text
-
-Role Overview (string): A short paragraph summarizing what the role is about.
-
-interview_time (ISO 8601 date string) — The interview date and time, or if not mentioned, use today's date in ISO format
-
-company_logo (string URL) — A URL to the company logo if mentioned, or https://hirenom.com/artwork/365
-
-status (string) — Status of the interview (e.g., "open", "closed", "upcoming"), default to "open"
-
-interview_type (string) — Type of interview (e.g., "technical", "HR", "behavioral"), default to "technical"
-
-interview_style (string) — Interview style (e.g., "panel", "one-on-one"), default to "one-on-one"
-
-duration (number, minutes) — Duration in minutes, default to 30
-
-Requirements (array/list) - provide the requirements in a list(array)
-
-Tech Stack (array) - If not mentioned understand the job description and provide these (Programming languages, Frameworks, Tools, DevOps )
-
-location (string) — Job location, default to "India"
-
-Tone / Cultural Fit (string) - Just provide the words in a string as comma (,) seperated
-
-Seniority Level (string) : Mid-level (inferred from "2+ years")
-
-Employment Type (string): Full-time (usually inferred if not mentioned)
-
-Location (string): Not explicitly mentioned, but should be a separate field
-
-Skills (array/list) - Extracted either from Requirements/Responsibilities or implicitly:
-
-experience (string) — Required experience level in years, default to "Not specified"
-
-difficulty_level (string) — Interview difficulty (e.g., "easy", "medium", "hard"), default to "medium"
-
-company (string) — Company name if available in job description else default " " (empty string)
-
-
-
-Important:
-
-Provide all fields in a valid JSON object.
-
-If any field is missing in the description, use the default value as specified.
-
-Do not add any explanations or extra text, just return the JSON.
-
-
-`.trim();
+If any field is missing, use defaults specified. Only return JSON.`;
 
     // Queue the OpenAI API call
     const result = await openaiQueue.add(async () => {

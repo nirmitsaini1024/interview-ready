@@ -39,76 +39,32 @@ export async function POST(req) {
           },
           {
             role: 'user',
-            content: `
-You are an expert resume writer and an ATS optimization specialist. 
- Based on the resume and job description provided, generate an improved, 
- ATS-optimized resume in the JSON format specified below.
+            content: `Optimize this resume for job application with keywords from job description.
 
-# IMPORTANT: Do not change any of the static details from the resume such as:
+Job: ${job_description?.length > 300 ? job_description.substring(0, 300) + '...' : job_description}
+Resume: ${typeof resume === 'string' && resume.length > 700 ? resume.substring(0, 700) + '...' : resume}
 
-- Rephrase my resume based on the given job description above to make it more ATS-friendly
+Instructions:
+- Improve keywords for ATS compatibility  
+- Use action verbs with metrics
+- Make content engaging and natural
+- Fix spelling/grammar issues
 
-- Please use this framework: "Action Verb + Noun + Metric + [Strategy Optional] + Outcome = 1 bulleted achievement."
-
-- Please rewrite the resume in a more engaging and natural way. Use nondramatic language.
-
-- Rewrite my resume to align with the following job description
-
-- Proofread my resume and suggest improvements for clarity and readability, check any spelling mistake or grammer mistake
-
-- Analyze my resume for ATS optimization based on this job description.
-
-- Add keywords in the resume based on the job description to imporve ATS score.
-
-- add 10 additional new keywords to my resume to improve ATS compatibility with the given job description
-
-- Use a more personalized resume voice to make my content sound less robotic.
-
-- Rewrite my resume to remove overly formal or repetitive AI-generated phrasing while keeping it professional. 
-
-- Adjust my resume tone to sound more natural and engaging, avoiding stiff or overly polished language. 
-
-- Edit my resume to include a mix of sentence structures that feel more natural and human-written.
-
-## Input:
-
-Job Description: ${job_description}
-resume: ${resume}
-
-## Output Format:
-- Provide the output in the json format
-
+Return JSON format:
 {
-  "user_info": {
-    same from the resume
-  },
-  "work_experience": [
-    {
-      extract from resume
-      "responsibilities": [
-            (string array)
-        ]
-    }
-  ],
+  "user_info": { same info from resume },
+  "work_experience": [{"responsibilities": [string array]}],
   "skills": {
-    "languages": (programming languages - [string array]),
-    "frameworks":(frameworks - [string array]),
-    "databases": (databases - [string array]),
-    "tools & technologies": (tools & technologies like DevOps, Testing, Cloud & Infrastructure - [string array]),
-    "other": (other industry realted tools or tech like (Jira, Agile, Scrum, etc) - [string array]),
+    "languages": [string array],
+    "frameworks": [string array], 
+    "databases": [string array],
+    "tools & technologies": [string array],
+    "other": [string array]
   },
-  "projects": [ 
-    {
-    }
-  ],
-  "education": {
-    same from the resume
-  },
-  "extra_curricular_activities": [
-    same from the resume
-  ]
-}
-`
+  "projects": [{}],
+  "education": {},
+  "extra_curricular_activities": []
+}`
           },
         ],
       });

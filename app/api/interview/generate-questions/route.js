@@ -46,60 +46,23 @@ export async function POST(req) {
           },
           {
             role: 'user',
-            content: `
-You are an AI interview assistant. Based on the following job input
-and candidate's resume, generate **10 diverse technical interview questions** in JSON format.
+            content: `Generate 10 interview questions for ${position} at ${company}.
 
-## Follow the below steps to generate the questions
-** Note: ** If resume is not given then skip Step 1
+Job: ${job_description}
+Level: ${difficulty_level} | Experience: ${experience}
+Skills: ${skills_required?.join(', ') || 'Not specified'}
+Tech: ${tech_stack?.join(', ') || 'Not specified'}
 
-### Step 1:
-First extract the following information from the given resume ${resume}
+Resume: ${typeof resume === 'string' && resume.length > 500 ? resume.substring(0, 500) + '...' : resume || 'Not provided'}
 
-- work experience (string)
-- skills (comma separated string)
-- projects experience (string)
+Generate technical questions covering:
+- Coding/algorithm
+- System design  
+- Framework best practices
+- Problem solving
+- Architecture
 
-Step 2:
-Now combine the data extracted from resume and given input job details,
-generate 10 questions, make sure the question should match the resume and job details
-
-** Note: ** If resume is not given then skip Step 1
-
-**Job Input Details:**
-- company: ${company}
-- interview style: ${interview_style}
-- difficulty level: ${difficulty_level}
-- position: ${position}
-- job description: ${job_description}
-- experience: ${experience}
-- skills_required: ${skills_required}
-- tech_stack: ${tech_stack}
-
----
-
-**Output Guidelines:**
-- Format output as JSON object with keys like "Question 1", "Question 2", ..., "Question 10"
-- Only return the JSON (no extra text)
-- Do not include answers
-
----
-
-**Examples of question types to include:**
-- Conceptual
-- Practical
-- Code analysis
-- Debugging
-- Best practices
-- Performance
-- Advanced cases
-- Comparisons
-- Common mistakes
-- Design/system thinking
-
----
-Return only valid JSON.
-`,
+Return JSON format: {"Question 1": "...", "Question 2": "...", etc}`,
           },
         ],
       });
