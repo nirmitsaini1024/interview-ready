@@ -1,37 +1,32 @@
 import { NextResponse } from 'next/server';
 import { currentUser } from '@clerk/nextjs/server';
 import { ratelimit } from '@/lib/ratelimiter/rateLimiter';
-import { ensureUserExists } from '@/lib/utils/ensureUserExists';
+import { requireUser } from '@/lib/utils/createUserDirectly';
 
  
 export async function GET(req, context) {
   try {
     const ip = req.headers.get('x-forwarded-for') || 'anonymous';
 
-    const { success } = await ratelimit.limit(ip);
+    const { success: rateLimitSuccess } = await ratelimit.limit(ip);
 
-    if (!success) {
+    if (!rateLimitSuccess) {
       return NextResponse.json({ state: false, error: 'Rate limit exceeded' }, { status: 429 });
     }
-    // Step 1: Get authenticated Clerk user
-    const user = await currentUser();
-    const userId = user?.id;
-
     // Get reportId from params
     const param = await context.params;
     const reportId = param.id;
+    console.log('📊 Report ID:', reportId);
 
-    console.log(reportId)
+    // Ensure user exists (creates automatically if needed)
+    const { success, user: userRecord, error } = await requireUser();
 
-    if (!userId) {
-      return NextResponse.json({ state: false, error: 'Unauthorized', message: "Failed" }, { status: 401 });
-    }
-
-    // Step 3: Ensure user exists in Supabase (auto-create if needed)
-    const { exists, user: userRecord, error: ensureError } = await ensureUserExists();
-
-    if (!exists || !userRecord) {
-      return NextResponse.json({ state: false, error: ensureError || 'Cannot create user', message: "Failed" }, { status: 403 });
+    if (!success || !userRecord) {
+      return NextResponse.json({ 
+        state: false, 
+        error: error || 'Cannot access user data', 
+        message: "Failed" 
+      }, { status: 403 });
     }
 
     return NextResponse.json({ state: true, data: userRecord, message: "Success" }, { status: 200 });

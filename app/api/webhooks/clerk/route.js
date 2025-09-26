@@ -79,10 +79,19 @@ import { verifyWebhook } from '@clerk/nextjs/webhooks'
 
 
 
-export async function POST(req) {
-  const SIGNING_SECRET = process.env.CLERK_WEBHOOK_SIGNING_SECRET
+// Add GET method for health checks
+export async function GET() {
+  return new Response('Clerk webhook endpoint ready', { status: 200 })
+}
 
+export async function POST(req) {
+  // Add webhook debug logging
+  console.log('🔒 Clerk webhook called')
+  
+  const SIGNING_SECRET = process.env.CLERK_WEBHOOK_SIGNING_SECRET
+  
   if (!SIGNING_SECRET) {
+    console.error('❌ Missing CLERK_WEBHOOK_SIGNING_SECRET');
     return new Response('Missing Clerk signing secret', { status: 500 })
   }
 
@@ -109,8 +118,11 @@ export async function POST(req) {
 
   const eventType = evt.type
   const data = evt.data
-
-  if (eventType === 'user.created') {
+  
+  console.log('📧 Received webhook event:', eventType)
+  
+  // Handle all relevant user events
+  if (eventType === 'user.created' || eventType === 'user.updated') {
     const input = {
       clerk_id: data.id,
       email: data.email_addresses?.[0]?.email_address,
@@ -119,15 +131,20 @@ export async function POST(req) {
       img_url: data.image_url,
     }
 
-    console.log('✅ Creating user:', input)
+    console.log('✅ Creating/Updating user:', input)
 
-    const result = await createNewUser(input);
-    console.log("Result: ", result)
-    if (!result?.state) {
-      console.error('❌ Failed to create user in DB')
-      return new Response('Error saving user', { status: 500 })
+    try {
+      const result = await createNewUser(input);
+      console.log("Result: ", result)
+      if (!result?.state) {
+        console.error('❌ Failed to create user in DB:', result?.message || 'Unknown error')
+        return new Response('Error saving user', { status: 500 })
+      }
+      console.log('✅ User created/updated:', result?.data)
+    } catch (error) {
+      console.error('🔴 Database error during user creation:', error)
+      return new Response('Database error', { status: 500 })
     }
-    console.log('✅ User created:', result?.data)
   }
 
   return new Response('Webhook processed', { status: 200 })
