@@ -1,7 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { GoogleGenAI } from '@google/genai';
+import OpenAI from 'openai';
 
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || '' });
+const openai = new OpenAI({
+  apiKey: process.env.OPENROUTER_AI_KEY,
+  baseURL: "https://openrouter.ai/api/v1",
+});
 
 let sessions = new Map();
 
@@ -17,24 +20,24 @@ export async function POST(req) {
       .map((q, i) => `Q: ${q}\nA: ${session.answers[i] || "No answer"}`)
       .join('\n\n')}`;
 
-    const reportRes = await ai.models.generateContent({
-      model: 'gemini-1.5-flash',
-      contents: [{ role: 'user', parts: [{ text: reportPrompt }] }],
+    const reportRes = await openai.chat.completions.create({
+      model: 'openai/gpt-4o',
+      messages: [{ role: 'user', content: reportPrompt }],
     });
 
     sessions.delete(sessionId);
 
-    return NextResponse.json({ report: reportRes.text });
+    return NextResponse.json({ report: reportRes.choices[0].message.content });
   }
 
   // Start session
   if (!sessionId && prompt) {
-    const qRes = await ai.models.generateContent({
-      model: 'gemini-1.5-flash',
-      contents: [{ role: 'user', parts: [{ text: `Generate 10 mock interview questions on ${prompt}. Only output the questions.` }] }],
+    const qRes = await openai.chat.completions.create({
+      model: 'openai/gpt-4o',
+      messages: [{ role: 'user', content: `Generate 10 mock interview questions on ${prompt}. Only output the questions.` }],
     });
 
-    const questions = qRes.text.split('\n').filter(Boolean);
+    const questions = qRes.choices[0].message.content.split('\n').filter(Boolean);
     const newSessionId = crypto.randomUUID();
 
     sessions.set(newSessionId, { questions, answers: [], current: 0 });
