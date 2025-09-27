@@ -1,6 +1,29 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma/client';
 
+// Helper function to recursively serialize BigInt values
+function serializeBigInts(obj) {
+  if (obj === null || obj === undefined) return obj;
+  
+  if (typeof obj === 'bigint') {
+    return obj.toString();
+  }
+  
+  if (Array.isArray(obj)) {
+    return obj.map(serializeBigInts);
+  }
+  
+  if (typeof obj === 'object') {
+    const serialized = {};
+    for (const [key, value] of Object.entries(obj)) {
+      serialized[key] = serializeBigInts(value);
+    }
+    return serialized;
+  }
+  
+  return obj;
+}
+
 export async function GET(req) {
   try {
     // Get all reports using Prisma
@@ -18,30 +41,8 @@ export async function GET(req) {
       }
     });
 
-    // Serialize BigInt IDs to strings for JSON response
-    const serializedReports = reports.map(report => ({
-      ...report,
-      id: report.id.toString(),
-      attempt_id: report.attempt_id.toString(),
-      user_id: report.user_id,
-      created_at: report.created_at,
-      updated_at: report.updated_at,
-      attempt: report.attempt ? {
-        ...report.attempt,
-        id: report.attempt.id.toString(),
-        user_id: report.attempt.user_id,
-        interview_id: report.attempt.interview_id.toString(),
-        created_at: report.attempt.created_at,
-        updated_at: report.attempt.updated_at,
-        interview: report.attempt.interview ? {
-          ...report.attempt.interview,
-          id: report.attempt.interview.id.toString(),
-          user_id: report.attempt.interview.user_id,
-          created_date: report.attempt.interview.created_date,
-          expiry_date: report.attempt.interview.expiry_date
-        } : null
-      } : null
-    }));
+    // Serialize all BigInt values recursively
+    const serializedReports = serializeBigInts(reports);
 
     return NextResponse.json({ state: true, data: serializedReports, message: 'Success' }, { status: 200 });
 

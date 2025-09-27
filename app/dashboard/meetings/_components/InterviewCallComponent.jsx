@@ -27,7 +27,7 @@ export default function InterviewCallComponent({ interviewId, interviewData }) {
   const vapiRef = useRef(null);
 
   // Demo user for development
-  const user = { id: 'demo_user_123', name: 'Demo User', firstName: 'Demo' };
+  const user = { id: 'demo_user_123', name: 'Nirmit Saini', firstName: 'Nirmit' };
   const isAuthenticated = true;
 
   // console.log("interview data:", interviewData);

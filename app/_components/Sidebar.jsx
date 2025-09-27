@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { usePathname } from 'next/navigation'
 import {
   Menu, X, LayoutDashboard, ChevronDown, ChevronRight,
-  Video, BriefcaseBusiness,
+  Video, BriefcaseBusiness, FileText,
   User, Users, ChevronUp
 } from 'lucide-react'
 import Link from 'next/link'
@@ -16,6 +16,7 @@ export default function Sidebar() {
   const [openDropdown, setOpenDropdown] = useState(null)
   const [userType, setUserType] = useState('CANDIDATE')
   const [showUserTypes, setShowUserTypes] = useState(false)
+  const [isClient, setIsClient] = useState(false)
   const pathname = usePathname()
 
   const toggleSidebar = () => setIsOpen(!isOpen)
@@ -27,10 +28,9 @@ export default function Sidebar() {
 
   // Load user type from localStorage on mount
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const savedUserType = localStorage.getItem('userType') || 'CANDIDATE';
-      setUserType(savedUserType);
-    }
+    setIsClient(true);
+    const savedUserType = localStorage.getItem('userType') || 'CANDIDATE';
+    setUserType(savedUserType);
   }, []);
 
   return (
@@ -78,53 +78,61 @@ export default function Sidebar() {
             <span className='font-bold text-lg text-indigo-900'>Hirenom</span>
           </Link>
 
-          {/* User Type Selector - Untitled UI style */}
+          {/* User Type Selector - Blue style */}
           <div className="mb-4">
             <div 
-              className="flex items-center justify-between bg-gray-50 px-2 py-3 rounded-sm cursor-pointer shadow hover:bg-indigo-50 hover:text-white"
+              className="flex items-center justify-between bg-blue-600 px-2 py-3 rounded-sm cursor-pointer shadow hover:bg-blue-700 transition-colors"
               onClick={toggleUserTypes}
             >
               <div className="flex items-center space-x-2">
                 {userType === 'CANDIDATE' ? (
-                  <User className="w-4 h-4 text-gray-700 hover:text-white" />
+                  <User className="w-4 h-4 text-white" />
                 ) : (
-                  <Users className="w-4 h-4 text-gray-700 hover:text-white" />
+                  <Users className="w-4 h-4 text-white" />
                 )}
-                <span className="text-sm font-medium text-gray-900 hover:text-white">
+                <span className="text-sm font-medium text-white">
                   {userType === 'CANDIDATE' ? 'Candidate' : 'Recruiter'}
                 </span>
               </div>
               {showUserTypes ? (
-                <ChevronUp className="w-4 h-4 text-gray-500 hover:text-white" />
+                <ChevronUp className="w-4 h-4 text-white" />
               ) : (
-                <ChevronDown className="w-4 h-4 text-gray-500 hover:text-white" />
+                <ChevronDown className="w-4 h-4 text-white" />
               )}
             </div>
 
             {/* Dropdown options */}
             {showUserTypes && (
-              <div className="space-y-1">
+              <div className="space-y-1 mt-1">
                 <div 
-                  className={`flex items-center space-x-2 p-2 rounded-lg cursor-pointer ${userType === 'CANDIDATE' ? 'bg-white' : 'hover:bg-gray-100'}`}
+                  className={`flex items-center space-x-2 p-2 rounded-lg cursor-pointer transition-colors ${
+                    userType === 'CANDIDATE' 
+                      ? 'bg-blue-50 text-blue-700 border border-blue-200' 
+                      : 'text-gray-700 hover:bg-blue-50 hover:text-blue-700'
+                  }`}
                   onClick={() => {
                     setUserType('CANDIDATE')
                     setShowUserTypes(false)
                     localStorage.setItem('userType', 'CANDIDATE')
                   }}
                 >
-                  <User className="w-4 h-4 text-gray-700" />
-                  <span className="text-sm text-gray-700">Candidate</span>
+                  <User className="w-4 h-4" />
+                  <span className="text-sm font-medium">Candidate</span>
                 </div>
                 <div 
-                  className={`flex items-center space-x-2 p-2 rounded-lg cursor-pointer ${userType === 'RECRUITER' ? 'bg-white' : 'hover:bg-gray-50'}`}
+                  className={`flex items-center space-x-2 p-2 rounded-lg cursor-pointer transition-colors ${
+                    userType === 'RECRUITER' 
+                      ? 'bg-blue-50 text-blue-700 border border-blue-200' 
+                      : 'text-gray-700 hover:bg-blue-50 hover:text-blue-700'
+                  }`}
                   onClick={() => {
                     setUserType('RECRUITER')
                     setShowUserTypes(false)
                     localStorage.setItem('userType', 'RECRUITER')
                   }}
                 >
-                  <Users className="w-4 h-4 text-gray-700" />
-                  <span className="text-sm text-gray-700">Recruiter</span>
+                  <Users className="w-4 h-4" />
+                  <span className="text-sm font-medium">Recruiter</span>
                 </div>
               </div>
             )}
@@ -151,6 +159,14 @@ export default function Sidebar() {
                      <span>Interviews</span>
                    </Link>
 
+                   <Link
+                     href="/dashboard/report"
+                     className={`flex items-center text-sm space-x-2 p-2 rounded
+                       ${pathname === '/dashboard/report' ? 'bg-gray-400 text-white' : 'text-zinc-800 hover:bg-zinc-200'}`}
+                   >
+                     <FileText className="w-4 h-4" />
+                     <span>Interview Reports</span>
+                   </Link>
 
             </>
           )}

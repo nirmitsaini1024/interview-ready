@@ -15,14 +15,9 @@ export async function GET(req) {
     // For demo purposes, use a hardcoded recruiter user ID
     const recruiterId = 'demo_user_123';
 
-    // Get all interview attempts for jobs created by this recruiter
+    // Get all interview attempts (both from job postings and direct interviews)
+    // For demo purposes, show all interview attempts since we don't have separate recruiters
     const interviewAttempts = await prisma.interviewAttempt.findMany({
-      where: {
-        interview: {
-          user_id: recruiterId,
-          type: 'JOB'
-        }
-      },
       include: {
         interview: {
           select: {
