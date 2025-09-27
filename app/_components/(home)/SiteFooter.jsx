@@ -52,23 +52,8 @@ export default function SiteFooter() {
                   </a>
                 </li>
                 <li>
-                  <a href="/terms-and-conditions" className="hover:text-white transition-colors">
-                    Terms & Conditions
-                  </a>
-                </li>
-                <li>
                   <a href="/contact" className="hover:text-white transition-colors">
                     Contact
-                  </a>
-                </li>
-                <li>
-                  <a href="/privacy-policy" className="hover:text-white transition-colors">
-                    Privacy Policy
-                  </a>
-                </li>
-                <li>
-                  <a href="/cancellation-refund" className="hover:text-white transition-colors">
-                    Refund Policy
                   </a>
                 </li>
               </ul>

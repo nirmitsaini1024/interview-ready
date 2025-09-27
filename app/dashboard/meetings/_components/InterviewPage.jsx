@@ -1,12 +1,11 @@
 'use client';
 
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useUser } from "@clerk/nextjs";
 import CallComponent from "./CallComponent";
 import InterviewJoinScreen from "./InterviewJoinScreen";
 import { toast } from "sonner";
 import LoadingOverlay from "@/components/LoadingOverlay";
-import { UsageContext } from "@/app/context/usageContext";
 import InterviewCallComponent from "./InterviewCallComponent";
 
 export default function InterviewPage({ interviewId }) {
@@ -18,7 +17,6 @@ export default function InterviewPage({ interviewId }) {
   const [loadingMessage, setLoadingMessage] = useState("");
 
   const { isSignedIn, user, isLoaded } = useUser();
-  const { usage, usageLoading } = useContext(UsageContext);
  
   // Validate user and get Interview details
   useEffect(() => {
@@ -95,14 +93,6 @@ export default function InterviewPage({ interviewId }) {
 
   // --- Conditional UI ---
 
-  if(usageLoading){
-    return(
-      <>
-        <div className="text-center mt-20 text-gray-600">Loading...</div>;
-      </>
-    )
-  }
-
   if (!isLoaded || loading) {
     return <div className="text-center mt-20 text-gray-600">Loading...</div>;
   }
@@ -138,10 +128,10 @@ export default function InterviewPage({ interviewId }) {
   if (showCallComponent) {
     if(interviewData?.type === "ADMISSION"){
       console.log("admission component")
-      return <InterviewCallComponent interviewId={interviewId} interviewData={interviewData} leftUsage={usage} />;
+      return <InterviewCallComponent interviewId={interviewId} interviewData={interviewData} />;
     } else{
       console.log("normal component")
-      return <CallComponent interviewId={interviewId} interviewData={interviewData} leftUsage={usage} />;
+      return <CallComponent interviewId={interviewId} interviewData={interviewData} />;
     }
   }  
 

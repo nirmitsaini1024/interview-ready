@@ -3,9 +3,9 @@
 import { useState } from 'react'
 import { usePathname } from 'next/navigation'
 import {
-  Menu, X, LayoutDashboard, CreditCard, ChevronDown, ChevronRight, 
+  Menu, X, LayoutDashboard, ChevronDown, ChevronRight, 
   FileText, FileSignature, Video, Settings, Notebook, BriefcaseBusiness,
-  User, Users, Plus, Briefcase, Diamond, ChevronUp,
+  User, Users, Plus, Briefcase, ChevronUp,
   User2
 } from 'lucide-react'
 import Link from 'next/link'
@@ -236,15 +236,6 @@ export default function Sidebar() {
           {/* Common Links for both */}
           <div className="border-t border-gray-200 pt-2 mt-2">
             <Link
-              href="/payment"
-              className={`flex items-center text-sm space-x-2 p-2 rounded 
-                ${pathname === '/payment' ? 'bg-gray-400 text-white' : 'text-zinc-800 hover:bg-zinc-200'}`}
-            >
-              <CreditCard className="w-4 h-4" />
-              <span>Billing</span>
-            </Link>
- 
-            <Link
               href="/settings"
               className={`flex items-center text-sm space-x-2 p-2 rounded 
                 ${pathname === '/settings' ? 'bg-gray-400 text-white' : 'text-zinc-800 hover:bg-zinc-200'}`}
@@ -252,25 +243,6 @@ export default function Sidebar() {
               <Settings className="w-4 h-4" />
               <span>Settings</span>
             </Link>
-          </div>
-
-          {/* Upgrade Plan Section */}
-          <div className="absolute bottom-4 left-0 w-full px-4">
-            <div className="bg-gradient-to-br from-indigo-900 to-indigo-500 text-white rounded-xl p-4 shadow-md">
-              <div className="flex items-center gap-3 mb-3">
-                <Diamond className="w-5 h-5 text-white" />
-                <div>
-                  <p className="text-sm font-semibold">Upgrade Your Plan</p>
-                  <p className="text-xs text-white/80">Unlock premium features</p>
-                </div>
-              </div>
-              <Link
-                href="/payment"
-                className="block text-center bg-white text-indigo-600 font-semibold text-sm py-2 rounded-md hover:bg-zinc-200 transition"
-              >
-                Pay Now
-              </Link>
-            </div>
           </div>
         </nav>
       </div>

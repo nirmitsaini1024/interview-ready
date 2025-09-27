@@ -1,7 +1,6 @@
 "use client";
 
 import { Check } from "lucide-react";
-import Link from "next/link";
 import { useState } from "react";
 
 export default function PricingPlans() {
@@ -200,16 +199,15 @@ export default function PricingPlans() {
                   </ul>
                 </div>
 
-                <Link
-                  href="/payment"
-                  className={`w-full py-2 px-4 rounded-md text-center block ${
+                <div
+                  className={`w-full py-2 px-4 rounded-md text-center block cursor-not-allowed opacity-50 ${
                     plan.buttonVariant === "primary"
-                      ? "bg-indigo-600 text-white hover:bg-indigo-700"
-                      : "border border-indigo-600 text-indigo-600 hover:bg-indigo-50"
+                      ? "bg-gray-400 text-white"
+                      : "border border-gray-300 text-gray-500"
                   }`}
                 >
-                  {plan.buttonText}
-                </Link>
+                  {plan.name === "Free Plan" ? "Current Plan" : "Coming Soon"}
+                </div>
               </div>
             </div>
           ))}

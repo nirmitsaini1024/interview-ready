@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import { motion } from "framer-motion"
+import { motion } from "framer-motion";
 import {
   Mic,
   Users,
@@ -19,56 +19,61 @@ import {
   Brain,
   Shield,
   ActivitySquare,
-} from "lucide-react"
-import Header from "./Header"
-import Link from "next/link"
-import FeatureCards from "./FeatureCards"
-import WhySection from "./WhySection"
-import PricingPlans from "./PricingPlans"
-import SiteFooter from "./SiteFooter"
-import HowItWorksSection from "./HowItWorksSection"
-import FaqSection from "./FaqSection"
-import ProductShowcase from "./ProductShowcase"
-import AdvanceFeatures from "./AdvanceFeatures"
+} from "lucide-react";
+import Header from "./Header";
+import Link from "next/link";
+import FeatureCards from "./FeatureCards";
+import WhySection from "./WhySection";
+import PricingPlans from "./PricingPlans";
+import SiteFooter from "./SiteFooter";
+import HowItWorksSection from "./HowItWorksSection";
+import ProductShowcase from "./ProductShowcase";
+import AdvanceFeatures from "./AdvanceFeatures";
 
 const features = [
   {
     icon: Mic,
     title: "Real-time Voice Chat",
-    description: "Practice with AI in natural voice conversations, just like a real interview.",
+    description:
+      "Practice with AI in natural voice conversations, just like a real interview.",
     color: "blue",
   },
   {
     icon: Users,
     title: "Recruiter Platform",
-    description: "Companies can post jobs and conduct first-round interviews with our AI system.",
+    description:
+      "Companies can post jobs and conduct first-round interviews with our AI system.",
     color: "green",
   },
   {
     icon: FileText,
     title: "AI Resume Builder",
-    description: "Create professional resumes tailored to specific job requirements using AI.",
+    description:
+      "Create professional resumes tailored to specific job requirements using AI.",
     color: "purple",
   },
   {
     icon: Chrome,
     title: "Chrome Extension",
-    description: "Start mock interviews directly from LinkedIn job postings with one click.",
+    description:
+      "Start mock interviews directly from LinkedIn job postings with one click.",
     color: "orange",
   },
   {
     icon: Search,
     title: "Job Explorer",
-    description: "Discover thousands of job opportunities across different industries and roles.",
+    description:
+      "Discover thousands of job opportunities across different industries and roles.",
     color: "pink",
   },
   {
     icon: Brain,
     title: "AI-Powered Feedback",
-    description: "Get detailed analysis of your performance with actionable improvement suggestions.",
+    description:
+      "Get detailed analysis of your performance with actionable improvement suggestions.",
     color: "indigo",
   },
-]
+];
 
 const works = [
   {
@@ -88,10 +93,11 @@ const works = [
   {
     step: "03",
     title: "Get Feedback & Improve",
-    description: "Receive detailed performance analysis and personalized recommendations for improvement.",
+    description:
+      "Receive detailed performance analysis and personalized recommendations for improvement.",
     icon: Zap,
   },
-]
+];
 
 const testimonials = [
   {
@@ -115,13 +121,13 @@ const testimonials = [
       "The Chrome extension is a game-changer! I could practice for specific jobs directly from LinkedIn. Got hired within 2 weeks of using it.",
     rating: 5,
   },
-]
+];
 
 const fadeInUp = {
   initial: { opacity: 0, y: 60 },
   animate: { opacity: 1, y: 0 },
   transition: { duration: 0.6 },
-}
+};
 
 const staggerContainer = {
   animate: {
@@ -129,7 +135,7 @@ const staggerContainer = {
       staggerChildren: 0.1,
     },
   },
-}
+};
 
 const FloatingCard = ({ children, className, delay = 0 }) => (
   <motion.div
@@ -147,29 +153,27 @@ const FloatingCard = ({ children, className, delay = 0 }) => (
   >
     {children}
   </motion.div>
-)
+);
 
-{/* Hero Section */ }
-
+{
+  /* Hero Section */
+}
 
 export default function LandingPage() {
   return (
     <div className="min-h-screen bg-white">
-
-
       {/* Hero Section */}
       <div className="relative overflow-hidden mb-24 before:absolute before:top-0 before:start-1/2 before:bg-[url('https://preline.co/assets/svg/examples/polygon-bg-element.svg')] dark:before:bg-[url('https://preline.co/assets/svg/examples-dark/polygon-bg-element.svg')] before:bg-no-repeat before:bg-top before:bg-cover before:size-full before:-z-[1] before:transform before:-translate-x-1/2">
         {/* Semantic Header (ensure Header includes <nav> or <header> internally) */}
         <Header />
 
         <div className="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-10">
-
           {/* Background gradient blur effect */}
-      <div className=" inset-0 overflow-hidden">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-500 rounded-full mix-blend-screen filter blur-3xl opacity-30 animate-pulse"></div>
-        <div className="absolute top-1/3 right-1/4 w-96 h-96 bg-blue-500 rounded-full mix-blend-screen filter blur-3xl opacity-20 animate-pulse"></div>
-        <div className="absolute bottom-1/4 left-1/2 transform -translate-x-1/2 w-72 h-72 bg-indigo-500 rounded-full mix-blend-screen filter blur-3xl opacity-25 animate-pulse"></div>
-      </div>
+          <div className=" inset-0 overflow-hidden">
+            <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-500 rounded-full mix-blend-screen filter blur-3xl opacity-30 animate-pulse"></div>
+            <div className="absolute top-1/3 right-1/4 w-96 h-96 bg-blue-500 rounded-full mix-blend-screen filter blur-3xl opacity-20 animate-pulse"></div>
+            <div className="absolute bottom-1/4 left-1/2 transform -translate-x-1/2 w-72 h-72 bg-indigo-500 rounded-full mix-blend-screen filter blur-3xl opacity-25 animate-pulse"></div>
+          </div>
           {/* Floating Cards */}
           <FloatingCard
             className="absolute left-10 top-1/4 bg-white p-4 rounded-xl shadow-lg border border-gray-100"
@@ -180,7 +184,9 @@ export default function LandingPage() {
                 <CheckCircle className="w-5 h-5 text-green-600" />
               </div>
               <div>
-                <p className="text-sm font-medium text-gray-900">Interview Passed</p>
+                <p className="text-sm font-medium text-gray-900">
+                  Interview Passed
+                </p>
                 <p className="text-xs text-gray-500">95% Success Rate</p>
               </div>
             </div>
@@ -195,7 +201,9 @@ export default function LandingPage() {
                 <Mic className="w-5 h-5 text-blue-600" />
               </div>
               <div>
-                <p className="text-sm font-medium text-gray-900">Live Interview</p>
+                <p className="text-sm font-medium text-gray-900">
+                  Live Interview
+                </p>
                 <p className="text-xs text-gray-500">Real-time AI Chat</p>
               </div>
             </div>
@@ -231,8 +239,6 @@ export default function LandingPage() {
             </div>
           </FloatingCard>
 
-          
-
           <div className="flex justify-center">
             <motion.h1
               className="text-4xl sm:text-5xl md:text-6xl font-bold text-gray-900 dark:text-white sm:mb-6"
@@ -240,11 +246,27 @@ export default function LandingPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
             >
-              <a className="inline-flex items-center gap-x-2 bg-white border border-gray-200 text-sm text-gray-800 p-1 ps-3 rounded-full transition hover:border-gray-300 dark:bg-neutral-800 dark:border-neutral-700 dark:hover:border-neutral-600 dark:text-neutral-200"
-                href="/dashboard" target="_blank">
+              <a
+                className="inline-flex items-center gap-x-2 bg-white border border-gray-200 text-sm text-gray-800 p-1 ps-3 rounded-full transition hover:border-gray-300 dark:bg-neutral-800 dark:border-neutral-700 dark:hover:border-neutral-600 dark:text-neutral-200"
+                href="/dashboard"
+                target="_blank"
+              >
                 HIRENOM: Best Interview Copilot
                 <span className="py-1.5 px-2.5 inline-flex justify-center items-center gap-x-2 rounded-full bg-gray-200 font-semibold text-sm text-gray-600 dark:bg-neutral-700 dark:text-neutral-400">
-                  <svg className="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6" /></svg>
+                  <svg
+                    className="flex-shrink-0 size-4"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="m9 18 6-6-6-6" />
+                  </svg>
                 </span>
               </a>
             </motion.h1>
@@ -259,13 +281,13 @@ export default function LandingPage() {
             >
               <span className="block font-bold text-gray-800 text-3xl md:text-5xl lg:text-6xl dark:text-neutral-200">
                 Supercharge your Interview preparation
-                <span className="bg-clip-text bg-gradient-to-tl mt-4 from-indigo-600 to-violet-600 text-transparent"> With AI</span>
+                <span className="bg-clip-text bg-gradient-to-tl mt-4 from-indigo-600 to-violet-600 text-transparent">
+                  {" "}
+                  With AI
+                </span>
               </span>
             </motion.h1>
           </div>
-
-
-
 
           <div className="mt-5 max-w-3xl text-center mx-auto">
             <motion.p
@@ -275,11 +297,12 @@ export default function LandingPage() {
               transition={{ duration: 0.8, delay: 0.2 }}
             >
               <span className="text-lg text-gray-600 dark:text-neutral-400">
-                Practice with AI-powered mock interviews, build perfect resumes, and land your dream job with real-time voice-to-voice conversations.
+                Practice with AI-powered mock interviews, build perfect resumes,
+                and land your dream job with real-time voice-to-voice
+                conversations.
               </span>
             </motion.p>
           </div>
-
 
           <motion.div
             className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center"
@@ -295,247 +318,14 @@ export default function LandingPage() {
               Start Free Interview
               <ArrowRight className="w-4 h-4" />
             </Link>
-            {/* <Link
-              href="/sign-up"
-              className="px-6 py-2.5 sm:px-8 sm:py-3 text-sm font-semibold text-gray-800 dark:text-gray-200 bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 rounded-lg shadow-md hover:shadow w-full sm:w-auto transition-all"
-              aria-label="Watch a demo of how the platform works"
-            >
-              Watch Demo
-            </Link> */}
           </motion.div>
-
-
-
         </div>
       </div>
-
-      
 
       <ProductShowcase />
       <WhySection />
       <HowItWorksSection />
-
       <AdvanceFeatures />
-
-      {/* Features Overview */}
-      {/* <section id="features" className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            className="text-center mb-16"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="lg:text-3xl md:text-3xl text-xl font-bold text-gray-800 mb-2 mt-[-40px]">Everything You Need to Succeed</h2>
-            <p className="text-md text-gray-500 max-w-3xl mx-auto">
-              Our comprehensive platform provides all the tools you need to prepare for interviews and land your dream
-              job.
-            </p>
-          </motion.div>
-
-          <motion.div
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-            variants={staggerContainer}
-            initial="initial"
-            whileInView="animate"
-            viewport={{ once: true }}
-          >
-            {features.map((feature, index) => (
-              <motion.div
-                key={index}
-                variants={fadeInUp}
-                className="bg-white p-8 rounded-2xl border border-gray-50 shadow-sm hover:shadow-lg transition-shadow"
-              >
-                <div className={`w-12 h-12 bg-${feature.color}-100 rounded-xl flex items-center justify-center mb-6`}>
-                  <feature.icon className={`w-6 h-6 text-${feature.color}-600`} />
-                </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-3">{feature.title}</h3>
-                <p className="text-gray-600">{feature.description}</p>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section> */}
-
-      {/* <FeatureCards /> */}
-
-      {/* How It Works */}
-      {/* <section id="how-it-works" className="py-8 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            className="text-center mb-16"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="lg:text-3xl md:text-3xl text-xl font-bold text-gray-800 mb-2">How It Works</h2>
-            <p className="text-md text-gray-500 max-w-3xl mx-auto">
-              Get started in minutes and transform your interview skills with our simple 3-step process.
-            </p>
-          </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {works.map((item, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.2 }}
-                viewport={{ once: true }}
-                className="text-center"
-              >
-                <div className="relative mb-8">
-                  <div className="w-20 h-20 bg-indigo-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <item.icon className="w-6 h-6 text-white" />
-                  </div>
-                  <div className="absolute -top-2 -right-2 w-8 h-8 bg-indigo-100 rounded-full flex items-center justify-center">
-                    <span className="text-sm font-bold text-indigo-600">{item.step}</span>
-                  </div>
-                </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-3">{item.title}</h3>
-                <p className="text-gray-600 text-md">{item.description}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section> */}
-
-      {/* For Candidates */}
-      {/* <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
-            >
-              <h2 className="lg:text-3xl md:text-3xl text-xl font-bold text-gray-800 mb-2">Perfect for Job Seekers</h2>
-              <p className="text-md text-gray-600 mb-4">
-                Whether you're a fresh graduate or experienced professional, our platform helps you prepare for any
-                interview scenario.
-              </p>
-
-              <div className="space-y-4">
-                {[
-                  "Practice unlimited mock interviews",
-                  "Get instant AI feedback and scoring",
-                  "Access industry-specific questions",
-                  "Build ATS-optimized resumes",
-                  "Track your improvement over time",
-                ].map((benefit, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.4, delay: index * 0.1 }}
-                    viewport={{ once: true }}
-                    className="flex items-center space-x-3"
-                  >
-                    <CheckCircle className="w-5 h-5 text-green-600" />
-                    <span className="text-gray-500 text-sm">{benefit}</span>
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
-              className="relative"
-            >
-              <img
-                src="/call.png"
-                alt="Candidate using interview platform"
-                className="rounded-2xl shadow-lg"
-              />
-              <div className="absolute -bottom-6 -left-6 bg-white p-4 rounded-xl shadow-lg border border-gray-100">
-                <div className="flex items-center space-x-3">
-                  <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
-                    <Star className="w-5 h-5 text-green-600" />
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium text-gray-900">Interview Score</p>
-                    <p className="text-xs text-gray-500">92/100 - Excellent!</p>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          </div>
-        </div>
-      </section> */}
-
-      {/* For Recruiters */}
-      {/* <section className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
-              className="relative order-2 lg:order-1"
-            >
-              <img
-                src="/dashboard.jpg"
-                alt="Recruiter dashboard"
-                className="rounded-2xl shadow-lg"
-              />
-              <div className="absolute -top-6 -right-6 bg-white p-4 rounded-xl shadow-lg border border-gray-100">
-                <div className="flex items-center space-x-3">
-                  <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-                    <Users className="w-5 h-5 text-blue-600" />
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium text-gray-900">Candidates Screened</p>
-                    <p className="text-xs text-gray-500">1,247 this month</p>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
-              className="order-1 lg:order-2"
-            >
-              <h2 className="lg:text-3xl md:text-3xl text-xl font-bold text-gray-800 mb-2">Streamline Your Hiring</h2>
-              <p className="text-md text-gray-600 mb-8">
-                Save time and resources by letting AI conduct initial screening interviews while maintaining quality
-                standards.
-              </p>
-
-              <div className="space-y-4">
-                {[
-                  "Automated first-round interviews",
-                  "Consistent evaluation criteria",
-                  "Detailed candidate reports",
-                  "Integration with existing ATS",
-                  "Reduce time-to-hire by 60%",
-                ].map((benefit, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, x: 20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.4, delay: index * 0.1 }}
-                    viewport={{ once: true }}
-                    className="flex items-center space-x-3"
-                  >
-                    <CheckCircle className="w-5 h-5 text-blue-600" />
-                    <span className="text-gray-700 text-sm">{benefit}</span>
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
-          </div>
-        </div>
-      </section> */}
 
       {/* AI Resume Builder */}
       <section className="bg-gradient-to-b from-white to-gray-50 py-20">
@@ -547,9 +337,12 @@ export default function LandingPage() {
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-3xl md:text-3xl font-bold text-gray-800 mb-2">AI-Powered Mock Interview</h2>
+            <h2 className="text-3xl md:text-3xl font-bold text-gray-800 mb-2">
+              AI-Powered Mock Interview
+            </h2>
             <p className="text-md text-gray-600 max-w-3xl mx-auto">
-              Practice real interview scenarios with AI-driven mock sessions, personalized feedback, and performance analytics.
+              Practice real interview scenarios with AI-driven mock sessions,
+              personalized feedback, and performance analytics.
             </p>
           </motion.div>
 
@@ -577,28 +370,36 @@ export default function LandingPage() {
             >
               <div className="bg-gray-50 p-6 rounded-xl border border-gray-50 shadow-sm">
                 <Mic className="w-6 h-6 text-blue-600 mb-2" />
-                <h3 className="text-lg font-semibold text-gray-900">Realistic Interview Simulation</h3>
+                <h3 className="text-lg font-semibold text-gray-900">
+                  Realistic Interview Simulation
+                </h3>
                 <p className="text-gray-600 text-sm">
-                  Practice technical and behavioral questions in a real-time AI-driven environment.
+                  Practice technical and behavioral questions in a real-time
+                  AI-driven environment.
                 </p>
               </div>
 
               <div className="bg-gray-50 p-6 rounded-xl border border-gray-50 shadow-sm">
                 <ActivitySquare className="w-6 h-6 text-green-600 mb-2" />
-                <h3 className="text-lg font-semibold text-gray-900">Instant Performance Feedback</h3>
+                <h3 className="text-lg font-semibold text-gray-900">
+                  Instant Performance Feedback
+                </h3>
                 <p className="text-gray-600 text-sm">
-                  Get real-time insights on clarity, confidence, and relevance of your answers.
+                  Get real-time insights on clarity, confidence, and relevance
+                  of your answers.
                 </p>
               </div>
 
               <div className="bg-gray-50 p-6 rounded-xl border border-gray-50 shadow-sm">
                 <Brain className="w-6 h-6 text-purple-600 mb-2" />
-                <h3 className="text-lg font-semibold text-gray-900">AI-Powered Questioning</h3>
+                <h3 className="text-lg font-semibold text-gray-900">
+                  AI-Powered Questioning
+                </h3>
                 <p className="text-gray-600 text-sm">
-                  Intelligent AI adapts questions based on your previous responses and skill level.
+                  Intelligent AI adapts questions based on your previous
+                  responses and skill level.
                 </p>
               </div>
-
             </motion.div>
           </div>
         </div>
@@ -678,9 +479,12 @@ export default function LandingPage() {
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-3xl md:text-3xl text-xl font-bold text-gray-800 mb-2">Success Stories</h2>
+            <h2 className="text-3xl md:text-3xl text-xl font-bold text-gray-800 mb-2">
+              Success Stories
+            </h2>
             <p className="text-md text-gray-500 max-w-2xl mx-auto">
-              Join thousands of professionals who have transformed their careers with our AI interview platform.
+              Join thousands of professionals who have transformed their careers
+              with our AI interview platform.
             </p>
           </motion.div>
 
@@ -692,13 +496,22 @@ export default function LandingPage() {
             viewport={{ once: true }}
           >
             {testimonials.map((testimonial, index) => (
-              <motion.div key={index} variants={fadeInUp} className="bg-white p-6 rounded-2xl border border-gray-50 shadow">
+              <motion.div
+                key={index}
+                variants={fadeInUp}
+                className="bg-white p-6 rounded-2xl border border-gray-50 shadow"
+              >
                 <div className="flex items-center mb-4">
                   {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 text-yellow-600 fill-current" />
+                    <Star
+                      key={i}
+                      className="w-4 h-4 text-yellow-600 fill-current"
+                    />
                   ))}
                 </div>
-                <p className="text-gray-700 text-sm mb-4">"{testimonial.content}"</p>
+                <p className="text-gray-700 text-sm mb-4">
+                  "{testimonial.content}"
+                </p>
                 <div className="flex items-center">
                   {/* <img
                     src={`/placeholder.svg?height=40&width=40`}
@@ -706,7 +519,9 @@ export default function LandingPage() {
                     className="w-6 h-6 rounded-full mr-3"
                   /> */}
                   <div>
-                    <p className="font-semibold text-gray-800 text-sm">{testimonial.name}</p>
+                    <p className="font-semibold text-gray-800 text-sm">
+                      {testimonial.name}
+                    </p>
                     <p className="text-xs text-gray-500">{testimonial.role}</p>
                   </div>
                 </div>
@@ -718,8 +533,6 @@ export default function LandingPage() {
 
       <PricingPlans />
 
-      <FaqSection />
-
       {/* CTA Section */}
       <section id="pricing" className="py-20 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -729,23 +542,33 @@ export default function LandingPage() {
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
-            <h2 className="lg:text-3xl md:text-3xl text-xl font-bold text-gray-800 mb-2">Ready to Ace Your Next Interview?</h2>
+            <h2 className="lg:text-3xl md:text-3xl text-xl font-bold text-gray-800 mb-2">
+              Ready to Ace Your Next Interview?
+            </h2>
             <p className="text-md text-gray-500 mb-8 max-w-2xl mx-auto">
-              Join thousands of professionals who have successfully landed their dream jobs using our AI-powered
-              interview platform.
+              Join thousands of professionals who have successfully landed their
+              dream jobs using our AI-powered interview platform.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <Link href="/dashboard" className="bg-indigo-700 text-white px-8 py-4 rounded-lg text-sm font-semibold hover:bg-indigo-800 transition-colors flex items-center space-x-2 cursor-pointer">
+              <Link
+                href="/dashboard"
+                className="bg-indigo-700 text-white px-8 py-4 rounded-lg text-sm font-semibold hover:bg-indigo-800 transition-colors flex items-center space-x-2 cursor-pointer"
+              >
                 <span>Start Free Trial</span>
                 <ArrowRight className="w-5 h-5" />
               </Link>
-              <Link href="/contact" className="border border-gray-300 text-gray-700 px-8 py-4 rounded-lg text-sm font-semibold hover:bg-gray-50 transition-colors cursor-pointer">
+              <Link
+                href="/contact"
+                className="border border-gray-300 text-gray-700 px-8 py-4 rounded-lg text-sm font-semibold hover:bg-gray-50 transition-colors cursor-pointer"
+              >
                 Schedule Demo
               </Link>
             </div>
 
-            <p className="text-sm text-gray-500 mt-4">No credit card required • 30-day free trial • Cancel anytime</p>
+            <p className="text-sm text-gray-500 mt-4">
+              No credit card required • 30-day free trial • Cancel anytime
+            </p>
           </motion.div>
         </div>
       </section>
@@ -757,8 +580,8 @@ export default function LandingPage() {
             <div className="col-span-1 md:col-span-2">
               <h3 className="text-2xl font-bold mb-4">Hirenom</h3>
               <p className="text-gray-400 mb-6 max-w-md text-sm">
-                Empowering professionals to succeed in their career journey through AI-powered interview preparation and
-                job matching.
+                Empowering professionals to succeed in their career journey
+                through AI-powered interview preparation and job matching.
               </p>
               {/* <div className="flex space-x-4">
                 <div className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-gray-700 transition-colors cursor-pointer">
@@ -777,12 +600,18 @@ export default function LandingPage() {
               <h4 className="text-lg font-semibold mb-4">Product</h4>
               <ul className="space-y-2 text-sm text-gray-400">
                 <li>
-                  <a href="/dashboard/interview" className="hover:text-white transition-colors">
+                  <a
+                    href="/dashboard/interview"
+                    className="hover:text-white transition-colors"
+                  >
                     Mock Interviews
                   </a>
                 </li>
                 <li>
-                  <a href="/dashboard" className="hover:text-white transition-colors">
+                  <a
+                    href="/dashboard"
+                    className="hover:text-white transition-colors"
+                  >
                     Resume Builder
                   </a>
                 </li>
@@ -798,27 +627,42 @@ export default function LandingPage() {
               <h4 className="text-lg font-semibold mb-4">Company</h4>
               <ul className="space-y-2 text-sm text-gray-400">
                 <li>
-                  <a href="/about" className="hover:text-white transition-colors">
+                  <a
+                    href="/about"
+                    className="hover:text-white transition-colors"
+                  >
                     About Us
                   </a>
                 </li>
                 <li>
-                  <a href="/terms-and-conditions" className="hover:text-white transition-colors">
+                  <a
+                    href="/terms-and-conditions"
+                    className="hover:text-white transition-colors"
+                  >
                     Terms & Conditions
                   </a>
                 </li>
                 <li>
-                  <a href="/contact" className="hover:text-white transition-colors">
+                  <a
+                    href="/contact"
+                    className="hover:text-white transition-colors"
+                  >
                     Contact
                   </a>
                 </li>
                 <li>
-                  <a href="/privacy-policy" className="hover:text-white transition-colors">
+                  <a
+                    href="/privacy-policy"
+                    className="hover:text-white transition-colors"
+                  >
                     Privacy Policy
                   </a>
                 </li>
                 <li>
-                  <a href="/cancellation-refund" className="hover:text-white transition-colors">
+                  <a
+                    href="/cancellation-refund"
+                    className="hover:text-white transition-colors"
+                  >
                     Refund Policy
                   </a>
                 </li>
@@ -832,5 +676,5 @@ export default function LandingPage() {
         </div>
       </footer>
     </div>
-  )
+  );
 }

@@ -2,7 +2,6 @@
 
 import {
   PlusCircle,
-  CreditCard,
   BarChart3,
   ClipboardList,
   Trophy,
