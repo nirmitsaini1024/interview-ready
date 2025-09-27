@@ -31,7 +31,6 @@ export async function POST(req) {
     return NextResponse.json({ report: reportRes.choices[0].message.content });
   }
 
-  // Start session
   if (!sessionId && prompt) {
     const qRes = await openai.chat.completions.create({
       model: 'meta-llama/llama-3.3-8b-instruct:free',
@@ -47,7 +46,6 @@ export async function POST(req) {
     return NextResponse.json({ sessionId: newSessionId, question: questions[0] });
   }
 
-  // Handle answer & get next question
   if (sessionId && typeof answer === 'string') {
     const session = sessions.get(sessionId);
     if (!session) return NextResponse.json({ error: 'Session not found' }, { status: 404 });

@@ -13,18 +13,14 @@ const openai = new OpenAI({
 export async function POST(req) {
   const ip = req.headers.get('x-forwarded-for') || 'anonymous';
 
-  // Apply rate limiting
   const { success } = await ratelimit.limit(ip);
   if (!success) {
     return NextResponse.json({ state: false, error: 'Rate limit exceeded' }, { status: 429 });
   }
 
-  // Extract JSON body
-  
   const { report, chat } = await req.json()
   const user_query = chat?.[chat.length - 1]?.content || ''
 
-  // Wrap OpenAI API call in queue
   try {
     const result = await openaiQueue.add(async () => {
       const response = await openai.chat.completions.create({
@@ -64,7 +60,6 @@ ${chat.map((m) => `${m.role === 'user' ? 'User' : 'You'}: ${m.content}`).join('\
 
 User's Current Message:
 ${user_query}
-
 
 `,
           },

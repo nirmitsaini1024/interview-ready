@@ -1,6 +1,5 @@
 import InterviewDetails from "../_components/InterviewDetails";
 
-
 export default async function page({ params }) {
 
     const param = await params;

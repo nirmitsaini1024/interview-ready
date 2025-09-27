@@ -2,7 +2,6 @@
 
 import { useState, useRef, useLayoutEffect } from 'react'
 import { motion } from 'framer-motion'
-// Removed authentication - using demo mode
 
 import InterviewSummary from '@/app/dashboard/report/_components/InterviewSummary'
 import OverallFeedbackSection from '@/app/dashboard/report/_components/OverallFeedbackSection'
@@ -15,10 +14,9 @@ export default function Tabs({ content, code, reportDetails }) {
   const [activeTab, setActiveTab] = useState(0)
   const contentRef = useRef(null)
   const [height, setHeight] = useState(0)
-  // Demo user for development
+
   const user = { id: 'demo_user_123', name: 'Demo User' };
 
-  // Handle chat conversation
   let finalConversation = []
   try {
     const rawChat = reportDetails?.interview_attempts?.chat_conversation
@@ -29,7 +27,7 @@ export default function Tabs({ content, code, reportDetails }) {
       }
     }
   } catch (err) {
-    //console.error('❌ Failed to parse chat:', err)
+
   }
 
   const [chat, setChat] = useState(finalConversation)
@@ -73,7 +71,7 @@ export default function Tabs({ content, code, reportDetails }) {
   return (
     <div className="w-full px-4 py-8">
       <div className="max-w-4xl mx-auto px-6 py-6 shadow border border-gray-100 rounded-lg">
-        {/* Tabs */}
+        {}
         <div className="relative flex space-x-4 md:space-x-8 border-b border-gray-200 overflow-x-auto scrollbar-hide">
           {tabs.map((tab, index) => (
             <button
@@ -97,7 +95,7 @@ export default function Tabs({ content, code, reportDetails }) {
           ))}
         </div>
 
-        {/* Tab Content */}
+        {}
         <div
           ref={contentRef}
           className="relative z-0 px-4 md:px-6 py-6 text-gray-700 text-sm md:text-base space-y-4"

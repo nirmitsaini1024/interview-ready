@@ -1,7 +1,6 @@
 import FilterSectionHeader from "./FilterSectionHeader";
 import InterviewCard from "./InterviewCard";
 
-
 export default function AllInteviewsList({ interviews }) {
     return (
         <>
@@ -13,7 +12,7 @@ export default function AllInteviewsList({ interviews }) {
                         <div
                             key={interview.id}
                             className="w-full sm:w-[90%] md:w-[70%] lg:w-[47%] xl:w-[47%] max-w-[500px]"
-                        > 
+                        >
                             <InterviewCard
                                 id={interview.id}
                                 name={interview.interview_name}

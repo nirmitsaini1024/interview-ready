@@ -11,7 +11,7 @@ export default function Home() {
   return (
     <div>
       <HeroSection />
-      {/* Rest of your page content */}
+      {}
       <WhySection />
       <FeatureCards />
       <PricingPlans />

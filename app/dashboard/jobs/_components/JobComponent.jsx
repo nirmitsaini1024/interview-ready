@@ -19,7 +19,7 @@ export default function JobComponent() {
       const filteredJobs = allJobs.filter(
         (job) => job?.company?.trim()?.toUpperCase() === company?.trim()?.toUpperCase()
       );
-      //console.log(filteredJobs)
+
       setJobs(filteredJobs);
     }
   };
@@ -29,12 +29,11 @@ export default function JobComponent() {
       setLoading(true);
       const result = await fetchAllJobs();
       if (!result?.state) {
-        // console.log("Error: ", result?.error);
+
         toast.error(`Error: ${result?.error}`);
         return;
       }
 
-      // console.log("result jobs", result?.data);
       setAllJobs(result?.data); // set full list
       setJobs(result?.data);    // set initial display list
     } catch (error) {
@@ -60,8 +59,8 @@ export default function JobComponent() {
       <div className="grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 gap-6 p-6">
         {jobs && jobs.length > 0 ? (
           jobs.map((job, index) => (
-            <div key={index}> 
-              <JobCard 
+            <div key={index}>
+              <JobCard
                 id={job?.id}
                 companyLogo={job?.company_logo}
                 companyName={job?.company}

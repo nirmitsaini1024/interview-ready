@@ -5,12 +5,11 @@ import { toast } from "sonner";
 import CompanyLogo from "../report/_components/CompanyLogo";
 import Link from "next/link";
 
-
 export default function InterviewList({ interviews }) {
 
   return (
     <>
-      {/* Credits Info */}
+      {}
       <div className="bg-white shadow rounded-xl p-6">
         <h3 className="text-lg font-semibold text-gray-800 mb-4">Recent Interview</h3>
         <ul className="space-y-2 divide-gray-200">
@@ -25,7 +24,7 @@ export default function InterviewList({ interviews }) {
                 </Link>
                 <p className="text-xs text-gray-500">{interview?.company}</p>
               </div>
-              {/* <span className="text-sm font-semibold text-indigo-600">{interview.score}%</span> */}
+              {}
             </li>
           ))}
         </ul>

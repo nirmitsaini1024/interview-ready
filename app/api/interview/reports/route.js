@@ -1,18 +1,17 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma/client';
 
-// Helper function to recursively serialize BigInt values
 function serializeBigInts(obj) {
   if (obj === null || obj === undefined) return obj;
-  
+
   if (typeof obj === 'bigint') {
     return obj.toString();
   }
-  
+
   if (Array.isArray(obj)) {
     return obj.map(serializeBigInts);
   }
-  
+
   if (typeof obj === 'object') {
     const serialized = {};
     for (const [key, value] of Object.entries(obj)) {
@@ -20,13 +19,13 @@ function serializeBigInts(obj) {
     }
     return serialized;
   }
-  
+
   return obj;
 }
 
 export async function GET(req) {
   try {
-    // Get all reports using Prisma
+
     const reports = await prisma.aiReport.findMany({
       include: {
         attempt: {
@@ -41,7 +40,6 @@ export async function GET(req) {
       }
     });
 
-    // Serialize all BigInt values recursively
     const serializedReports = serializeBigInts(reports);
 
     return NextResponse.json({ state: true, data: serializedReports, message: 'Success' }, { status: 200 });

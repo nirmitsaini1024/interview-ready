@@ -1,7 +1,7 @@
 'use client';
 
 import { calculatePerformance } from '@/lib/utils/helper';
-import { ThumbsUp, ThumbsDown } from 'lucide-react'; 
+import { ThumbsUp, ThumbsDown } from 'lucide-react';
 import Link from 'next/link';
 import CompanyLogo from './CompanyLogo';
 
@@ -29,7 +29,7 @@ export default function InterviewSummary({
 
   return (
     <div className="max-w-5xl mx-auto p-8 bg-white dark:bg-zinc-900 border border-gray-100 dark:border-zinc-800 rounded-3xl shadow-md transition-all duration-300 hover:shadow-2xl">
-      {/* Header */}
+      {}
       <div className="flex flex-col sm:flex-row sm:items-center gap-6 pb-6 border-b border-gray-100 dark:border-zinc-800 mb-6">
         <div className="flex-shrink-0">
           <CompanyLogo logo={companyLogo} company={companyName?.charAt(0).toUpperCase()} />
@@ -45,7 +45,7 @@ export default function InterviewSummary({
         </div>
       </div>
 
-      {/* Candidate Info */}
+      {}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
         <div className="flex flex-col items-start sm:items-center border border-gray-100 p-4 shadow-lg rounded-xl">
           <p className="text-gray-500 dark:text-gray-400 text-sm mb-1">Candidate</p>
@@ -78,7 +78,7 @@ export default function InterviewSummary({
         </div>
       </div>
 
-      {/* Skills Assessment */}
+      {}
       <div className="mb-8">
         <h3 className="text-xl font-bold mb-4 text-gray-900 dark:text-white">
           Skill Assessment
@@ -99,7 +99,7 @@ export default function InterviewSummary({
         </div>
       </div>
 
-      {/* Summary */}
+      {}
       <div>
         <h3 className="text-xl font-bold mb-4 text-gray-900 dark:text-white">
           Performance Summary

@@ -3,7 +3,7 @@ import supabase from '@/lib/supabase/client';
 
 export async function GET(req) {
   try {
-    // Get all interview attempts (no authentication required)
+
     const { data: attempts, error } = await supabase
       .from('interview_attempts')
       .select(`

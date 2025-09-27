@@ -11,8 +11,6 @@ import Link from 'next/link';
 import JobList from './jobs/_components/JobList';
 import { useState, useEffect } from 'react';
 
-// data/mockDashboardData.ts
-
 export const creditsData = {
   plan: 'Pro',
   remainingCredits: 37,
@@ -69,12 +67,9 @@ export const performanceMetrics = [
   },
 ];
 
-
 export default function Dashboard() {
-  // Get user type from localStorage (same as sidebar)
   const [userType, setUserType] = useState('CANDIDATE');
 
-  // Check localStorage for user type on component mount
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const savedUserType = localStorage.getItem('userType') || 'CANDIDATE';
@@ -91,12 +86,9 @@ export default function Dashboard() {
     'book-open-check': BookOpenCheck,
   };
 
-  
   return (
     <div className="p-6 space-y-6 mt-16 lg:mt-0 md:mt-0">
-      {/* Top Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {/* Create Job - Only for Recruiters */}
         {userType === 'RECRUITER' && (
           <div className="bg-white shadow rounded-xl p-6 flex flex-col justify-between">
             <div>
@@ -112,7 +104,6 @@ export default function Dashboard() {
           </div>
         )}
 
-        {/* Create Interview - Only for Candidates */}
         {userType === 'CANDIDATE' && (
           <div className="bg-white shadow rounded-xl p-6 flex flex-col justify-between">
             <div>
@@ -128,8 +119,6 @@ export default function Dashboard() {
           </div>
         )}
 
-        {/* <ShowCreditComponent /> */}
-        {/* Performance Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 gap-4">
           {performanceMetrics.map((metric, i) => {
             const Icon = metricIcons[metric.icon];
@@ -146,23 +135,16 @@ export default function Dashboard() {
             );
           })}
         </div>
-        
+
       </div>
 
-      {/* Recent Interviews */}
-      {/* <InterviewList /> */}
-
-      {/** Interview List */}
-
-
-      {/** Job List */}
       {userType === 'RECRUITER' && (
         <>
           <h3 className='text-lg font-semibold'>All Jobs</h3>
           <JobList />
         </>
       )}
-      
+
       {userType === 'CANDIDATE' && (
         <>
           <h3 className='text-lg font-semibold'>Available Jobs</h3>
@@ -170,7 +152,6 @@ export default function Dashboard() {
         </>
       )}
 
-      
     </div>
   );
 }

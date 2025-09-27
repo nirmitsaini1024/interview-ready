@@ -17,7 +17,7 @@ export default function ChatComponent({ report, chat, setChat }) {
     setUserMessage('')
     setLoading(true)
     setError('')
- 
+
     const response = await chatWithAgent(report, updatedChat)
 
     setLoading(false)

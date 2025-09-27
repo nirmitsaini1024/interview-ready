@@ -15,9 +15,8 @@ export const useVapi = (interviewDetails, questions, interviewAttemptId) => {
 
   const callEnded = useRef(false); // Add this line
 
-
   const conversationsRef = useRef([]);
-  //const vapi = new Vapi(process.env.NEXT_PUBLIC_VAPI_KEY);
+
   const { user, isAuthenticated, loading: authLoading } = useAuth();
 
   const stopCall = () => {
@@ -32,7 +31,6 @@ export const useVapi = (interviewDetails, questions, interviewAttemptId) => {
     }
   };
 
-  // Initialize useReport hook at the top level
   const { loadingReport, loadingGenerateReport, reportError, handleCall } = useReport(
     interviewAttemptId,
     conversationsRef,
@@ -43,11 +41,8 @@ export const useVapi = (interviewDetails, questions, interviewAttemptId) => {
     }
   );
 
-  // Create a stable stop function
-
-
   const chat = useCallback(() => {
-    if (!vapi) return; 
+    if (!vapi) return;
     const assistantOptions = {
       name: 'AI Recruiter',
       firstMessage: `Hi ${user?.firstName}, how are you? Ready for your ${interviewDetails?.company} ${interviewDetails?.position} interview? `,
@@ -103,7 +98,7 @@ export const useVapi = (interviewDetails, questions, interviewAttemptId) => {
       .catch((error) => {
           console.error("Error starting call:", error);
       });
-       
+
     setCallActive(true);
 
     vapi.on('speech-start', () => {
@@ -150,7 +145,6 @@ export const useVapi = (interviewDetails, questions, interviewAttemptId) => {
       console.log('Vapi Error:', e);
       setVapiError('Error with voice assistant');
 
-      // Call handleCall when error occurs
       try {
         stopCall(); // Use the same stopCall function for consistency
 
@@ -169,15 +163,13 @@ export const useVapi = (interviewDetails, questions, interviewAttemptId) => {
 
   }, [interviewDetails, questions, handleCall, stopCall]);
 
-  
-
   useEffect(() => {
-        // Initialize Vapi when component mounts
+
         const vapiInstance = new Vapi(process.env.NEXT_PUBLIC_VAPI_KEY);
         setVapi(vapiInstance);
 
         return () => {
-            // Clean up on unmount
+
             if (vapiInstance) {
                 vapiInstance.stop();
             }

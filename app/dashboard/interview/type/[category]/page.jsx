@@ -116,7 +116,7 @@ export default function SubCategoryPage({ params }) {
           </div>
           <h1 className="text-3xl font-bold text-gray-900 mb-4">Category Not Found</h1>
           <p className="text-gray-600 mb-8">The category you're looking for doesn't exist.</p>
-          <Link 
+          <Link
             href="/dashboard/interview"
             className="inline-flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-xl hover:bg-blue-700 transition-colors"
           >
@@ -132,14 +132,14 @@ export default function SubCategoryPage({ params }) {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50">
-      {/* Header Section */}
+      {}
       <div className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-blue-600/5 to-purple-600/5"></div>
         <div className="relative px-6 pt-8 pb-12 max-w-7xl mx-auto">
-          {/* Breadcrumb */}
+          {}
           <div className="flex items-center gap-2 text-sm mb-8">
-            <Link 
-              href="/dashboard/interview" 
+            <Link
+              href="/dashboard/interview"
               className="text-gray-500 hover:text-gray-700 transition-colors flex items-center gap-1"
             >
               <ArrowLeft className="w-4 h-4" />
@@ -149,7 +149,7 @@ export default function SubCategoryPage({ params }) {
             <span className="text-gray-900 font-medium capitalize">{category}</span>
           </div>
 
-          {/* Title Section */}
+          {}
           <div className="flex items-center gap-4 mb-8">
             <div className={`p-4 rounded-xl bg-gradient-to-br ${config.color} shadow-lg`}>
               <IconComponent className="w-8 h-8 text-white" />
@@ -162,7 +162,7 @@ export default function SubCategoryPage({ params }) {
             </div>
           </div>
 
-          {/* Stats */}
+          {}
           <div className="flex flex-wrap gap-6 mb-8">
             <div className="flex items-center gap-2 bg-white/80 backdrop-blur-lg rounded-xl px-4 py-2 border border-white/20">
               <CheckCircle className="w-4 h-4 text-indigo-700" />
@@ -180,7 +180,7 @@ export default function SubCategoryPage({ params }) {
         </div>
       </div>
 
-      {/* Subcategories Grid */}
+      {}
       <div className="px-6 pb-20 pt-10 max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
           {items.map((item, index) => (
@@ -193,7 +193,7 @@ export default function SubCategoryPage({ params }) {
               }}
             >
               <div className="relative bg-white/80 backdrop-blur-lg rounded-2xl p-6 border border-gray-50 shadow hover:border-blue-200/50 transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:shadow-blue-500/10">
-                {/* Header */}
+                {}
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex-1">
                     <h3 className={`text-lg font-bold text-gray-900 mb-2 group-hover:${config.color} transition-colors`}>
@@ -206,7 +206,7 @@ export default function SubCategoryPage({ params }) {
                   <ChevronRight className={`w-5 h-5 text-gray-400 group-hover:translate-x-1 group-hover:${config.color} transition-all duration-300`} />
                 </div>
 
-                {/* Stats */}
+                {}
                 <div className="space-y-3">
                   <div className="flex items-center justify-between text-sm">
                     <div className="flex items-center gap-2 text-gray-600">
@@ -215,7 +215,7 @@ export default function SubCategoryPage({ params }) {
                     </div>
                     <span className="font-semibold text-gray-900">{item.duration}</span>
                   </div>
-                  
+
                   <div className="flex items-center justify-between text-sm">
                     <div className="flex items-center gap-2 text-gray-600">
                       <Trophy className="w-4 h-4" />
@@ -225,33 +225,33 @@ export default function SubCategoryPage({ params }) {
                   </div>
                 </div>
 
-                {/* Progress Bar */}
+                {}
                 <div className="mt-4 pt-4 border-t border-gray-100">
                   <div className="flex items-center justify-between text-xs text-gray-500 mb-2">
                     <span>Popularity</span>
                     <span>{item.popularity}</span>
                   </div>
                   <div className="w-full bg-gray-200 rounded-full h-2">
-                    <div 
+                    <div
                       className={`h-2 rounded-full bg-gradient-to-r ${config.color} transition-all duration-500`}
                       style={{ width: item.popularity }}
                     ></div>
                   </div>
                 </div>
 
-                {/* Hover Effect */}
+                {}
                 <div className={`absolute inset-0 bg-gradient-to-br ${config.color} opacity-0 group-hover:opacity-5 transition-opacity duration-300 rounded-2xl`}></div>
               </div>
             </Link>
           ))}
         </div>
 
-        {/* Bottom CTA */}
+        {}
         <div className="mt-16 text-center">
           <div className="inline-flex items-center gap-2 bg-white/80 backdrop-blur-lg rounded-xl px-6 py-3 border border-white/20">
             <Briefcase className="w-5 h-5 text-blue-500" />
             <span className="text-gray-700">
-              Can't find what you're looking for? 
+              Can't find what you're looking for?
               <Link href="/contact" className="text-blue-600 hover:text-blue-700 font-medium ml-1">
                 Contact us
               </Link>

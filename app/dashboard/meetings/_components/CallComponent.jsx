@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import VideoCallUI from "./VideoCallUI";
-// Removed authentication - using demo mode
+
 import Vapi from "@vapi-ai/web";
 import { toast } from 'sonner';
 import LoadingOverlay from "@/components/LoadingOverlay";
@@ -10,7 +10,7 @@ import getRandomGreeting from "@/lib/utils/getRandomGreeting";
 import CameraComponent from "./CameraComponent";
 
 export default function CallComponent({ interviewId, interviewData }) {
-  // const [interviewData, setInterviewData] = useState(null);
+
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [callStarted, setCallStarted] = useState(false);
@@ -21,17 +21,12 @@ export default function CallComponent({ interviewId, interviewData }) {
   const [loadingMessage, setLoadingMessage] = useState("");
   const [onErrorCall, setOnErrorCall] = useState(false);
 
-
   const chatEndRef = useRef(null);
   const conversationsRef = useRef([]);
   const vapiRef = useRef(null);
 
-  // Demo user for development
   const user = { id: 'demo_user_123', name: 'Nirmit Saini', firstName: 'Nirmit' };
   const isAuthenticated = true;
-
-  // console.log("interview data:", interviewData);
-  // console.log("user name", user?.firstName)
 
   if (!interviewData) {
     return (
@@ -57,19 +52,17 @@ export default function CallComponent({ interviewId, interviewData }) {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [chatMessages]);
 
-
   useEffect(() => {
     const vapiInstance = new Vapi(process.env.NEXT_PUBLIC_VAPI_KEY);
     vapiRef.current = vapiInstance;
 
     return () => {
       vapiInstance.stop();
-      vapiRef.current = null; 
+      vapiRef.current = null;
     };
   }, []);
 
-
-  const questionsList = interviewData?.questions 
+  const questionsList = interviewData?.questions
     ? Object.values(interviewData.questions)
         .map(q => `"${q}"`)
         .join(",\n")
@@ -80,8 +73,6 @@ export default function CallComponent({ interviewId, interviewData }) {
   const startCall = () => {
     const vapi = vapiRef.current;
     if (!vapi || callStarted) return;
-
-    // console.log("user name", user?.firstName)
 
     const assistantOptions = {
       name: "AI Recruiter",
@@ -114,9 +105,9 @@ export default function CallComponent({ interviewId, interviewData }) {
 > You are a Smart AI voice assistant name "Gina" from "Swipe" conducting interviews.
 > Your job is to ask candidates provided interview questions and assess their responses.
 > Always follow the DRY (Do not repeat yourself) rule.
-> Begin the conversation with a friendly introduction using a relaxed yet professional tone. 
+> Begin the conversation with a friendly introduction using a relaxed yet professional tone.
 > First start with an introduction of yourself and then ask the candidate to give some introduction about them.
-> For Example: 
+> For Example:
 Step 1: Interviewer introduces themselves
 > "Hi [Candidate Name], I’m [Your Name], a [Your Role] here at [Company]. I’ll be conducting your interview today, focusing on [topic: e.g., React, full-stack development, system design, etc.]."
 
@@ -254,7 +245,6 @@ ${questionsList}
   **After that if still frozen or not replying**
     * *“Do you want me to move to the next one? or should i end the call ?”*
 
-
 ---
 
 #### Natural Phrases to Use
@@ -279,7 +269,6 @@ ${questionsList}
 #### DRY Rule
 
 Avoid repeating the same sentence (like “Want a hint?”) multiple times—vary phrasing naturally.
-
 
 #### Summary Flow
 
@@ -648,7 +637,7 @@ Avoid repeating the same sentence (like “Want a hint?”) multiple times—var
       setCallStarted(true);
       toast.success("Call started with AI Recruiter");
     } catch (err) {
-      // console.error("Failed to start call:", err);
+
       toast.error("Failed to start call");
       setVapiError("Failed to start call");
     } finally {
@@ -666,11 +655,10 @@ Avoid repeating the same sentence (like “Want a hint?”) multiple times—var
     vapi.on("error", (e) => {
       console.error("Vapi error:", e);
       console.error("Error details:", JSON.stringify(e, null, 2));
-      
-      // Extract error message from various possible properties
-      const errorMessage = e?.message || e?.error?.message || e?.error || 
+
+      const errorMessage = e?.message || e?.error?.message || e?.error ||
                           e?.details || e?.code || 'Connection issue occurred';
-      
+
       toast.error(`Call error: ${errorMessage}`);
       setVapiError(`Error during call: ${errorMessage}`);
       setCallStarted(false);
@@ -719,16 +707,15 @@ Avoid repeating the same sentence (like “Want a hint?”) multiple times—var
       </>
     )
   }
-  // if (error) return <div className="p-4 text-red-600 font-semibold">Error: {error}</div>;
 
   return (
     <>
       <div className="flex items-center gap-4 px-4 py-4 ml-4 mb-4 mr-4 mt-20 lg:mt-4 md:mt-4 bg-white shadow rounded-xl border border-gray-100">
-        {/* Avatar-like Block */}
+        {}
         <div className="flex items-center justify-center w-12 h-12 rounded-full bg-indigo-700 text-white text-lg font-semibold uppercase">
           {(interviewData?.company || "H").charAt(0)}
         </div>
-        {/* Text Content */}
+        {}
         <div className="flex flex-col">
           <h3 className="text-base font-semibold text-gray-800">
             {interviewData?.interview_name || "Interview Name"}
@@ -755,7 +742,7 @@ Avoid repeating the same sentence (like “Want a hint?”) multiple times—var
             />
           </div>
 
-          {/** Live messages */}
+          {}
           {liveMessages && <div className="flex justify-center">
             <div className="inline-block bg-gray-200 text-center px-4 py-2 border border-gray-200 shadow-md rounded">
               <p className="text-md text-gray-700 whitespace-nowrap">
@@ -766,7 +753,7 @@ Avoid repeating the same sentence (like “Want a hint?”) multiple times—var
           </div>}
         </div>
 
-        {/** chat messages */}
+        {}
         <div className="w-full h-[400px] lg:w-1/3 p-4 ml-4 rounded-xl bg-white shadow-lg flex flex-col">
           <h1 className="text-xl font-bold text-gray-800 mb-4">Chat</h1>
 
@@ -810,8 +797,6 @@ Avoid repeating the same sentence (like “Want a hint?”) multiple times—var
         </div>
 
       </div>
-
-      
 
     </>
   );

@@ -1,7 +1,5 @@
-// components/InfoRow.tsx
+
 import React from 'react';
-
-
 
 const InfoRow = ({ icon, label, value }) => {
   return (

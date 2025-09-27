@@ -7,7 +7,7 @@ const fetchJobDetails = async (id) => {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-      }, 
+      },
       cache: 'no-store',
     });
 

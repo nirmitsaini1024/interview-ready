@@ -1,6 +1,3 @@
-/**
- * Service for saving the newly generated PDF to DB
- */
 
 
 export default async function saveResume(htmlContent) {
@@ -24,7 +21,6 @@ export default async function saveResume(htmlContent) {
     },
     body: JSON.stringify(input),
   });
-  
 
     const result = await response.json();
 
@@ -60,5 +56,4 @@ console.log("result:::", result)
     };
   }
 };
-
 

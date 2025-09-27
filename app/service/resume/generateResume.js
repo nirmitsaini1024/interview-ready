@@ -11,7 +11,7 @@ const generateResume = async (job_description, resume) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-      }, 
+      },
       body: JSON.stringify(input),
     });
 

@@ -4,9 +4,6 @@ import Accordion from '@/components/Accordion'; // Assuming Accordion component 
 import { CalendarDays, MapPin, Code2, Users, Clock, Award, Briefcase, BookOpenText, CheckCircle, GitBranch, Laptop2, ScrollText, Building, Puzzle, Lightbulb, Heart, Wallet, GraduationCap, Tv } from 'lucide-react';
 import React from 'react';
 
-
-
-// Reusable Detail Item Component
 const DetailItem = ({ icon, label, value }) => {
   if (!value) return null; // Fallback for undefined/null values
   return (
@@ -20,9 +17,8 @@ const DetailItem = ({ icon, label, value }) => {
   );
 };
 
-// Reusable Section Component
 const SectionWithIcon = ({ icon, title, children }) => {
-  // Only render section if there's content to display
+
   if (React.Children.count(children) === 0 || (Array.isArray(children) && children.every(child => child === null))) {
     return null;
   }
@@ -38,7 +34,7 @@ const SectionWithIcon = ({ icon, title, children }) => {
 };
 
 const ExtractedJobDetailsCard = ({ interview }) => {
-  // Handle empty or null interview object
+
   if (!interview || Object.keys(interview).length === 0) {
     return (
       <div className="max-w-4xl mx-auto bg-white rounded-xl shadow-md p-8 text-center text-gray-600">
@@ -53,14 +49,14 @@ const ExtractedJobDetailsCard = ({ interview }) => {
       const options = { year: 'numeric', month: 'long', day: 'numeric' };
       return new Date(dateString).toLocaleDateString(undefined, options);
     } catch (error) {
-      // console.error("Error formatting date:", error);
+
       return 'Invalid Date';
     }
   };
 
   const parseTextList = (text) => {
     if (!text) return [];
-    // Split by new lines, filter out empty strings, and trim each item
+
     return text.split('\n').filter(item => item.trim() !== '').map(item => item.trim());
   };
 
@@ -76,7 +72,7 @@ const ExtractedJobDetailsCard = ({ interview }) => {
 
   return (
     <div className="max-w-4xl mx-auto bg-white rounded-xl shadow-md overflow-hidden font-sans">
-      {/* Header Section */}
+      {}
       <div className="p-6 bg-gradient-to-b from-gray-200 via-gray-100 to-white">
         <div className="flex items-start justify-between">
           <div>
@@ -95,9 +91,9 @@ const ExtractedJobDetailsCard = ({ interview }) => {
         </div>
       </div>
 
-      {/* Main Content */}
+      {}
       <div className="p-6">
-        {/* Key Details Grid */}
+        {}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
           <DetailItem
             icon={<CalendarDays className="w-4 h-4 text-gray-700" />}
@@ -141,12 +137,12 @@ const ExtractedJobDetailsCard = ({ interview }) => {
           />
         </div>
 
-        {/* Job Description (using Accordion) */}
+        {}
         {interview.job_description && (
           <Accordion header="Job Description" description={interview.job_description} icon={<ScrollText className="w-4 h-4 text-gray-700" />} />
         )}
 
-        {/* Role Overview */}
+        {}
         <SectionWithIcon
           icon={<Building className="w-4 h-4 text-gray-700" />}
           title="Role Overview"
@@ -155,7 +151,7 @@ const ExtractedJobDetailsCard = ({ interview }) => {
         </SectionWithIcon>
 
         <br />
-        {/* Requirements */}
+        {}
         <SectionWithIcon
           icon={<CheckCircle className="w-4 h-4 text-gray-700" />}
           title="Requirements"
@@ -171,7 +167,7 @@ const ExtractedJobDetailsCard = ({ interview }) => {
           )}
         </SectionWithIcon>
 
-        {/* Technical Stack */}
+        {}
         <SectionWithIcon
           icon={<Tv className="w-4 h-4 text-gray-700" />}
           title="Technical Stack"
@@ -192,8 +188,7 @@ const ExtractedJobDetailsCard = ({ interview }) => {
           )}
         </SectionWithIcon>
 
-
-        {/* Skills */}
+        {}
         <SectionWithIcon
           icon={<CheckCircle className="w-4 h-4 text-gray-700" />}
           title="Skills"
@@ -214,7 +209,7 @@ const ExtractedJobDetailsCard = ({ interview }) => {
           )}
         </SectionWithIcon>
 
-        {/* Responsibilities */}
+        {}
         <SectionWithIcon
           icon={<Puzzle className="w-4 h-4 text-gray-700" />}
           title="Responsibilities"
@@ -231,7 +226,7 @@ const ExtractedJobDetailsCard = ({ interview }) => {
           )}
         </SectionWithIcon>
 
-        {/* Cultural Fit */}
+        {}
         <SectionWithIcon
           icon={<Heart className="w-4 h-4 text-gray-700" />}
           title="Tone / Cultural Fit"
@@ -252,7 +247,7 @@ const ExtractedJobDetailsCard = ({ interview }) => {
           )}
         </SectionWithIcon>
 
-        {/* Benefits */}
+        {}
         <SectionWithIcon
           icon={<Wallet className="w-4 h-4 text-gray-700" />}
           title="Benefits"
@@ -268,14 +263,14 @@ const ExtractedJobDetailsCard = ({ interview }) => {
           )}
         </SectionWithIcon>
 
-        {/* Company Overview (Optional, derived from job_description if needed) */}
+        {}
         <SectionWithIcon
           icon={<Building className="w-4 h-4 text-gray-700" />}
           title={`About ${interview.company}`}
         >
           {interview.job_description && (
             <p className="text-gray-700 text-sm">
-              {/* Extract the first paragraph about Sprinto */}
+              {}
               {interview.job_description.split('\n\n')[0] || 'Company overview not available.'}
             </p>
           )}

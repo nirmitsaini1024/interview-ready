@@ -1,20 +1,15 @@
-// components/CandidateHeader.tsx
+
 import React from 'react';
 import { ArrowLeft, Edit, Github, Linkedin, Pencil, Twitter } from 'lucide-react';
 import CompanyLogo from '../../report/_components/CompanyLogo';
 import Link from 'next/link';
-
 
 const CandidateHeader = ({ name, title, age, image, social_accounts }) => {
   return (
     <div className="bg-white py-8 flex justify-between items-center border-t border-gray-100 shadow-sm rounded-t-xl">
       <div className="">
         <div className="flex items-center ml-8">
-            {/* <img 
-              src={image} // Replace with actual image source or a placeholder
-              alt={name}
-              className="w-16 h-16 rounded-full mr-4 object-cover"
-            /> */}
+            {}
             <CompanyLogo logo={image} company={name?.charAt(0).toUpperCase()} width="w-16" height="w-16" className="mr-4 w-16 h-16" />
             <div>
               <h1 className="text-2xl font-bold text-dark-gray-text">

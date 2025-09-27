@@ -1,4 +1,4 @@
-// app/api/openai/job/route.ts
+
 import openaiQueue from '@/lib/queue/openaiQueue';
 import { ratelimit } from '@/lib/ratelimiter/rateLimiter';
 import OpenAI from 'openai';
@@ -39,10 +39,10 @@ Job Description: ${jobDescription}
 
 Return JSON with:
 - interview_name: job role/title
-- job_description: full description  
+- job_description: full description
 - company: company name or ""
 - location: job location (default "India")
-- experience: required years (default "Not specified") 
+- experience: required years (default "Not specified")
 - difficulty_level: easy/medium/hard (default "medium")
 - interview_type: technical/HR/behavioral (default "technical")
 - Requirements: array of requirements
@@ -56,7 +56,6 @@ Return JSON with:
 
 If any field is missing, use defaults specified. Only return JSON.`;
 
-    // Queue the OpenAI API call
     const result = await openaiQueue.add(async () => {
       return await openai.chat.completions.create({
         model: 'meta-llama/llama-3.3-8b-instruct:free',

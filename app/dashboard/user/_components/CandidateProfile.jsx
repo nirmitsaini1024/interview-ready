@@ -6,7 +6,7 @@ export default function CandidateProfilePage() {
   return (
     <main className="min-h-screen bg-gray-100 p-6">
       <div className="max-w-6xl mx-auto space-y-6">
-        {/* Top Nav */}
+        {}
         <div className="flex items-center justify-between">
           <h1 className="text-xl font-semibold">Candidate Profile</h1>
           <div className="flex items-center gap-3">
@@ -18,10 +18,10 @@ export default function CandidateProfilePage() {
           </div>
         </div>
 
-        {/* Main Card */}
+        {}
         <Card>
           <CardContent>
-            {/* Candidate Header */}
+            {}
             <div className="flex items-center justify-between">
               <div>
                 <h2 className="text-lg font-bold">Jerome Bell</h2>
@@ -34,7 +34,7 @@ export default function CandidateProfilePage() {
               </div>
             </div>
 
-            {/* Info Section */}
+            {}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
               <InfoBlock label="Email" value="jerome.bell@example.com" icon={<Mail className="w-4 h-4" />} />
               <InfoBlock label="Phone" value="+90 (545) 493 00 00" icon={<Phone className="w-4 h-4" />} />
@@ -44,7 +44,7 @@ export default function CandidateProfilePage() {
               <InfoBlock label="Work Type" value="Remote, Full-time, Freelance" />
             </div>
 
-            {/* Resume */}
+            {}
             <div className="mt-6">
               <p className="text-sm font-medium mb-1">Resume</p>
               <div className="flex items-center justify-between bg-gray-100 px-4 py-2 rounded">
@@ -58,9 +58,9 @@ export default function CandidateProfilePage() {
           </CardContent>
         </Card>
 
-        {/* Side Info */}
+        {}
         <div className="grid md:grid-cols-3 gap-6">
-          {/* Active Positions */}
+          {}
           <Card>
             <CardContent>
               <h3 className="font-semibold mb-2">Active Positions</h3>
@@ -72,7 +72,7 @@ export default function CandidateProfilePage() {
             </CardContent>
           </Card>
 
-          {/* Career Status */}
+          {}
           <Card>
             <CardContent>
               <label className="block text-sm font-medium mb-1">Career Status</label>
@@ -84,7 +84,7 @@ export default function CandidateProfilePage() {
             </CardContent>
           </Card>
 
-          {/* Personal Info */}
+          {}
           <Card>
             <CardContent>
               <h3 className="font-semibold mb-2">Personal Info</h3>
@@ -101,8 +101,6 @@ export default function CandidateProfilePage() {
     </main>
   );
 }
-
-// ----- Reusable Components -----
 
 function CustomButton({
   children,

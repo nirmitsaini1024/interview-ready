@@ -1,6 +1,5 @@
 "use client";
 
-
 import saveResume from "@/app/service/resume/saveResume";
 import { Download, Loader, Loader2, Save } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
@@ -10,7 +9,6 @@ const ResumeTemplate = ({ resume }) => {
   const [downloading, setDownloading] = useState(false);
   const [saving, setSaving] = useState(false);
 
-  
   const resumeRef = useRef(null);
 
   const {
@@ -27,41 +25,41 @@ const ResumeTemplate = ({ resume }) => {
     <style>
       body {
         background: white;
-        font-family: Arial, sans-serif; /* A clear, widely readable font */
-        padding: 0.75in; /* Reduced margins to fit more content, common for resumes */
+        font-family: Arial, sans-serif;
+        padding: 0.75in;
         color: #333;
-        max-width: 7.5in; /* Standard paper width minus margins (8.5 - 2*0.75) */
+        max-width: 7.5in;
         margin: auto;
       }
       h1 {
-        font-size: 18pt; /* Slightly larger for emphasis */
+        font-size: 18pt;
         font-weight: bold;
         color: #2b2b2b;
-        margin-bottom: 2pt; /* Reduced spacing */
+        margin-bottom: 2pt;
         text-align: center;
       }
       h2 {
-        font-size: 13pt; /* Smaller for section titles */
+        font-size: 13pt;
         font-weight: 600;
         padding-bottom: 2pt;
-        margin-bottom: 6pt; /* Adjusted spacing */
-        margin-top: 10pt; /* Reduced top margin */
+        margin-bottom: 6pt;
+        margin-top: 10pt;
         color: #333;
       }
       h3 {
-        font-size: 10.5pt; /* Consistent with body text, but bold for distinction */
-        font-weight: 600; /* Slightly bolder for subheadings */
+        font-size: 10.5pt;
+        font-weight: 600;
         margin: 0;
         color: #222;
       }
       p, li, span {
-        font-size: 10pt; /* Standard readable font size for body content */
-        line-height: 1.2; /* Slightly reduced line height for compactness */
+        font-size: 10pt;
+        line-height: 1.2;
         color: #444;
         margin: 0;
       }
       .section {
-        margin-bottom: 10pt; /* Reduced spacing between sections */
+        margin-bottom: 10pt;
       }
 
       .header-contact,
@@ -69,11 +67,11 @@ const ResumeTemplate = ({ resume }) => {
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
-        gap: 6pt; /* Reduced gap */
-        font-size: 9.5pt; /* Smaller for contact details */
+        gap: 6pt;
+        font-size: 9.5pt;
         color: #666;
-        margin-top: 2pt; /* Reduced spacing */
-        margin-bottom: 6pt; /* Reduced spacing */
+        margin-top: 2pt;
+        margin-bottom: 6pt;
       }
       .header-contact span,
       .header-links a {
@@ -81,23 +79,23 @@ const ResumeTemplate = ({ resume }) => {
         color: #1a73e8;
       }
       ul {
-        padding-left: 14pt; /* Slightly reduced padding */
-        margin-top: 4pt; /* Reduced top margin for lists */
-        margin-bottom: 4pt; /* Added bottom margin for lists */
+        padding-left: 14pt;
+        margin-top: 4pt;
+        margin-bottom: 4pt;
       }
       ul li {
-        margin-bottom: 2pt; /* Reduced spacing between list items */
+        margin-bottom: 2pt;
       }
       .flex-between {
         display: flex;
         justify-content: space-between;
-        align-items: baseline; /* Aligns text baselines */
-        margin-bottom: 2pt; /* Added small margin for better spacing */
+        align-items: baseline;
+        margin-bottom: 2pt;
       }
       hr {
         border: none;
         border-top: 1px solid #ccc;
-        margin: 8pt 0; /* Reduced margin around horizontal rules */
+        margin: 8pt 0;
       }
     </style>
   </head>
@@ -247,12 +245,9 @@ const ResumeTemplate = ({ resume }) => {
     }
   }
 
-  
-
-
   return (
     <>
-      {/** Header */}
+      {}
       <div className="w-full max-w-4xl flex justify-between items-center mx-auto pt-8">
         <h3 className="text-lg font-semibold">Resume</h3>
         <div className="flex items-center gap-2">
@@ -281,16 +276,16 @@ const ResumeTemplate = ({ resume }) => {
           )}
           {downloading ? "Downloading..." : "Download Resume"}
           {downloading ? "" : <Download className="w-4 h-4" />}
-          
+
           </button>
-          
+
         </div>
 
       </div>
 
-      {/** Main Resume section */}
+      {}
       <div className="min-h-screen bg-gray-50 p-4 sm:p-8 flex flex-col items-center">
-        {/* Resume Preview */}
+        {}
         <iframe
           ref={resumeRef}
           srcDoc={htmlContent}
@@ -298,11 +293,9 @@ const ResumeTemplate = ({ resume }) => {
         />
       </div>
 
-
     </>
   );
 };
 
 export default ResumeTemplate;
-
 

@@ -19,7 +19,7 @@ export default function CandidatePerformancePage() {
       setLoading(true);
       const response = await fetch('/api/recruiter/candidate-performance');
       const result = await response.json();
-      
+
       if (result.state) {
         setCandidates(result.data || []);
       } else {
@@ -67,10 +67,9 @@ export default function CandidatePerformancePage() {
     );
   }
 
-  // If viewing a specific report, show the report page
   if (viewMode === 'report' && selectedCandidate) {
     const report = selectedCandidate.ai_reports?.[0];
-    
+
     if (!report) {
       return (
         <div className="min-h-screen bg-gray-50">
@@ -92,8 +91,8 @@ export default function CandidatePerformancePage() {
 
     let reportContent;
     try {
-      reportContent = typeof report.report_content === 'string' 
-        ? JSON.parse(report.report_content) 
+      reportContent = typeof report.report_content === 'string'
+        ? JSON.parse(report.report_content)
         : report.report_content;
     } catch (e) {
       return (
@@ -120,7 +119,7 @@ export default function CandidatePerformancePage() {
     return (
       <div className="min-h-screen bg-gray-50">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          {/* Header */}
+          {}
           <button
             onClick={() => setViewMode('list')}
             className="flex items-center text-gray-600 hover:text-gray-900 mb-6"
@@ -128,14 +127,14 @@ export default function CandidatePerformancePage() {
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to Candidates
           </button>
-          
+
           <div className="mb-8">
             <h1 className="text-3xl font-bold text-gray-900">Interview Report</h1>
             <p className="text-gray-600 mt-2">{selectedCandidate.user?.name} - {selectedCandidate.interview?.company}</p>
           </div>
 
           <div className="space-y-6">
-            {/* Overall Score & Recommendation */}
+            {}
             <div className="bg-gray-50 rounded-lg p-6">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-lg font-semibold text-gray-900">Overall Performance</h3>
@@ -154,7 +153,7 @@ export default function CandidatePerformancePage() {
                         ? 'bg-green-100 text-green-800'
                         : 'bg-red-100 text-red-800'
                     }`}>
-                      {reportContent.recommendation === true || reportContent.recommendation === "YES" 
+                      {reportContent.recommendation === true || reportContent.recommendation === "YES"
                         ? 'Recommended' : 'Not Recommended'}
                     </div>
                   )}
@@ -165,7 +164,7 @@ export default function CandidatePerformancePage() {
               )}
             </div>
 
-            {/* Key Strengths */}
+            {}
             {reportData.Key_Strengths && reportData.Key_Strengths.length > 0 && (
               <div className="bg-green-50 rounded-lg p-6">
                 <h3 className="text-lg font-semibold text-green-900 mb-3">Key Strengths</h3>
@@ -180,7 +179,7 @@ export default function CandidatePerformancePage() {
               </div>
             )}
 
-            {/* Areas for Improvement */}
+            {}
             {reportData.Areas_for_Improvement && reportData.Areas_for_Improvement.length > 0 && (
               <div className="bg-orange-50 rounded-lg p-6">
                 <h3 className="text-lg font-semibold text-orange-900 mb-3">Areas for Improvement</h3>
@@ -195,7 +194,7 @@ export default function CandidatePerformancePage() {
               </div>
             )}
 
-            {/* Skill Evaluation */}
+            {}
             {Object.keys(skillEvaluation).length > 0 && (
               <div className="bg-blue-50 rounded-lg p-6">
                 <h3 className="text-lg font-semibold text-blue-900 mb-4">Skill Evaluation</h3>
@@ -225,7 +224,7 @@ export default function CandidatePerformancePage() {
               </div>
             )}
 
-            {/* Question-wise Feedback */}
+            {}
             {reportData.Question_Wise_Feedback && reportData.Question_Wise_Feedback.length > 0 && (
               <div className="bg-purple-50 rounded-lg p-6">
                 <h3 className="text-lg font-semibold text-purple-900 mb-4">Question-wise Feedback</h3>
@@ -255,7 +254,7 @@ export default function CandidatePerformancePage() {
               </div>
             )}
 
-            {/* Interview Conversation */}
+            {}
             {selectedCandidate.chat_conversation && (
               <div className="bg-gray-50 rounded-lg p-6">
                 <h3 className="text-lg font-semibold text-gray-900 mb-4">Interview Conversation</h3>
@@ -263,72 +262,70 @@ export default function CandidatePerformancePage() {
                   {(() => {
                     try {
                       console.log('Chat conversation data:', selectedCandidate.chat_conversation);
-                      
+
                       let conversation = selectedCandidate.chat_conversation;
-                      
-                      // Handle different data structures
+
                       if (conversation.current && Array.isArray(conversation.current)) {
                         conversation = conversation.current;
                       } else if (Array.isArray(conversation)) {
                         conversation = conversation;
                       } else if (typeof conversation === 'string') {
-                        // Try to parse JSON string
+
                         conversation = JSON.parse(conversation);
                         if (conversation.current && Array.isArray(conversation.current)) {
                           conversation = conversation.current;
                         }
                       } else if (typeof conversation === 'object') {
-                        // Try to find array in object
+
                         const possibleArrays = Object.values(conversation).filter(val => Array.isArray(val));
                         if (possibleArrays.length > 0) {
                           conversation = possibleArrays[0];
                         }
                       }
-                      
+
                       if (Array.isArray(conversation)) {
                         return (
                           <div className="space-y-3">
                             {conversation.map((message, index) => {
-                              // Handle different message formats
+
                               let role, content;
-                              
+
                               if (typeof message === 'string') {
-                                // Handle simple string messages
+
                                 role = 'unknown';
                                 content = message;
                               } else if (message.role) {
-                                // Handle structured messages
+
                                 role = message.role;
                                 content = message.content || message.message || message.text || message.transcript || 'No content';
                               } else {
-                                // Fallback
+
                                 role = 'unknown';
                                 content = JSON.stringify(message);
                               }
-                              
-                              // Skip system messages and tool calls
+
                               if (role === 'system' || role === 'tool') {
                                 return null;
                               }
-                              
+
                               return (
                                 <div key={index} className={`p-3 rounded-lg ${
                                   role === 'user' || role === 'candidate'
-                                    ? 'bg-blue-100 ml-8' 
+                                    ? 'bg-blue-100 ml-8'
                                     : role === 'assistant'
                                     ? 'bg-gray-100 mr-8'
                                     : 'bg-yellow-100'
                                 }`}>
                                   <div className="flex items-start">
                                     <span className={`font-medium text-sm mr-2 ${
-                                      role === 'user' || role === 'candidate' ? 'text-blue-800' : 
+                                      role === 'user' || role === 'candidate' ? 'text-blue-800' :
                                       role === 'assistant' ? 'text-gray-800' : 'text-yellow-800'
                                     }`}>
-                                      {role === 'user' || role === 'candidate' ? 'Candidate' : 
+                                      {role === 'user' || role === 'candidate' ? 'Candidate' :
                                        role === 'assistant' ? 'AI Interviewer' : 'System'}:
                                     </span>
                                     <span className={`text-sm ${
-                                      role === 'user' || role === 'candidate' ? 'text-blue-700' : 
+                                      role === 'user' || role === 'candidate' ? 'text-blue-700' :
                                       role === 'assistant' ? 'text-gray-700' : 'text-yellow-700'
                                     }`}>
                                       {content}
@@ -340,8 +337,7 @@ export default function CandidatePerformancePage() {
                           </div>
                         );
                       }
-                      
-                      // If we still can't parse it, show the raw data for debugging
+
                       return (
                         <div>
                           <p className="text-gray-500 mb-4">Conversation format not recognized. Raw data:</p>
@@ -371,24 +367,23 @@ export default function CandidatePerformancePage() {
     );
   }
 
-  // Default list view
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Header */}
+        {}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900">Candidate Performance</h1>
           <p className="text-gray-600 mt-2">View interview attempts and performance for your job postings</p>
         </div>
 
-        {/* Error State */}
+        {}
         {error && (
           <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
             <p className="text-red-800">{error}</p>
           </div>
         )}
 
-        {/* Candidates List */}
+        {}
         {candidates.length === 0 ? (
           <div className="text-center py-12">
             <User className="w-16 h-16 text-gray-400 mx-auto mb-4" />
@@ -434,7 +429,7 @@ export default function CandidatePerformancePage() {
                   </div>
                 </div>
 
-                {/* Interview Details */}
+                {}
                 <div className="bg-gray-50 rounded-lg p-4 mb-4">
                   <div className="flex items-center justify-between mb-2">
                     <h4 className="text-sm font-medium text-gray-900">Interview Details</h4>
@@ -452,17 +447,17 @@ export default function CandidatePerformancePage() {
                   </div>
                 </div>
 
-                {/* Performance Summary */}
+                {}
                 {attempt.ai_reports && attempt.ai_reports.length > 0 && (
                   <div className="border-t border-gray-200 pt-4">
                     <h4 className="text-sm font-medium text-gray-900 mb-2">Performance Summary</h4>
                     <div className="text-gray-700 text-sm">
                       {(() => {
                         try {
-                          const reportContent = typeof attempt.ai_reports[0].report_content === 'string' 
-                            ? JSON.parse(attempt.ai_reports[0].report_content) 
+                          const reportContent = typeof attempt.ai_reports[0].report_content === 'string'
+                            ? JSON.parse(attempt.ai_reports[0].report_content)
                             : attempt.ai_reports[0].report_content;
-                          
+
                           const summary = reportContent?.report?.overall_summary || 'No summary available';
                           return (
                             <div className="whitespace-pre-wrap max-h-32 overflow-y-auto">
@@ -477,7 +472,7 @@ export default function CandidatePerformancePage() {
                   </div>
                 )}
 
-                {/* Action Buttons */}
+                {}
                 <div className="mt-4 pt-4 border-t border-gray-200 flex justify-between items-center">
                   <div className="flex items-center space-x-4 text-sm text-gray-500">
                     <div className="flex items-center">
@@ -491,7 +486,7 @@ export default function CandidatePerformancePage() {
                       </div>
                     )}
                   </div>
-                  
+
                   <div className="flex space-x-2">
                     <button
                       onClick={() => {

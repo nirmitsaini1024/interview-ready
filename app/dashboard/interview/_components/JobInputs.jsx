@@ -99,7 +99,7 @@ export default function JobInputs({ onSubmit, initialData = {} }) {
               className="bg-[#462eb4] hover:shadow-2xl text-white px-5 py-3 rounded-md text-sm font-medium flex items-center gap-2 cursor-pointer transition duration-300 ease-in-out disabled:opacity-70 disabled:cursor-not-allowed">
               {loading ? (
                 <>
-                  <Loader2 className="animate-spin mr-2 w-5 h-5" /> {/* Loader2 icon with animate-spin */}
+                  <Loader2 className="animate-spin mr-2 w-5 h-5" /> {}
                   Loading...
                 </>
               ) : (

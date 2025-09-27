@@ -27,8 +27,6 @@ import updateInterviewDuration from "@/app/service/interview/updateInterviewDura
 import Link from "next/link";
 import Modal from "@/components/Modal";
 
-
-
 export default function VideoCallUI({
   interviewId,
   interviewData,
@@ -48,16 +46,14 @@ export default function VideoCallUI({
   const [isLoading, setIsLoading] = useState(false);
   const [buttonStatus, setButtonStatus] = useState(true);
 
-
   const router = useRouter();
   const endCallTriggered = useRef(false);
   const isMounted = useRef(true);
 
   if (!interviewId || !interviewData) {
-    // console.error("VideoCallUI: Missing required props interviewId or interviewData", { interviewId, interviewData });
+
     toast("Invalid interviewId or interviewData. Please try again.");
-    // Optionally, if you want to redirect or show a specific error page:
-    // useRouter().push('/error-page');
+
     return null; // Render nothing if the required props are missing
   }
 
@@ -87,7 +83,6 @@ export default function VideoCallUI({
     setCallStartTime(new Date().toISOString())
     toast("Call started, wait for a few seconds...")
 
-    // Simulate AI assistant loading time (8s)
     setTimeout(() => {
       setIsLoading(false)
       setButtonStatus(true)
@@ -106,18 +101,16 @@ export default function VideoCallUI({
       setButtonStatus(false);
       setLoading(true);
 
-
       const generatedReport = await handleGenerateReport();
       if (!generatedReport?.status || !generatedReport?.data) {
         return;
       }
 
-      // console.log("======== call time ========", callTime);
       const status = await deriveStatus(interviewData?.duration, interviewData?.current_duration, callTime);
       const updateInterviewDB = await updateInterviewDuration(callTime, interviewId, status)
 
       if (!updateInterviewDB.state) {
-        // console.log("Error: ", updateInterviewDB.error);
+
         toast.error("Error: ", updateInterviewDB.error);
       }
       setLoadingMessage("Saving Report...");
@@ -158,7 +151,7 @@ export default function VideoCallUI({
 
       toast.success("Report submitted successfully");
     } catch (err) {
-      // console.error("Unexpected error in handleEndCall:", err);
+
       toast.error("Unexpected error occurred during end call");
       setLoading(false)
     } finally {
@@ -169,7 +162,6 @@ export default function VideoCallUI({
       }
     }
   };
-
 
   const handleGenerateReport = async () => {
     setLoadingMessage("Generating Report...");
@@ -185,25 +177,15 @@ export default function VideoCallUI({
     };
   };
 
-  /**
-   * Added this useEffect to call the handleEndCall function
-   * when due to long time silence from user Vapi Ends the call
-   * and we need to call handleEndCall to generate the report
-   * If the report is being generated multiple times maybe this is the reason
-   */
   useEffect(() => {
     if (onErrorCall) {
-      // console.log("inside useEffect")
+
       handleEndCall();
     }
   }, [onErrorCall]);
 
-  /**
-   * This useEffect to end the call once the callTime reachs duration
-   */
-
   useEffect(() => {
-    // Convert duration from minutes to seconds, subtract current_duration (already in seconds)
+
     const durationInSeconds = Number(interviewData?.duration) * 60; // Convert minutes to seconds
     const currentDurationInSeconds = Number(interviewData?.current_duration) || 0;
     const durationLeft = durationInSeconds - currentDurationInSeconds;
@@ -214,7 +196,7 @@ export default function VideoCallUI({
     if (!callStatus) return;
 
     if (callTime >= threshold) {
-      // console.log("Times up !!!");
+
       handleEndCall();
     }
 
@@ -226,14 +208,12 @@ export default function VideoCallUI({
     }
   }, [callTime, callStatus, interviewData?.duration, interviewData?.current_duration]);
 
-
   useEffect(() => {
     isMounted.current = true;
     return () => {
       isMounted.current = false;
     };
   }, []);
-
 
   if (loading) {
     return (
@@ -243,19 +223,18 @@ export default function VideoCallUI({
     )
   }
 
-
   return (
     <div className="relative w-full h-[400px] bg-gray-700 text-white flex items-center justify-center overflow-hidden">
       <div className="absolute top-4 left-4 text-sm bg-gray-900/70 px-3 py-1 rounded-full">
         {formatTime(callTime)}
       </div>
 
-      {/* Camera Display */}
+      {}
       <div className="absolute top-4 right-4 w-40 h-28 shadow-2xl bg-gray-500 rounded-lg overflow-hidden">
         <CameraComponent isVisible={!isVideoOff} />
       </div>
 
-      {/* User Avatar + Assistant */}
+      {}
       <div className="flex flex-col items-center gap-2">
         <div className="w-40 h-40 rounded-full overflow-hidden border-4 shadow-2xl border-gray-600">
           <Image
@@ -270,9 +249,9 @@ export default function VideoCallUI({
 
       </div>
 
-      {/* Bottom Controls */}
+      {}
       <div className="absolute bottom-6 w-full flex justify-center gap-6">
-        {/* Mute Toggle */}
+        {}
         <button
           className="bg-gray-800 hover:bg-gray-500 cursor-pointer rounded-full p-4"
           onClick={toggleMic}
@@ -281,8 +260,7 @@ export default function VideoCallUI({
           <Mic className="text-white" />
         </button>
 
-
-        {/* Video Toggle */}
+        {}
         <button
           className="bg-gray-800 hover:bg-gray-500 cursor-pointer rounded-full p-4"
           onClick={() => setIsVideoOff(!isVideoOff)}
@@ -295,7 +273,7 @@ export default function VideoCallUI({
           )}
         </button>
 
-        {/* Call Controls */}
+        {}
         {callStatus ? (
           <button
             disabled={!buttonStatus}

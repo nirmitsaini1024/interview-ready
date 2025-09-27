@@ -4,7 +4,7 @@ import { ratelimit } from '@/lib/ratelimiter/rateLimiter';
 
 export async function POST(req) {
   try {
-    // Rate limiting
+
     const ip = req.headers.get('x-forwarded-for') || 'anonymous';
     const { success } = await ratelimit.limit(ip);
 
@@ -12,13 +12,10 @@ export async function POST(req) {
       return NextResponse.json({ state: false, error: 'Rate limit exceeded' }, { status: 429 });
     }
 
-    // For demo purposes, use a hardcoded user ID
     const userId = 'demo_user_123';
 
-    // Validate request body
     const { formData } = await req.json();
 
-    // Create or find the demo user
     let demoUser;
     try {
       demoUser = await prisma.user.findUnique({
@@ -39,7 +36,6 @@ export async function POST(req) {
       console.log('User creation failed, proceeding without user_id');
     }
 
-    // Insert job data using Prisma
     const job = await prisma.interview.create({
       data: {
         user_id: demoUser ? userId : null,
@@ -64,7 +60,6 @@ export async function POST(req) {
     console.log("========== Job Created =============");
     console.log(job);
 
-    // Convert BigInt to string for JSON serialization
     const serializedJob = {
       ...job,
       id: job.id.toString()

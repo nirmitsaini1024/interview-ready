@@ -10,7 +10,7 @@ const companies = [
   { name: "Figma", logo: "https://logo.clearbit.com/figma.com" },
   { name: "Amazon", logo: "https://logo.clearbit.com/amazon.com" },
   { name: "Meta", logo: "https://logo.clearbit.com/meta.com" },
-  // { name: "HappyCo", logo: "https://logo.clearbit.com/happyco.com" },
+
   { name: "Google", logo: "https://logo.clearbit.com/google.com" },
   { name: "Apple", logo: "https://logo.clearbit.com/apple.com" },
   { name: "Twitter", logo: "https://logo.clearbit.com/twitter.com" },
@@ -31,7 +31,7 @@ export default function RecentOffers({ handleJobFilters }) {
 
   return (
     <div className="p-4 lg:mt-0 mt-16 space-y-6">
-      {/* Header with title and create button */}
+      {}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 sm:px-16 px-4">
         <h2 className="text-lg font-semibold text-center sm:text-left">
           Recent jobs from top companies
@@ -45,7 +45,7 @@ export default function RecentOffers({ handleJobFilters }) {
         </Link>
       </div>
 
-      {/* Company logos row */}
+      {}
       <div className="w-full sm:w-auto mx-auto flex items-center justify-center gap-4 overflow-x-auto px-2 sm:px-4 py-2 scrollbar-thin scrollbar-thumb-gray-300">
         {companies.map((company) => (
           <div
@@ -69,19 +69,8 @@ export default function RecentOffers({ handleJobFilters }) {
         ))}
       </div>
 
-
-      {/* Filter dropdown buttons */}
-      {/* <div className="flex flex-wrap items-center justify-center gap-3 px-2 sm:px-4">
-        {filters.map((filter) => (
-          <button
-            key={filter}
-            className="flex items-center gap-2 text-gray-600 rounded-md border border-gray-200 bg-white px-4 py-2 text-sm shadow-md hover:bg-gray-50"
-          >
-            {filter}
-            <ChevronDown className="w-4 h-4" />
-          </button>
-        ))}
-      </div> */}
+      {}
+      {}
     </div>
   );
 }

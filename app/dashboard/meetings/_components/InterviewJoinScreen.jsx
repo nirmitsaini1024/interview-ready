@@ -27,7 +27,6 @@ export default function InterviewJoinScreen({ onJoinInterview, interviewData }) 
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: true });
 
-      // ✅ Stop tracks immediately after checking permissions
       stream.getTracks().forEach(track => {
         track.stop(); // Turn off audio and video
       });
@@ -43,16 +42,16 @@ export default function InterviewJoinScreen({ onJoinInterview, interviewData }) 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
       <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-6 space-y-6">
-        {/* Title and Logo */}
+        {}
         <div className="text-center space-y-1">
           <h1 className="flex gap-2 items-center justify-center text-indigo-900 font-bold text-2xl">
             <Image src={logo} className="w-8 h-8 rounded-md" alt="logo" />
-            Hirenom
+            Swipe
           </h1>
           <p className="text-gray-500 text-sm">AI-Powered Interview Platform</p>
         </div>
 
-        {/* Interview Title */}
+        {}
         <div className="text-center space-y-1">
           <h2 className="text-lg font-semibold text-gray-800">
             {interviewData?.interview_name || 'MatchFox Interview'}
@@ -69,7 +68,7 @@ export default function InterviewJoinScreen({ onJoinInterview, interviewData }) 
           </div>
         </div>
 
-        {/* Tips Box */}
+        {}
         <div className="bg-teal-50 border border-blue-100 p-4 rounded-lg text-sm text-[#462eb4] space-y-1">
           <p className="flex gap-1 items-center font-medium mb-2">
             <Info className="w-3 h-3" />
@@ -95,7 +94,7 @@ export default function InterviewJoinScreen({ onJoinInterview, interviewData }) 
           </ul>
         </div>
 
-        {/* Join Button */}
+        {}
         <button
           onClick={handleJoin}
           disabled={checkingPermissions}
@@ -104,12 +103,12 @@ export default function InterviewJoinScreen({ onJoinInterview, interviewData }) 
           Join Interview
         </button>
 
-        {/* Permission Error */}
+        {}
         {permissionError && (
           <p className="text-sm text-red-600 text-center">{permissionError}</p>
         )}
 
-        {/* Test Audio/Video */}
+        {}
         <button
           onClick={handleCheck}
           disabled={checkingPermissions}

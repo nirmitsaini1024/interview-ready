@@ -1,7 +1,5 @@
 'use client'
 
-// app/interview/new/page.js
-
 import { SquaresIntersect } from "lucide-react";
 import CreateInterviewForm from "../_components/CreateInterviewForm";
 import { useEffect, useState } from "react";
@@ -10,13 +8,13 @@ export default function CreateInterviewPage() {
   const [jobDescription, setJobDescription] = useState();
 
   useEffect(() => {
-    // Notify parent window that this window is ready
+
     if (window.opener) {
       window.opener.postMessage({ type: 'READY_FOR_JOB' }, '*');
     }
 
     const handleMessage = (event) => {
-      // Security: Check origin if using in production
+
       if (typeof event.data?.job_description === 'string') {
         const job = event.data.job_description;
         localStorage.setItem('job_description', job);
@@ -27,7 +25,7 @@ export default function CreateInterviewPage() {
     window.addEventListener('message', handleMessage);
 
     return () => {
-      // Cleanup: Prevent memory leaks
+
       window.removeEventListener('message', handleMessage);
     };
   }, []);

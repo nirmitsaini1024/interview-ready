@@ -8,14 +8,14 @@ const generateQuestions = async (job_description, company, interview_style, posi
       position,
       difficulty_level,
       experience,
-    }; 
+    };
     console.log("generate question input", input);
 
     const response = await fetch(`/api/jobs/generate-questions`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-      }, 
+      },
       body: JSON.stringify(input),
     });
 

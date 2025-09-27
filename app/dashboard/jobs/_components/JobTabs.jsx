@@ -2,7 +2,7 @@
 
 import { useState, useRef, useLayoutEffect } from 'react'
 import { motion } from 'framer-motion'
-// Removed authentication - using demo mode
+
 import JobDetails from '../[id]/_components/JobDetails'
 import QuestionsList from './QuestionsList'
 import JobAttemptDetails from './JobAttemptDetails'
@@ -14,16 +14,13 @@ export default function JobTabs({ details }) {
     const [candidatesData, setCandidatesData] = useState(null)
     const [loadingCandidates, setLoadingCandidates] = useState(false)
 
-    // Demo user for development
     const user = { id: 'demo_user_123', name: 'Demo User' };
     const loading = false;
-    // console.log("======== user ID =======")
-    // console.log(user?.id)
 
     let tabContents
 
     if (details?.user_id === user?.id) {
-        //console.log("its if block")
+
         tabContents = [
             <JobDetails key="details" job={details} />,
             <QuestionsList key="questions" questions={details?.questions} />,
@@ -37,13 +34,12 @@ export default function JobTabs({ details }) {
             />
         ]
     } else {
-        //console.log("its else block")
+
         tabContents = [
             <JobDetails key="details" job={details} />
         ]
     }
 
-    // Dynamically generate tab labels to match tabContents
     const tabs = tabContents.map((tab) => {
         if (tab.key === "details") return "Job Details"
         if (tab.key === "questions") return "Questions"
@@ -60,7 +56,7 @@ export default function JobTabs({ details }) {
     return (
         <div className="w-full px-4 py-8">
             <div className="bg-white max-w-4xl mx-auto px-6 py-6 shadow border border-gray-100 rounded-lg">
-                {/* Tabs */}
+                {}
                 <div className="relative flex space-x-4 md:space-x-8 border-b border-gray-200 overflow-x-auto scrollbar-hide">
                     {tabs.map((tab, index) => (
                         <button
@@ -84,7 +80,7 @@ export default function JobTabs({ details }) {
                     ))}
                 </div>
 
-                {/* Tab Content */}
+                {}
                 <div
                     ref={contentRef}
                     className="relative z-0 lg:px-6 py-6 text-gray-700 text-sm md:text-base space-y-4"

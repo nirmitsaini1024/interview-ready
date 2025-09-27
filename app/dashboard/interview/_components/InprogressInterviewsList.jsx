@@ -1,12 +1,11 @@
 import InterviewCard from "./InterviewCard";
 
-
 export default function InprogressInterviewsList({ inProgressInterviews }) {
     return (
         <>
             <div className="bg-white px-4 py-8 rounded-xl shadow-md mt-6">
                 <h3 className="font-semibold text-lg text-gray-800">In Progress Interviews</h3>
-                {inProgressInterviews && inProgressInterviews?.length > 0 ? 
+                {inProgressInterviews && inProgressInterviews?.length > 0 ?
                     <div className="flex flex-wrap justify-center sm:justify-start gap-6 mt-6">
                     {inProgressInterviews.map((interview) => (
                         <div
@@ -30,7 +29,7 @@ export default function InprogressInterviewsList({ inProgressInterviews }) {
                             <h3 className='text-semibold text-sm text-gray-600'>No Inprogrss Interview</h3>
                         </div>
                 }
-                
+
             </div>
         </>
     )

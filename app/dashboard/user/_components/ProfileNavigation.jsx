@@ -1,6 +1,5 @@
-// components/ProfileNavigation.tsx
-import React from 'react';
 
+import React from 'react';
 
 const ProfileNavigation = ({ activeTab, onTabChange }) => {
   const tabs = ['Overview', 'Notes', 'Tests', 'Rotary'];

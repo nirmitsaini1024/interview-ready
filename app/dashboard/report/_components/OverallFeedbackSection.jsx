@@ -1,4 +1,4 @@
-// components/OverallFeedbackSection.jsx
+
 'use client'; // This directive is necessary for client-side components in Next.js
 
 import React from 'react';
@@ -27,7 +27,7 @@ export default function OverallFeedbackSection({
         </div>
       ) : (
         <>
-          {/* Areas for Improvement */}
+          {}
           <div className="mb-8">
             <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-200 flex items-center mb-4 border-b pb-3 border-gray-100 dark:border-zinc-800">
               <Lightbulb className="mr-1 text-gray-800" size={22} />
@@ -49,7 +49,7 @@ export default function OverallFeedbackSection({
             )}
           </div>
 
-          {/* Key Strengths */}
+          {}
           <div className="mb-8">
             <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-200 flex items-center mb-4 border-b pb-3 border-gray-100 dark:border-zinc-800">
               <Sparkles className="mr-3 text-gray-800" size={22} />
@@ -71,7 +71,7 @@ export default function OverallFeedbackSection({
             )}
           </div>
 
-          {/* Topics to Focus On */}
+          {}
           <div className="mb-8">
             <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-200 flex items-center mb-4 border-b pb-3 border-gray-100 dark:border-zinc-800">
               <Target className="mr-3 text-gray-800" size={22} />
@@ -93,7 +93,7 @@ export default function OverallFeedbackSection({
             )}
           </div>
 
-          {/* Suggested Learning Resources */}
+          {}
           <div>
             <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-200 flex items-center mb-4 border-b pb-3 border-gray-100 dark:border-zinc-800">
               <BookOpen className="mr-3 text-gray-800" size={22} />
@@ -110,7 +110,7 @@ export default function OverallFeedbackSection({
                       className="inline-flex items-center text-indigo-600 dark:text-indigo-400 hover:underline text-base font-medium transition-colors p-3 -m-3 rounded-lg hover:bg-gray-50 dark:hover:bg-zinc-800"
                     >
                       <span className="mr-2">{resource.name}</span>
-                      {/* External link icon */}
+                      {}
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                       </svg>

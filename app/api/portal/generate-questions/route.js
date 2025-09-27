@@ -5,7 +5,7 @@ import { ratelimit } from '@/lib/ratelimiter/rateLimiter';
 
 export async function POST(req) {
   try {
-    // Rate limiting
+
     const ip = req.headers.get('x-forwarded-for') || 'anonymous';
     const { success } = await ratelimit.limit(ip);
 
@@ -22,9 +22,8 @@ export async function POST(req) {
       );
     }
 
-    // Generate interview questions using OpenAI/OpenRouter
     const questions = await openaiQueue.add(async () => {
-      const prompt = resume 
+      const prompt = resume
         ? `Generate ${questionsCount} ${type || 'frontend'} interview questions based on this candidate profile: ${resume.substring(0, 500)}...`
         : `Job Description: ${jobDescription}\n\nGenerate ${questionsCount} interview questions for this position.`;
 
@@ -46,12 +45,11 @@ export async function POST(req) {
 
       const content = response.choices[0]?.message?.content || '';
       console.log('AI Response:', content);
-      
-      // Clean up Mistral AI response format
+
       const cleanedContent = content.replace(/^<s>\s*/, '').replace(/\s*<\/s>$/, '').trim();
-      
+
       try {
-        // Try to parse as JSON first
+
         const parsed = JSON.parse(cleanedContent);
         if (Array.isArray(parsed)) {
           return parsed.slice(0, questionsCount);
@@ -59,11 +57,9 @@ export async function POST(req) {
       } catch (error) {
         console.log('JSON parsing failed, trying text extraction');
       }
-      
-      // Extract questions from text - look for various patterns
+
       let questions = [];
-      
-      // Try to find JSON array in the text (more flexible matching)
+
       const jsonMatches = cleanedContent.match(/\[[\s\S]*?\]/g);
       if (jsonMatches) {
         for (const match of jsonMatches) {
@@ -78,44 +74,41 @@ export async function POST(req) {
           }
         }
       }
-      
-      // If no JSON found, extract numbered questions or lines with ?
+
       if (questions.length === 0) {
         const lines = cleanedContent.split('\n').filter(line => {
           const trimmed = line.trim();
           return trimmed && (
-            trimmed.includes('?') || 
+            trimmed.includes('?') ||
             /^\d+\./.test(trimmed) ||
             /^[-*•]/.test(trimmed) ||
             /^["'].*\?["']$/.test(trimmed)
           );
         }).map(line => {
-          // Remove numbering, bullet points, and quotes
+
           return line.replace(/^\d+\.\s*/, '')
                    .replace(/^[-*•]\s*/, '')
                    .replace(/^["']/, '').replace(/["']$/, '')
                    .replace(/^["']/, '').replace(/["']$/, '')
                    .trim();
         }).filter(q => q.length > 15 && q.includes('?')); // Filter out very short items and ensure it's a question
-        
+
         questions = lines;
       }
-      
-      // If still no questions, try to extract from any text that contains questions
+
       if (questions.length === 0) {
         const questionMatches = cleanedContent.match(/[^.!]*\?[^.!]*/g);
         if (questionMatches) {
           questions = questionMatches.map(q => q.trim()).filter(q => q.length > 15);
         }
       }
-      
+
       if (questions.length === 0) {
         console.log('Raw AI response for debugging:', content);
         console.log('Cleaned AI response:', cleanedContent);
         console.log('Content length:', content.length);
         console.log('Content type:', typeof content);
-        
-        // Last resort: create basic questions based on type
+
         const fallbackQuestions = {
           frontend: [
             "Can you explain your experience with React and modern JavaScript frameworks?",
@@ -139,12 +132,12 @@ export async function POST(req) {
             "What's your experience with version control and collaborative development?"
           ]
         };
-        
+
         const typeQuestions = fallbackQuestions[type] || fallbackQuestions.general;
         questions = typeQuestions.slice(0, questionsCount);
         console.log('Using fallback questions for type:', type);
       }
-      
+
       return questions.slice(0, questionsCount);
     });
 

@@ -1,6 +1,3 @@
-/**
- * Service for handling usage API calls
- */
 
 
 const uploadResume = async(formData) => {
@@ -17,7 +14,6 @@ const uploadResume = async(formData) => {
     method: "POST",
     body: formData,
   });
-  
 
     const result = await response.json();
 
@@ -47,8 +43,5 @@ const uploadResume = async(formData) => {
     };
   }
 };
-
-
-
 
 export default uploadResume;

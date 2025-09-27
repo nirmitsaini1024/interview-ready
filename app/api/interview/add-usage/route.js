@@ -5,7 +5,6 @@ export async function POST(req) {
   try {
     const { userId, tokens, videoMinutes } = await req.json();
 
-    // Add usage record (no authentication required)
     const { data, error } = await supabase
       .from('usage')
       .insert({

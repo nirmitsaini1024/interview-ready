@@ -1,6 +1,3 @@
-/**
- * Service for handling create jobs API calls
- */
 
 
 export default async function createNewJobs(formData) {
@@ -9,7 +6,7 @@ export default async function createNewJobs(formData) {
     }
     console.log("create job data", input)
 
-    try { 
+    try {
         const response = await fetch(`/api/jobs/create-jobs`, {
             method: "POST",
             headers: {
@@ -53,6 +50,4 @@ export default async function createNewJobs(formData) {
     }
 
 };
-
-
 

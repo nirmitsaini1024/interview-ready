@@ -41,8 +41,8 @@ export default function CandidateDetailsTabs({ user, interviewAttempts, report }
             <div className="text-sm">
                 {activeTab === 'Summary' && (
                     <div className={activeTab === 'Summary' ? 'block' : 'hidden'}>
-                        <JobSummary 
-                            userData={user} 
+                        <JobSummary
+                            userData={user}
                             resumeData={resumeData}
                             setResumeData={setResumeData}
                             loadingResume={loadingResume}
@@ -53,8 +53,8 @@ export default function CandidateDetailsTabs({ user, interviewAttempts, report }
 
                 {activeTab === 'Chat' && (
                     <div>
-                        {/* Replace this with actual chat data if available */}
-                        {interviewAttempts?.chat_conversation ? 
+                        {}
+                        {interviewAttempts?.chat_conversation ?
                         <div className="max-w-2xl mx-auto p-4 bg-white rounded-lg border border-gray-100 shadow space-y-4">
                             {JSON.parse(interviewAttempts?.chat_conversation)?.current
                                 .filter((msg) => msg.role !== "system") // optionally hide system messages
@@ -90,13 +90,13 @@ export default function CandidateDetailsTabs({ user, interviewAttempts, report }
 
                 {activeTab === 'Report' && (
                     <div className='px-4 pb-4'>
-                        {/* You can display detailed feedback here */}
-                        {/** Overall Summary */}
+                        {}
+                        {}
                         <div className='mb-8'>
                             <h3 className='text-gray-900 text-lg font-semibold mb-1'>Overall Summary</h3>
                             <p>{report?.report?.overall_summary}</p>
                         </div>
-                        {/* Skills Assessment */}
+                        {}
                         <div className="mb-8">
                             <h3 className="text-lg font-bold mb-1 text-gray-900 dark:text-white">
                                 Skill Assessment
@@ -120,7 +120,7 @@ export default function CandidateDetailsTabs({ user, interviewAttempts, report }
                                 ))}
                             </div>
                         </div>
-                        {/** Reason */}
+                        {}
                         <div className=''>
                             <h3 className="text-gray-900 text-lg font-semibold mb-1">Reasons</h3>
                             <ul>

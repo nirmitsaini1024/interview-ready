@@ -3,11 +3,11 @@ import Link from "next/link";
 import CompanyLogo from "../../report/_components/CompanyLogo";
 
 const InterviewCard = ({ id, name, duration, logo, date, status, position, type, company}) => {
-  // console.log(date)
+
   return (
     <div className="bg-white rounded-xl border border-gray-200 p-4 shadow-md shadow-gray-200 transition hover:shadow-lg flex items-center gap-4">
       <CompanyLogo logo={logo} company={company?.charAt(0).toUpperCase()} text="text-2xl" />
-      
+
       <div className="flex-1">
         <h3 className="flex items-center justify-between font-semibold text-gray-800">
           <span>{name}</span>
@@ -25,15 +25,14 @@ const InterviewCard = ({ id, name, duration, logo, date, status, position, type,
           </span>
         </h3>
 
-
         <p className="flex flex-wrap gap-4 text-xs mt-1 mb-2 text-gray-500">
-          {/* Date */}
+          {}
           <span className="flex items-center gap-1">
             <Calendar className="w-4 h-4 text-gray-400" />
             <span>{new Date(date).toLocaleDateString()}</span>
           </span>
 
-          {/* Time */}
+          {}
           <span className="flex items-center gap-1">
             <Timer className="w-4 h-4 text-gray-400" />
             <span>{new Date(date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>

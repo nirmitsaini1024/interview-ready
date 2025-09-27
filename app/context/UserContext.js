@@ -6,7 +6,7 @@ const UserContext = createContext(null);
 
 export function UserProvider({ children }) {
   const [user, setUser] = useState(() => {
-    // Try to get user from localStorage on initial load
+
     if (typeof window !== 'undefined') {
       const storedUser = localStorage.getItem('user');
       return storedUser ? JSON.parse(storedUser) : null;
@@ -39,7 +39,7 @@ export function UserProvider({ children }) {
       setUser(result.data);
       localStorage.setItem('user', JSON.stringify(result.data)); // Save to localStorage
     } catch (err) {
-      // console.error('user fetch error:', err);
+
       setError(err.message || 'Something went wrong');
       setUser(null);
       localStorage.removeItem('user');
@@ -49,7 +49,7 @@ export function UserProvider({ children }) {
   };
 
   useEffect(() => {
-    // Only fetch if user not in localStorage
+
     if (!user) {
       fetchUserDetails();
     }

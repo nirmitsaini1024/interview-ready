@@ -8,25 +8,12 @@ export const useVapi = (interviewData, interviewId) => {
   const [liveMessages, setLiveMessages] = useState('');
   const [chatMessages, setChatMessages] = useState([]);
   const [callActive, setCallActive] = useState(false);
-  const [vapiError, setVapiError] = useState(''); 
-
+  const [vapiError, setVapiError] = useState('');
 
   const conversationsRef = useRef([]);
   const vapi = new Vapi(process.env.NEXT_PUBLIC_VAPI_KEY);
   const { user, isAuthenticated, loading: authLoading } = useAuth();
 
-  // Initialize useReport hook at the top level
-  // const { loadingReport, loadingGenerateReport, reportError, handleCall } = useReport(
-  //   interviewAttemptId,
-  //   conversationsRef,
-  //   () => {
-  //     vapi.stop();
-  //     setCallActive(false);
-  //     console.log('User stopped the call');
-  //   }
-  // );
-
-  // Create a stable stop function
   const stopVapi = useCallback(() => {
     vapi.stop();
     setCallActive(false);
@@ -38,7 +25,6 @@ export const useVapi = (interviewData, interviewId) => {
     setCallActive(false);
     console.log('User stopped the call');
   }, [vapi]);
-
 
   const chat = useCallback(() => {
     const assistantOptions = {
@@ -132,7 +118,6 @@ export const useVapi = (interviewData, interviewId) => {
       console.log('Vapi Error:', e);
       setVapiError('Error with voice assistant');
 
-      // Call handleCall when error occurs
       try {
               stopCall(); // Use the same stopCall function for consistency
 

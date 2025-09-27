@@ -1,6 +1,6 @@
 
 const saveInterviewReport = async (interviewId, interview_attempt_id, score, recommendation, report, duration) => {
- 
+
   try {
     const input = {
         interviewId: interviewId,

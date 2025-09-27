@@ -18,7 +18,6 @@ export default function JobDescriptionForm({ onSubmit, initialData = {}, jobData
     console.log("No jobData from Linkedin")
   }
 
-  // Destructure initial job input data (from JobInputs step)
   const {
     companyName = "",
     difficultyLevel = "medium",
@@ -28,7 +27,6 @@ export default function JobDescriptionForm({ onSubmit, initialData = {}, jobData
   const handleFormSubmit = async (e) => {
     e.preventDefault();
 
-    /** validate the job description */
     const validationError = validateJobDescription(jobData || jobDescription);
     if (validationError) {
       setError(validationError);
@@ -40,13 +38,11 @@ export default function JobDescriptionForm({ onSubmit, initialData = {}, jobData
     setError("");
 
     try {
-      // Generate extracted job info
-      const apiResult = await generateJobDetails(jobData || jobDescription);
-      // console.log("api results: ", apiResult)
-      const cleanedResult = cleanCodeBlock(apiResult);
-      // console.log("cleaned", cleanedResult)
 
-      // Merge data from job inputs and extracted fields
+      const apiResult = await generateJobDetails(jobData || jobDescription);
+
+      const cleanedResult = cleanCodeBlock(apiResult);
+
       const mergedResult = {
         ...cleanedResult,
         company: cleanedResult?.company || companyName,
@@ -58,20 +54,17 @@ export default function JobDescriptionForm({ onSubmit, initialData = {}, jobData
         job_description: jobData || jobDescription,
       };
 
-      // console.log("Final Merged Job Details:", mergedResult);
-
       if (onSubmit) {
         onSubmit(mergedResult);
       }
     } catch (err) {
-      // console.error("Job Extraction Error:", err);
+
       setError(err.message || "Failed to extract job details.");
     } finally {
       setLoading(false);
     }
   };
 
-  
   return (
     <div className="w-full">
       <form onSubmit={handleFormSubmit} className="flex flex-col gap-4">
@@ -92,7 +85,7 @@ export default function JobDescriptionForm({ onSubmit, initialData = {}, jobData
             className="bg-[#462eb4] hover:shadow-2xl text-white px-5 py-3 rounded-md text-sm font-medium flex items-center gap-2 cursor-pointer transition duration-300 ease-in-out disabled:opacity-70 disabled:cursor-not-allowed">
             {loading ? (
               <>
-                <Loader2 className="animate-spin mr-2 w-5 h-5" /> {/* Loader2 icon with animate-spin */}
+                <Loader2 className="animate-spin mr-2 w-5 h-5" /> {}
                 Loading...
               </>
             ) : (

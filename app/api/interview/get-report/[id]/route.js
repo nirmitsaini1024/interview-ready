@@ -6,7 +6,6 @@ export async function GET(req, context) {
     const param = await context.params;
     const reportId = param.id;
 
-    // Get report by ID (no authentication required)
     const { data: report, error } = await supabase
       .from('ai_reports')
       .select(`

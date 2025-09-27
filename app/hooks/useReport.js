@@ -1,16 +1,13 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-
 export const useReport = (interviewAttemptId, conversationsRef, stopCall) => {
   const [loadingReport, setLoadingReport] = useState(false);
   const [loadingGenerateReport, setLoadingGenerateReport] = useState(false);
   const [reportError, setReportError] = useState('');
   const [reportGenerated, setReportGenerated] = useState(false);
 
-
   const router = useRouter();
-
 
   const generateReport = async () => {
     try {
@@ -52,8 +49,6 @@ export const useReport = (interviewAttemptId, conversationsRef, stopCall) => {
     console.log(jsonData?.final_verdict?.recommendation)
     console.log(jsonData?.final_verdict?.score)
 
-    // first call the llm to generate the report
-    // then call the backend to store the interview report
     try {
       setLoadingReport(true)
       const input = {
@@ -85,8 +80,8 @@ export const useReport = (interviewAttemptId, conversationsRef, stopCall) => {
       setReportError('Something went wrong: ', err);
       setLoadingReport(false);
     } finally {
-      setLoadingReport(false); 
-  
+      setLoadingReport(false);
+
     }
   }
 

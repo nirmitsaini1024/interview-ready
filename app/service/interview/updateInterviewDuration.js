@@ -1,7 +1,4 @@
-/**
- * Service for handling usage API calls
- */
- 
+
 
 const updateInterviewDuration = async( currentDuration, interviewId, status ) => {
     if(currentDuration == null || interviewId == null || !status){
@@ -12,7 +9,7 @@ const updateInterviewDuration = async( currentDuration, interviewId, status ) =>
       };
     }
     const input = {
-        currentDuration, 
+        currentDuration,
         interviewId,
         status
     }
@@ -24,7 +21,6 @@ const updateInterviewDuration = async( currentDuration, interviewId, status ) =>
     },
     body: JSON.stringify(input),
   });
-  
 
     const result = await response.json();
 
@@ -58,8 +54,5 @@ const updateInterviewDuration = async( currentDuration, interviewId, status ) =>
     };
   }
 };
-
-
-
 
 export default updateInterviewDuration

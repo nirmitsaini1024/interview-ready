@@ -13,13 +13,11 @@ const openai = new OpenAI({
 export async function POST(req) {
   const ip = req.headers.get('x-forwarded-for') || 'anonymous';
 
-  // Apply rate limiting
   const { success } = await ratelimit.limit(ip);
   if (!success) {
     return NextResponse.json({ state: false, error: 'Rate limit exceeded' }, { status: 429 });
   }
 
-  // Extract JSON body
   const {
     job_description,
     company,
@@ -34,7 +32,6 @@ export async function POST(req) {
 
   console.log("🧠 Generating for:", company, interview_style, position);
 
-  // Wrap OpenAI API call in queue
   try {
     const result = await openaiQueue.add(async () => {
       const response = await openai.chat.completions.create({

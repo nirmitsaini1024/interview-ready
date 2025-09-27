@@ -1,19 +1,19 @@
 
 
 export default async function updateUserDetails(formData){
-    
+
     console.log("input data from update user: ", formData);
 
     try{
-        // const response = await fetch(`${process.env.NEXT_APP_PRODUCTION_HOSTNAME}/api/user/create`, {
+
         const response = await fetch(`https://www.hirenom.com/api/user/update`, {
         method: 'POST',
         headers: {
-            'Content-type': 'application/json' 
+            'Content-type': 'application/json'
         },
         body: JSON.stringify(formData)
     });
-    const result = await response.json();  
+    const result = await response.json();
 
     if(!response.ok){
         return {

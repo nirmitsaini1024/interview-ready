@@ -1,6 +1,3 @@
-/**
- * Service for handling usage API calls
- */
 
 
 const submitInteviewAttempt = async(interview_id, started_at, status, chat_conversation) => {
@@ -33,7 +30,6 @@ const submitInteviewAttempt = async(interview_id, started_at, status, chat_conve
     },
     body: JSON.stringify(input),
   });
-  
 
     const result = await response.json();
 
@@ -63,8 +59,5 @@ const submitInteviewAttempt = async(interview_id, started_at, status, chat_conve
     };
   }
 };
-
-
-
 
 export default submitInteviewAttempt

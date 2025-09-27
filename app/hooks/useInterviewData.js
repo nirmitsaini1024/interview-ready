@@ -35,7 +35,7 @@ export const useInterviewData = (interviewId) => {
         duration: result.data.duration,
         interview_name: result.data.interview_name,
         location: result.data.location
-      }; 
+      };
       setInterviewDetails(input);
 
       await generateQuestions(input);

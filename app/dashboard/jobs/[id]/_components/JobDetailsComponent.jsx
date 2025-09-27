@@ -8,7 +8,6 @@ import JobDetails from "./JobDetails";
 import JobTabs from "../../_components/JobTabs";
 import LoadingOverlay from "@/components/LoadingOverlay";
 
-
 export default function JobDetailsComponent({ interviewId }) {
 
     const [job, setJob] = useState(null);
@@ -21,7 +20,7 @@ export default function JobDetailsComponent({ interviewId }) {
             const result = await fetchJobDetails(interviewId);
 
             if (!result?.state){
-                // console.log(data.error || "Failed to fetch");
+
                 toast.error(data.error || "Failed to fetch");
             }
 
@@ -30,10 +29,9 @@ export default function JobDetailsComponent({ interviewId }) {
                 toast.error("Something went wrong");
             }
 
-            // console.log(result);
             setJob(result?.data);
         } catch (err) {
-            // console.log(err.message);
+
             toast.error(err.message);
         } finally {
             setLoading(false);
@@ -54,7 +52,7 @@ export default function JobDetailsComponent({ interviewId }) {
 
     return(
         <>
-            <JobTabs details={job} /> 
+            <JobTabs details={job} />
         </>
     )
 }

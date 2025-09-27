@@ -4,7 +4,7 @@ import { ratelimit } from '@/lib/ratelimiter/rateLimiter';
 
 export async function GET(req) {
   try {
-    // Rate limiting
+
     const ip = req.headers.get('x-forwarded-for') || 'anonymous';
     const { success } = await ratelimit.limit(ip);
 
@@ -12,7 +12,6 @@ export async function GET(req) {
       return NextResponse.json({ state: false, error: 'Rate limit exceeded' }, { status: 429 });
     }
 
-    // Query the database for jobs/interviews using Prisma
     const jobs = await prisma.interview.findMany({
       where: {
         type: 'JOB'
@@ -27,7 +26,6 @@ export async function GET(req) {
 
     console.log("jobs length::: ", jobs?.length);
 
-    // Convert BigInt to string for JSON serialization
     const serializedJobs = jobs.map(job => ({
       ...job,
       id: job.id.toString(),

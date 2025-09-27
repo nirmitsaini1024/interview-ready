@@ -25,7 +25,6 @@ export default function InterviewDetails({ interviewId }) {
 
   const router = useRouter();
 
-
   useEffect(() => {
     if (!interviewId) return;
 
@@ -37,7 +36,6 @@ export default function InterviewDetails({ interviewId }) {
           setError("Something went wrong")
         }
 
-        // console.log(result);
         setInterview(result.data);
       } catch (err) {
         setError(err.message);
@@ -67,7 +65,7 @@ export default function InterviewDetails({ interviewId }) {
   return (
     <>
       <div className="max-w-4xl mx-auto p-6 mt-8 bg-white rounded-2xl shadow-sm space-y-6">
-        {/* Header */}
+        {}
         <div className="flex justify-between items-start">
           <div className="flex gap-2 space-y-1">
             {interview?.company_logo && (
@@ -93,7 +91,7 @@ export default function InterviewDetails({ interviewId }) {
           </div>
         </div>
 
-        {/* Details */}
+        {}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 text-sm text-gray-500">
           <div>
             <p className="text-xs text-gray-400">Interview Date</p>
@@ -139,7 +137,7 @@ export default function InterviewDetails({ interviewId }) {
           </div>
         </div>
 
-        {/* Description */}
+        {}
         <div>
           <Accordion
             header="Job Description"

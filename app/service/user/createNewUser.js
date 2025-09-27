@@ -22,7 +22,7 @@ export default async function createNewUser(inputData){
         };
     } catch (err) {
         console.error('User creation error:', err);
-        // Handle unique constraint violations
+
         if (err.code === 'P2002') {
             return {
                 state: false,

@@ -7,7 +7,7 @@ const fetchUserDetails = async () => {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-      }, 
+      },
       cache: 'no-store',
     });
 
@@ -16,7 +16,6 @@ const fetchUserDetails = async () => {
     }
 
     const result = await response.json();
-
 
     if (!result?.data) {
       return {

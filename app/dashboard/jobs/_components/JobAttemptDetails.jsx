@@ -6,26 +6,26 @@ import { toast } from "sonner"
 import fetchInteviewAttemptDetails from "@/app/service/interview/fetchInteviewAttemptDetails"
 import UserRow from "./UserRow"
 
-export default function JobAttemptDetails({ 
-    interviewId, 
-    candidatesData, 
-    setCandidatesData, 
-    loading, 
-    setLoading 
+export default function JobAttemptDetails({
+    interviewId,
+    candidatesData,
+    setCandidatesData,
+    loading,
+    setLoading
 }) {
     const getJobAttemptList = async () => {
         try {
             setLoading(true)
             const result = await fetchInteviewAttemptDetails(interviewId)
             if (!result?.state) {
-                // console.log("Error: ", result?.error)
+
                 toast.error(`Error: ${result?.error}`)
             }
-            // use this if want to filter for completed only
+
             const completedResult = result?.data?.filter((job) => job?.interview_attempts?.status === 'completed')
             setCandidatesData(result?.data)
         } catch (error) {
-            // console.log("Job attempt fetch error: ", error)
+
             toast.error(`Job attempt Error: ${error}`)
         } finally {
             setLoading(false)
@@ -56,12 +56,12 @@ export default function JobAttemptDetails({
                 </thead>
                 <tbody>
                     {candidatesData?.length > 0 && candidatesData.map((data, index) => (
-                        <UserRow 
-                            key={index} 
-                            index={index} 
-                            report={data} 
-                            user={data?.interview_attempts?.users} 
-                            interviewAttempts={data?.interview_attempts} 
+                        <UserRow
+                            key={index}
+                            index={index}
+                            report={data}
+                            user={data?.interview_attempts?.users}
+                            interviewAttempts={data?.interview_attempts}
                         />
                     ))}
                 </tbody>

@@ -6,7 +6,6 @@ export async function GET(req, context) {
     const param = await context.params;
     const interviewId = param.id;
 
-    // Get interview attempts by interview ID (no authentication required)
     const { data: reports, error } = await supabase
       .from('ai_reports')
       .select(`

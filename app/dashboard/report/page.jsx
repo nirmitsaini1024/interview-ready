@@ -19,7 +19,7 @@ export default function ReportPage() {
       setLoading(true);
       const response = await fetch('/api/interview/reports');
       const result = await response.json();
-      
+
       if (result.state) {
         console.log('Reports data:', result.data);
         setReports(result.data || []);
@@ -39,39 +39,37 @@ export default function ReportPage() {
       if (!dateString || dateString === null || dateString === undefined) {
         return 'Date not available';
       }
-      
+
       console.log('Formatting date:', dateString, 'Type:', typeof dateString);
-      
-      // Handle different date formats
+
       let date;
       if (typeof dateString === 'string') {
-        // Handle ISO strings and other common formats
+
         if (dateString.includes('T') || dateString.includes('Z')) {
-          // ISO format
+
           date = new Date(dateString);
         } else if (dateString.includes('-')) {
-          // Date format like YYYY-MM-DD
+
           date = new Date(dateString);
         } else {
-          // Try direct parsing
+
           date = new Date(dateString);
         }
       } else if (dateString instanceof Date) {
         date = dateString;
       } else if (typeof dateString === 'number') {
-        // Unix timestamp
+
         date = new Date(dateString);
       } else {
         console.log('Unknown date format:', dateString);
         return 'Date not available';
       }
-      
-      // Check if the date is valid
+
       if (isNaN(date.getTime())) {
         console.log('Invalid date after parsing:', dateString);
         return 'Date not available';
       }
-      
+
       return date.toLocaleDateString('en-US', {
         year: 'numeric',
         month: 'short',
@@ -120,7 +118,7 @@ export default function ReportPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Header */}
+        {}
         <div className="mb-8">
           <button
             onClick={() => router.back()}
@@ -129,7 +127,7 @@ export default function ReportPage() {
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back
           </button>
-          
+
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-bold text-gray-900">Interview Reports</h1>
@@ -138,14 +136,14 @@ export default function ReportPage() {
           </div>
         </div>
 
-        {/* Error State */}
+        {}
         {error && (
           <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
             <p className="text-red-800">{error}</p>
           </div>
         )}
 
-        {/* Reports List */}
+        {}
         {reports.length === 0 ? (
           <div className="text-center py-12">
             <FileText className="w-16 h-16 text-gray-400 mx-auto mb-4" />
@@ -163,7 +161,7 @@ export default function ReportPage() {
             {reports.map((report, index) => {
               const parsedContent = parseReportContent(report.report_content);
               const reportData = parsedContent?.report || {};
-              
+
               return (
                 <div key={index} className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
                   <div className="flex items-start justify-between mb-4">
@@ -202,7 +200,7 @@ export default function ReportPage() {
                     </div>
                   </div>
 
-                  {/* Score Display */}
+                  {}
                   {parsedContent?.score && (
                     <div className="mb-4">
                       <div className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${getScoreColor(parsedContent.score)}`}>
@@ -211,20 +209,20 @@ export default function ReportPage() {
                     </div>
                   )}
 
-                  {/* Report Summary */}
+                  {}
                   {reportData.overall_summary && (
                     <div className="border-t border-gray-200 pt-4">
                       <h4 className="text-sm font-medium text-gray-900 mb-2">Summary</h4>
                       <div className="text-gray-700 text-sm">
-                        {reportData.overall_summary.length > 200 
-                          ? reportData.overall_summary.substring(0, 200) + '...' 
+                        {reportData.overall_summary.length > 200
+                          ? reportData.overall_summary.substring(0, 200) + '...'
                           : reportData.overall_summary
                         }
                       </div>
                     </div>
                   )}
 
-                  {/* Key Strengths Preview */}
+                  {}
                   {reportData.Key_Strengths && reportData.Key_Strengths.length > 0 && (
                     <div className="border-t border-gray-200 pt-4">
                       <h4 className="text-sm font-medium text-gray-900 mb-2">Key Strengths</h4>
@@ -238,7 +236,7 @@ export default function ReportPage() {
                   <div className="mt-4 pt-4 border-t border-gray-200">
                     <button
                       onClick={() => {
-                        // Navigate to detailed report view
+
                         router.push(`/dashboard/report/${report.id}`);
                       }}
                       className="text-indigo-600 hover:text-indigo-700 text-sm font-medium"

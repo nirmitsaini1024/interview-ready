@@ -23,7 +23,7 @@ export default function DetailedReportPage() {
       setLoading(true);
       const response = await fetch('/api/interview/reports');
       const result = await response.json();
-      
+
       if (result.state) {
         const foundReport = result.data.find(r => r.id === reportId);
         if (foundReport) {
@@ -47,39 +47,37 @@ export default function DetailedReportPage() {
       if (!dateString || dateString === null || dateString === undefined) {
         return 'Date not available';
       }
-      
+
       console.log('Formatting date:', dateString, 'Type:', typeof dateString);
-      
-      // Handle different date formats
+
       let date;
       if (typeof dateString === 'string') {
-        // Handle ISO strings and other common formats
+
         if (dateString.includes('T') || dateString.includes('Z')) {
-          // ISO format
+
           date = new Date(dateString);
         } else if (dateString.includes('-')) {
-          // Date format like YYYY-MM-DD
+
           date = new Date(dateString);
         } else {
-          // Try direct parsing
+
           date = new Date(dateString);
         }
       } else if (dateString instanceof Date) {
         date = dateString;
       } else if (typeof dateString === 'number') {
-        // Unix timestamp
+
         date = new Date(dateString);
       } else {
         console.log('Unknown date format:', dateString);
         return 'Date not available';
       }
-      
-      // Check if the date is valid
+
       if (isNaN(date.getTime())) {
         console.log('Invalid date after parsing:', dateString);
         return 'Date not available';
       }
-      
+
       return date.toLocaleDateString('en-US', {
         year: 'numeric',
         month: 'short',
@@ -179,7 +177,7 @@ export default function DetailedReportPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Header */}
+        {}
         <div className="mb-8">
           <button
             onClick={() => router.back()}
@@ -188,7 +186,7 @@ export default function DetailedReportPage() {
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back
           </button>
-          
+
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-bold text-gray-900">Interview Report</h1>
@@ -202,9 +200,9 @@ export default function DetailedReportPage() {
           </div>
         </div>
 
-        {/* Report Content */}
+        {}
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
-          {/* Interview Details */}
+          {}
           <div className="mb-8">
             <h2 className="text-xl font-semibold text-gray-900 mb-4">Interview Details</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -227,7 +225,7 @@ export default function DetailedReportPage() {
             </div>
           </div>
 
-          {/* Overall Score */}
+          {}
           {parsedContent?.score && (
             <div className="mb-8">
               <h2 className="text-xl font-semibold text-gray-900 mb-4">Overall Performance</h2>
@@ -257,7 +255,7 @@ export default function DetailedReportPage() {
             </div>
           )}
 
-          {/* Skill Evaluation */}
+          {}
           {Object.keys(skillEvaluation).length > 0 && (
             <div className="mb-8">
               <h2 className="text-xl font-semibold text-gray-900 mb-4">Skill Evaluation</h2>
@@ -278,7 +276,7 @@ export default function DetailedReportPage() {
             </div>
           )}
 
-          {/* Overall Summary */}
+          {}
           {reportData.overall_summary && (
             <div className="mb-8">
               <h2 className="text-xl font-semibold text-gray-900 mb-4">Summary</h2>
@@ -288,7 +286,7 @@ export default function DetailedReportPage() {
             </div>
           )}
 
-          {/* Key Strengths */}
+          {}
           {reportData.Key_Strengths && reportData.Key_Strengths.length > 0 && (
             <div className="mb-8">
               <h2 className="text-xl font-semibold text-gray-900 mb-4">Key Strengths</h2>
@@ -303,7 +301,7 @@ export default function DetailedReportPage() {
             </div>
           )}
 
-          {/* Areas for Improvement */}
+          {}
           {reportData.Areas_for_Improvement && reportData.Areas_for_Improvement.length > 0 && (
             <div className="mb-8">
               <h2 className="text-xl font-semibold text-gray-900 mb-4">Areas for Improvement</h2>
@@ -318,7 +316,7 @@ export default function DetailedReportPage() {
             </div>
           )}
 
-          {/* Question Wise Feedback */}
+          {}
           {reportData.Question_Wise_Feedback && reportData.Question_Wise_Feedback.length > 0 && (
             <div className="mb-8">
               <h2 className="text-xl font-semibold text-gray-900 mb-4">Question-wise Feedback</h2>

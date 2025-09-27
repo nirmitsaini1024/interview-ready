@@ -29,7 +29,7 @@ export default function AIReportCard({
 
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6 bg-white rounded-2xl">
-      {/* Header */}
+      {}
       <div className='flex items-center justify-between'>
         <div className="flex sm:flex-row items-start sm:items-center gap-4 mb-4">
           <div>
@@ -50,7 +50,7 @@ export default function AIReportCard({
         </div>
       </div>
 
-      {/* Candidate Info */}
+      {}
 <div className="grid grid-cols-1 md:grid-cols-3 border-t border-gray-50 pt-4 mb-6 gap-4">
   <div className="border border-gray-50 text-center shadow-sm px-12 py-4">
     <p className="text-gray-500 text-sm">Candidate</p>
@@ -81,8 +81,7 @@ export default function AIReportCard({
   </div>
 </div>
 
-
-      {/* Skills Assessment */}
+      {}
       <div>
         <h3 className="text-lg font-semibold mb-1.5 text-gray-800">Skills Assessment</h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -101,7 +100,7 @@ export default function AIReportCard({
         </div>
       </div>
 
-      {/* Summary */}
+      {}
       <div>
         <h3 className="text-lg font-semibold mb-1.5 mt-6 text-gray-800">
           Performance Summary

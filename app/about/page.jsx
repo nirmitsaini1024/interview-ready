@@ -8,9 +8,9 @@ export default function AboutPage() {
     <div className="min-h-screen text-gray-900 px-6 py-12">
       <div className="max-w-4xl mx-auto space-y-10">
         <section>
-          <h1 className="text-4xl font-bold text-blue-700 mb-4">About Hirenom</h1>
+          <h1 className="text-4xl font-bold text-blue-700 mb-4">About Swipe</h1>
           <p className="text-lg leading-relaxed">
-            <strong>Hirenom</strong> is an AI-powered career platform designed to elevate how individuals prepare for job opportunities and how organizations evaluate talent. 
+            <strong>Swipe</strong> is an AI-powered career platform designed to elevate how individuals prepare for job opportunities and how organizations evaluate talent.
             We help candidates stand out and companies hire smarter — faster.
           </p>
         </section>
@@ -34,12 +34,12 @@ export default function AboutPage() {
           <h2 className="text-2xl font-semibold text-blue-600 mb-3">🌍 Our Vision</h2>
           <p>
             We envision a future where career growth is data-driven, unbiased, and deeply personalized.
-            At Hirenom, we believe in empowering talent at every stage — from resume to recruitment.
+            At Swipe, we believe in empowering talent at every stage — from resume to recruitment.
           </p>
         </section>
 
         <section>
-          <h2 className="text-2xl font-semibold text-blue-600 mb-3">💡 Why Hirenom?</h2>
+          <h2 className="text-2xl font-semibold text-blue-600 mb-3">💡 Why Swipe?</h2>
           <ul className="list-disc list-inside space-y-2">
             <li>Reduce anxiety before interviews by practicing in realistic AI-driven scenarios</li>
             <li>Craft impactful resumes in minutes — not hours</li>
@@ -51,7 +51,7 @@ export default function AboutPage() {
         <section className="p-6 rounded-xl shadow-md">
           <h3 className="text-xl font-semibold text-blue-800 mb-2">Join the Future of Hiring</h3>
           <p>
-            Whether you're a job seeker, student, or recruiter, Hirenom is your intelligent partner in professional growth. 
+            Whether you're a job seeker, student, or recruiter, Swipe is your intelligent partner in professional growth.
             Let’s reimagine hiring, preparation, and personal branding — powered by AI.
           </p>
         </section>

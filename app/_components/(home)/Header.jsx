@@ -6,11 +6,8 @@ import { Menu, TriangleDashed, X } from 'lucide-react';
 import Image from 'next/image';
 import logo from '../../../public/match-fox-5.jpg'
 
-
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -20,7 +17,6 @@ const Header = () => {
     <nav className="text-gray-500">
       <div className="bg-white max-w-4xl mx-auto px-4 sm:px-6 lg:px-4  rounded-full shadow">
         <div className="flex items-center justify-between h-16">
-          {/* Mobile Menu Button */}
           <div className="flex items-center sm:hidden">
             <button
               onClick={toggleMenu}
@@ -35,15 +31,13 @@ const Header = () => {
             </button>
           </div>
 
-          {/* Logo */}
           <div className="flex-shrink-0 text-gray-700 flex items-center justify-center sm:justify-start flex-1 sm:flex-none">
             <Link href="/" className="flex gap-2 items-center justify-center font-bold text-xl">
               <Image src={logo} alt='logo' className='w-7 h-7 rounded-lg' />
-              <span className='text-indigo-900'>Hirenom</span>
+              <span className='text-indigo-900'>Swipe</span>
             </Link>
           </div>
 
-               {/* Navigation Links (Desktop) */}
                <div className="hidden sm:flex sm:items-center sm:justify-center flex-1">
                  <div className="flex items-center gap-6 text-sm">
                    <Link href="/" className="text-gray-700 transition hover:text-gray-700/75">
@@ -55,7 +49,6 @@ const Header = () => {
                  </div>
                </div>
 
-               {/* Dashboard Button (Right) */}
                <Link
                  href="/dashboard"
                  className="block rounded-full bg-gradient-to-br bg-[#462eb4] px-6 py-3 text-xs font-semibold text-gray-50 hover:text-neutral-100 transition hover:bg-purple-900"
@@ -65,7 +58,6 @@ const Header = () => {
         </div>
       </div>
 
-           {/* Mobile Menu */}
            <div className={`${isMenuOpen ? 'block' : 'hidden'} sm:hidden`}>
              <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
                <Link href="/" className="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:bg-gray-700">

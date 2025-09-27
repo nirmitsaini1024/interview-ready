@@ -18,7 +18,7 @@ const steps = [
   { title: "Step 2", description: "Resume Upload (optional)" },
   { title: "Step 3", description: "Job Description" },
   { title: "Step 4", description: "Create Interview" },
-]; 
+];
 
 export default function CreateInterviewForm({ jobDescription }) {
   const [step, setStep] = useState(1);
@@ -33,7 +33,6 @@ export default function CreateInterviewForm({ jobDescription }) {
   const [loadingStart, setLoadingStart] = useState(false);
   const [loadingDashboard, setLoadingDashboard] = useState(false);
 
-
   const router = useRouter();
 
   const handleJobInputSubmit = async (companyName, difficultyLevel, duration, status, remaining_minutes) => {
@@ -41,7 +40,6 @@ export default function CreateInterviewForm({ jobDescription }) {
       toast.error("Something went wrong please enter data again");
       return;
     }
-    // console.log(remaining_minutes)
 
     if (remaining_minutes < duration * 60) {
       toast.error("Limit exceeded. Please upgrade your plan.");
@@ -49,8 +47,6 @@ export default function CreateInterviewForm({ jobDescription }) {
       return;
     }
 
-
-    // Store input data in jobDetails for next step
     setJobDetails({
       companyName,
       difficultyLevel,
@@ -61,7 +57,7 @@ export default function CreateInterviewForm({ jobDescription }) {
   };
 
   const handlePdfUpload = async (pdfData) => {
-    // console.log("PDF File data: ", pdfData)
+
     setResume(pdfData);
     setStep(3);
   }
@@ -76,10 +72,8 @@ export default function CreateInterviewForm({ jobDescription }) {
     setLoading(true);
     setError("");
 
-    // console.log("jobDetails", jobDetails)
-
     try {
-      // Step 1: Generate questions from Gemini API
+
       const genResult = await generateQuestions(jobDetails, resume);
 
       if (!genResult?.status || !genResult?.data) {
@@ -87,14 +81,8 @@ export default function CreateInterviewForm({ jobDescription }) {
         return;
       }
 
-      // console.log(genResult)
-
-      // Step 2: Clean the result (if needed, depending on Gemini output)
       const questions = extractJsonBlock(genResult.data);
-      // console.log("Cleaned :", questions);
-      // console.log("Cleaned Questions:", JSON.parse(questions));
 
-      // Step 3: Create interview with generated questions
       const createResult = await createInterviewFromAPI(jobDetails, JSON.parse(questions));
 
       if (!createResult.state || createResult?.error) {
@@ -103,12 +91,12 @@ export default function CreateInterviewForm({ jobDescription }) {
       }
 
       if (createResult.state) {
-        // console.log("Interview created successfully:", createResult);
+
         setInterviewData(createResult?.data)
         setOpen(true); // Trigger success modal or state
       }
     } catch (err) {
-      // console.error("Error in handleFinalSubmit:", err);
+
       setError(err.message || "An unexpected error occurred.");
     } finally {
       setLoading(false);
@@ -152,7 +140,7 @@ export default function CreateInterviewForm({ jobDescription }) {
     <div className="max-w-4xl mx-auto space-y-6">
       {error && <p className="text-red-600">{error}</p>}
 
-      {/** top step bar */}
+      {}
       <div className="flex items-center justify-between mb-8">
         {steps.map((curr, idx) => (
           <div key={idx} className="flex items-center flex-1">
@@ -184,7 +172,7 @@ export default function CreateInterviewForm({ jobDescription }) {
               </div>
             </div>
 
-            {/* Chevron except for last step */}
+            {}
             {idx < steps.length - 1 && (
               <ChevronRight
                 className={`mx-4 ${idx < step ? "text-indigo-500" : "text-gray-300"
@@ -195,7 +183,6 @@ export default function CreateInterviewForm({ jobDescription }) {
           </div>
         ))}
       </div>
- 
 
       {step === 1 && (
         <div>
@@ -226,7 +213,7 @@ export default function CreateInterviewForm({ jobDescription }) {
             )}
           </div>
 
-          {/** Next and back buttons */}
+          {}
           <div className="flex justify-between items-center px-4">
             <button onClick={() => setStep(step - 1)} className="flex gap-1 items-center cursor-pointer hover:text-gray-800 text-[#636366] text-sm font-medium">
               <ArrowLeft className="w-4 h-4" />
@@ -236,7 +223,7 @@ export default function CreateInterviewForm({ jobDescription }) {
               className="bg-[#462eb4] hover:shadow-2xl text-white px-5 py-3 rounded-md text-sm font-medium flex items-center gap-2 cursor-pointer transition duration-300 ease-in-out disabled:opacity-70 disabled:cursor-not-allowed">
               {loading ? (
                 <>
-                  <Loader2 className="animate-spin mr-1 w-5 h-5" /> {/* Loader2 icon with animate-spin */}
+                  <Loader2 className="animate-spin mr-1 w-5 h-5" /> {}
                   Creating Interview
                 </>
               ) : (
@@ -249,8 +236,7 @@ export default function CreateInterviewForm({ jobDescription }) {
         </form>
       )}
 
-
-      {/** Modal Section */}
+      {}
       <Modal isOpen={open} onClose={handleModalClose} width="max-w-lg">
         <div className="text-center space-y-8">
           <h2 className="text-xl font-semibold text-gray-700">Interview Created Successfully!</h2>
@@ -280,7 +266,6 @@ export default function CreateInterviewForm({ jobDescription }) {
           </div>
         </div>
       </Modal>
-
 
     </div>
   );

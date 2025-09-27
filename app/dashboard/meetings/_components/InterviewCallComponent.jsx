@@ -2,15 +2,14 @@
 
 import { useEffect, useRef, useState } from "react";
 import VideoCallUI from "./VideoCallUI";
-// Removed authentication - using demo mode
+
 import Vapi from "@vapi-ai/web";
 import { toast } from 'sonner';
 import LoadingOverlay from "@/components/LoadingOverlay";
 import getRandomGreeting from "@/lib/utils/getRandomGreeting";
 
-
 export default function InterviewCallComponent({ interviewId, interviewData }) {
-  // const [interviewData, setInterviewData] = useState(null);
+
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [callStarted, setCallStarted] = useState(false);
@@ -21,17 +20,12 @@ export default function InterviewCallComponent({ interviewId, interviewData }) {
   const [loadingMessage, setLoadingMessage] = useState("");
   const [onErrorCall, setOnErrorCall] = useState(false);
 
-
   const chatEndRef = useRef(null);
   const conversationsRef = useRef([]);
   const vapiRef = useRef(null);
 
-  // Demo user for development
   const user = { id: 'demo_user_123', name: 'Nirmit Saini', firstName: 'Nirmit' };
   const isAuthenticated = true;
-
-  // console.log("interview data:", interviewData);
-  // console.log("user name", user?.firstName)
 
   console.log(interviewId, interviewData);
 
@@ -59,19 +53,17 @@ export default function InterviewCallComponent({ interviewId, interviewData }) {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [chatMessages]);
 
-
   useEffect(() => {
     const vapiInstance = new Vapi(process.env.NEXT_PUBLIC_VAPI_KEY);
     vapiRef.current = vapiInstance;
 
     return () => {
       vapiInstance.stop();
-      vapiRef.current = null; 
+      vapiRef.current = null;
     };
   }, []);
 
-
-  const questionsList = interviewData?.questions 
+  const questionsList = interviewData?.questions
     ? Object.values(interviewData.questions)
         .map(q => `"${q?.question}"`)
         .join(",\n")
@@ -82,8 +74,6 @@ export default function InterviewCallComponent({ interviewId, interviewData }) {
   const startCall = () => {
     const vapi = vapiRef.current;
     if (!vapi || callStarted) return;
-
-    // console.log("user name", user?.firstName)
 
     const assistantOptions = {
       name: "AI Recruiter",
@@ -113,15 +103,15 @@ export default function InterviewCallComponent({ interviewId, interviewData }) {
 
 ## Introduction
 
-> You are a highly professional MBA admissions interviewer name "Gina" from "Swipe" for top Indian B-schools like IIMs, FMS, XLRI, etc. 
-Your role is to conduct a **realistic, college-specific mock interview** 
-for the user based on the given question list. You are NOT a chatbot — act like a 
+> You are a highly professional MBA admissions interviewer name "Gina" from "Swipe" for top Indian B-schools like IIMs, FMS, XLRI, etc.
+Your role is to conduct a **realistic, college-specific mock interview**
+for the user based on the given question list. You are NOT a chatbot — act like a
 real human interviewer.
 > Your job is to ask candidates provided interview questions and assess their responses.
 > Always follow the DRY (Do not repeat yourself) rule.
-> Begin the conversation with a friendly introduction using a relaxed yet professional tone. 
+> Begin the conversation with a friendly introduction using a relaxed yet professional tone.
 > First start with an introduction of yourself and then ask the candidate to give some introduction about them.
-> For Example: 
+> For Example:
 Step 1: Interviewer introduces themselves
 > "Hi [Candidate Name], I’m [Your Name], a [Your Role] here at [Company]. I’ll be conducting your interview today, focusing on [topic: e.g., React, full-stack development, system design, etc.]."
 
@@ -142,25 +132,25 @@ Step 2: Invite the candidate to introduce themselves
 - Keep the tone professional, slightly formal, but not robotic. Friendly yet evaluative.
 - Base your questions on the user's profile, their academic/work history, and their B-school of choice.
 
-## Questions List: 
+## Questions List:
 ${questionsList}
 
 🚧 EDGE CASE HANDLING:
 
 1. **If user asks you to answer the interview question:**
-   - Politely respond:  
+   - Politely respond:
      "This is your mock interview. Try to take it seriously — practicing genuinely will help you perform better in the real one."
 
 2. **If user gives irrelevant/unnecessary answers (off-topic or joking):**
-   - Gently warn them:  
+   - Gently warn them:
      "In a real interview, such responses may reflect poorly on your professionalism. Let's try to keep it focused."
 
 3. **If user doesn’t respond for a long time or seems lost:**
-   - Encourage them by saying:  
+   - Encourage them by saying:
      "Take your time. I'm here when you're ready. It's okay to pause and think — just like in a real interview."
 
 4. **If user says "I don’t know":**
-   - Encourage them to try by saying:  
+   - Encourage them to try by saying:
      "That's alright. Try your best — the interview isn't about knowing everything, but about how you think and respond under pressure."
 
 📋 INTERVIEW STRUCTURE:
@@ -186,8 +176,6 @@ ${questionsList}
 
 💬 Format each question in simple language. Don’t dump multiple questions at once. Maintain realism and timing.
 
-
-
 `
           },
         ],
@@ -206,7 +194,7 @@ ${questionsList}
       setCallStarted(true);
       toast.success("Call started with AI Recruiter");
     } catch (err) {
-      // console.error("Failed to start call:", err);
+
       toast.error("Failed to start call");
       setVapiError("Failed to start call");
     } finally {
@@ -224,11 +212,10 @@ ${questionsList}
     vapi.on("error", (e) => {
       console.error("Vapi error:", e);
       console.error("Error details:", JSON.stringify(e, null, 2));
-      
-      // Extract error message from various possible properties
-      const errorMessage = e?.message || e?.error?.message || e?.error || 
+
+      const errorMessage = e?.message || e?.error?.message || e?.error ||
                           e?.details || e?.code || 'Connection issue occurred';
-      
+
       toast.error(`Call error: ${errorMessage}`);
       setVapiError(`Error during call: ${errorMessage}`);
       setCallStarted(false);
@@ -277,16 +264,15 @@ ${questionsList}
       </>
     )
   }
-  // if (error) return <div className="p-4 text-red-600 font-semibold">Error: {error}</div>;
 
   return (
     <>
       <div className="flex items-center gap-4 px-4 py-4 ml-4 mb-4 mr-4 mt-20 lg:mt-4 md:mt-4 bg-white shadow rounded-xl border border-gray-100">
-        {/* Avatar-like Block */}
+        {}
         <div className="flex items-center justify-center w-12 h-12 rounded-full bg-indigo-700 text-white text-lg font-semibold uppercase">
           {(interviewData?.company || "H").charAt(0)}
         </div>
-        {/* Text Content */}
+        {}
         <div className="flex flex-col">
           <h3 className="text-base font-semibold text-gray-800">
             {interviewData?.interview_name || "Interview Name"}
@@ -313,7 +299,7 @@ ${questionsList}
             />
           </div>
 
-          {/** Live messages */}
+          {}
           {liveMessages && <div className="flex justify-center">
             <div className="inline-block bg-gray-200 text-center px-4 py-2 border border-gray-200 shadow-md rounded">
               <p className="text-md text-gray-700 whitespace-nowrap">
@@ -324,7 +310,7 @@ ${questionsList}
           </div>}
         </div>
 
-        {/** chat messages */}
+        {}
         <div className="w-full h-[400px] lg:w-1/3 p-4 ml-4 rounded-xl bg-white shadow-lg flex flex-col">
           <h1 className="text-xl font-bold text-gray-800 mb-4">Chat</h1>
 
@@ -368,8 +354,6 @@ ${questionsList}
         </div>
 
       </div>
-
-      
 
     </>
   );

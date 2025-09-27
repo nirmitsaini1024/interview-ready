@@ -7,7 +7,6 @@ import { toast } from 'sonner';
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = '/pdf.worker.mjs';
 
-
 export default function PdfTextExtractor({ onSubmit, setStep, step }) {
   const [content, setContent] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -48,12 +47,11 @@ export default function PdfTextExtractor({ onSubmit, setStep, step }) {
           const strings = content.items.map(item => item.str);
           fullText += strings.join(' ') + '\n\n';
         }
- 
-        // console.log(fullText);
+
         setContent(fullText);
       } catch (err) {
         setError('Failed to extract PDF content');
-        // console.error(err);
+
       } finally {
         setLoading(false);
       }
@@ -107,7 +105,7 @@ export default function PdfTextExtractor({ onSubmit, setStep, step }) {
             className="bg-[#462eb4] hover:shadow-2xl text-white px-5 py-3 rounded-md text-sm font-medium flex items-center gap-1 cursor-pointer transition duration-300 ease-in-out disabled:opacity-70 disabled:cursor-not-allowed">
             {loading ? (
               <>
-                <Loader2 className="animate-spin mr-2 w-5 h-5" /> {/* Loader2 icon with animate-spin */}
+                <Loader2 className="animate-spin mr-2 w-5 h-5" /> {}
                 Loading
               </>
             ) : (
@@ -116,10 +114,9 @@ export default function PdfTextExtractor({ onSubmit, setStep, step }) {
             {!loading ? <ArrowRight className="w-4 h-4" /> : <></>}
           </button>
         </div>}
-        
+
       </form>
     </div>
   );
 }
-
 

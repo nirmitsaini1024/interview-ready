@@ -3,26 +3,21 @@ import "./globals.css";
 import { Toaster } from 'sonner';
 import Script from "next/script";
 
-
-
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
-}); 
+});
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
 
-
 export const metadata = {
-  title: "Hirenom – AI Mock Interview Platform",
+  title: "Swipe – AI Mock Interview Platform",
   description: "AI powered mock interview platform, resume builder & LinkedIn optimization.",
   robots: "index, follow", // ✅ This is the fix!
 };
-
-
 
 export default function RootLayout({ children }) {
   return (

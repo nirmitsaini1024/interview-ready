@@ -1,17 +1,14 @@
-/**
- * Service for handling create interview API calls
- */
 
 
 export default async function createInterviewFromAPI(formData, questions, college_interview_data) {
-  const input = { 
+  const input = {
     formData: formData,
     questions: questions,
     college_interview_data
   }
   console.log("create interview data", input)
 
-  try { 
+  try {
     const response = await fetch(`/api/portal/create-interview`, {
       method: "POST",
       headers: {
@@ -19,7 +16,6 @@ export default async function createInterviewFromAPI(formData, questions, colleg
       },
       body: JSON.stringify(input),
     });
-
 
     if (!response.ok) {
       return {
@@ -54,6 +50,4 @@ export default async function createInterviewFromAPI(formData, questions, colleg
   }
 
 };
-
-
 

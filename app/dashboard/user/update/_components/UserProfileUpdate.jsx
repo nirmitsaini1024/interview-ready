@@ -1,11 +1,9 @@
 'use client';
 
-
 import React, { useState } from "react";
 import { Twitter, Linkedin, Github, Mail, Phone, MapPin, DollarSign, User, Calendar, Briefcase, Home, CheckCircle } from "lucide-react";
 import updateUserDetails from "@/app/service/user/updateUserDetails";
 import { toast } from "sonner";
-
 
 export default function UserProfileUpdate() {
     const [designation, setDesignation] = useState("");
@@ -22,7 +20,6 @@ export default function UserProfileUpdate() {
 
     const [loading, setLoading] = useState(false);
 
-    // Experience fields
     const [companyName, setCompanyName] = useState("");
     const [position, setPosition] = useState("");
     const [year, setYear] = useState("");
@@ -55,17 +52,15 @@ export default function UserProfileUpdate() {
             },
         };
 
-        // console.log("Form Data Submitted:", formData);
         const result = await updateUserDetails(formData);
 
         if(!result?.state){
-            // console.log("Failed to update the user");
+
             toast.error("Failed to update the user");
         }
-        // console.log("Successfully updated the user", result?.data);
 
         } catch (error){
-            // console.log("Error: ", error);
+
             toast.error("Error: ", error);
         } finally{
             setLoading(false);
@@ -80,7 +75,7 @@ export default function UserProfileUpdate() {
             </h2>
 
             <form onSubmit={handleSubmit} className="space-y-6">
-                {/* Designation */}
+                {}
                 <div>
                     <label className="flex items-center gap-2 text-sm text-gray-500 font-semibold mb-1">
                         <User className="w-4 h-4 text-blue-500" /> Designation
@@ -95,7 +90,7 @@ export default function UserProfileUpdate() {
                     />
                 </div>
 
-                {/* Social links */}
+                {}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
                         <label className="flex items-center gap-2 text-sm text-gray-500 font-semibold mb-1">
@@ -137,7 +132,7 @@ export default function UserProfileUpdate() {
                     </div>
                 </div>
 
-                {/* Contact info */}
+                {}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <label className="flex items-center gap-2 text-sm text-gray-500 font-semibold mb-1">
@@ -167,7 +162,7 @@ export default function UserProfileUpdate() {
                     </div>
                 </div>
 
-                {/* Salary, Location, Age */}
+                {}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
                         <label className="flex items-center gap-2 text-sm text-gray-500 font-semibold mb-1">
@@ -211,7 +206,7 @@ export default function UserProfileUpdate() {
                     </div>
                 </div>
 
-                {/* Work Type and Career Status */}
+                {}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <label className="flex items-center gap-2 text-sm text-gray-500 font-semibold mb-1">
@@ -243,7 +238,7 @@ export default function UserProfileUpdate() {
                     </div>
                 </div>
 
-                {/* Experience */}
+                {}
                 <fieldset className="border border-gray-300 rounded-md p-4">
                     <legend className="flex items-center gap-2 text-sm font-semibold text-gray-500 mb-4">
                         <Briefcase className="w-4 h-4 text-violet-600" /> Experience

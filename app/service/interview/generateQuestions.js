@@ -3,18 +3,18 @@ import { flattenCommaArray } from "@/lib/utils/helper";
 const generateQuestions = async (interviewDetails, resume) => {
   try {
     const input = {
-      ...interviewDetails, 
+      ...interviewDetails,
       skills_required: flattenCommaArray(interviewDetails?.["Skills"]),
       tech_stack: flattenCommaArray(interviewDetails?.["Tech Stack"]),
-      resume: resume 
-    }; 
+      resume: resume
+    };
     console.log("generate question input", input);
 
     const response = await fetch(`/api/interview/generate-questions`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-      }, 
+      },
       body: JSON.stringify(input),
     });
 

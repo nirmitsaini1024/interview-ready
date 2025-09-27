@@ -128,7 +128,7 @@ export default function VoiceInterview() {
         <div className="rounded-lg border border-indigo-200 bg-indigo-50 p-4 text-indigo-800 shadow-sm dark:border-blue-700 dark:bg-indigo-900 dark:text-indigo-200">
   <h3 className="mb-1 text-base font-semibold">Important Note:</h3>
   <p className="text-sm">
-    This tool doesn't offer real-time mock interviews. For live practice, please visit our 
+    This tool doesn't offer real-time mock interviews. For live practice, please visit our
     <Link href="/dashboard/interview" className="ml-2 mr-2 font-bold text-indigo-600 hover:text-indigo-700 underline dark:text-indigo-400 dark:hover:text-indigo-300">
       Mock Interview
     </Link> section.

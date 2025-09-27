@@ -26,7 +26,6 @@ export default function Sidebar() {
 
   const toggleUserTypes = () => setShowUserTypes(!showUserTypes)
 
-  // Load user type from localStorage on mount
   useEffect(() => {
     setIsClient(true);
     const savedUserType = localStorage.getItem('userType') || 'CANDIDATE';
@@ -35,19 +34,17 @@ export default function Sidebar() {
 
   return (
     <div className="bg-white text-white min-h-screen">
-      {/* Mobile top bar */}
       <div className="md:hidden fixed top-0 left-0 w-full bg-gray-50 z-30 flex items-center justify-between px-4 h-14 border-b border-gray-200">
         <button onClick={toggleSidebar}>
           <Menu className="w-6 h-6 text-gray-600" />
         </button>
         <div className="flex items-center gap-1 text-lg text-indigo-900 font-semibold">
           <Image src={matchfox} width={24} height={24} alt='logo' className='rounded-md' />
-          Hirenom
+          Swipe
         </div>
         <div className="w-6" />
       </div>
 
-      {/* Mobile sidebar overlay */}
       {isOpen && (
         <div
           className="fixed inset-0 z-20 bg-black bg-opacity-50 md:hidden"
@@ -55,7 +52,6 @@ export default function Sidebar() {
         />
       )}
 
-      {/* Sidebar */}
       <div
         className={`bg-white border-r border-zinc-100 shadow w-3/4 transform transition-transform duration-300 md:w-60
           ${isOpen ? 'fixed top-0 left-0 z-40 h-screen' : 'fixed top-0 left-0 z-40 h-screen -translate-x-full'}
@@ -69,18 +65,16 @@ export default function Sidebar() {
         </div>
 
         <nav className="space-y-2 px-4 pb-32">
-          {/* Logo */}
           <Link
             href="/"
             className="hidden md:flex items-center mt-1.5 pb-6 space-x-2 p-2 rounded"
           >
             <Image src={matchfox} width={24} height={24} alt='logo' className="w-7 h-7 rounded-md" />
-            <span className='font-bold text-lg text-indigo-900'>Hirenom</span>
+            <span className='font-bold text-lg text-indigo-900'>Swipe</span>
           </Link>
 
-          {/* User Type Selector - Blue style */}
           <div className="mb-4">
-            <div 
+            <div
               className="flex items-center justify-between bg-blue-600 px-2 py-3 rounded-sm cursor-pointer shadow hover:bg-blue-700 transition-colors"
               onClick={toggleUserTypes}
             >
@@ -101,13 +95,12 @@ export default function Sidebar() {
               )}
             </div>
 
-            {/* Dropdown options */}
             {showUserTypes && (
               <div className="space-y-1 mt-1">
-                <div 
+                <div
                   className={`flex items-center space-x-2 p-2 rounded-lg cursor-pointer transition-colors ${
-                    userType === 'CANDIDATE' 
-                      ? 'bg-blue-50 text-blue-700 border border-blue-200' 
+                    userType === 'CANDIDATE'
+                      ? 'bg-blue-50 text-blue-700 border border-blue-200'
                       : 'text-gray-700 hover:bg-blue-50 hover:text-blue-700'
                   }`}
                   onClick={() => {
@@ -119,10 +112,10 @@ export default function Sidebar() {
                   <User className="w-4 h-4" />
                   <span className="text-sm font-medium">Candidate</span>
                 </div>
-                <div 
+                <div
                   className={`flex items-center space-x-2 p-2 rounded-lg cursor-pointer transition-colors ${
-                    userType === 'RECRUITER' 
-                      ? 'bg-blue-50 text-blue-700 border border-blue-200' 
+                    userType === 'RECRUITER'
+                      ? 'bg-blue-50 text-blue-700 border border-blue-200'
                       : 'text-gray-700 hover:bg-blue-50 hover:text-blue-700'
                   }`}
                   onClick={() => {
@@ -138,7 +131,6 @@ export default function Sidebar() {
             )}
           </div>
 
-          {/* Candidate Links */}
           {userType === 'CANDIDATE' && (
             <>
                    <Link
@@ -171,12 +163,11 @@ export default function Sidebar() {
             </>
           )}
 
-          {/* Recruiter Links */}
           {userType === 'RECRUITER' && (
             <>
               <Link
                 href="/dashboard"
-                className={`flex items-center text-sm space-x-2 p-2 rounded 
+                className={`flex items-center text-sm space-x-2 p-2 rounded
                   ${pathname === '/dashboard' ? 'bg-gray-400 text-white' : 'text-zinc-800 hover:bg-zinc-200'}`}
               >
                 <LayoutDashboard className="w-4 h-4" />
@@ -185,7 +176,7 @@ export default function Sidebar() {
 
               <Link
                 href="/dashboard/jobs"
-                className={`flex items-center text-sm space-x-2 p-2 rounded 
+                className={`flex items-center text-sm space-x-2 p-2 rounded
                   ${pathname === '/dashboard/jobs' ? 'bg-gray-400 text-white' : 'text-zinc-800 hover:bg-zinc-200'}`}
               >
                 <BriefcaseBusiness className="w-4 h-4" />
@@ -194,7 +185,7 @@ export default function Sidebar() {
 
               <Link
                 href="/dashboard/recruiter/candidates"
-                className={`flex items-center text-sm space-x-2 p-2 rounded 
+                className={`flex items-center text-sm space-x-2 p-2 rounded
                   ${pathname === '/dashboard/recruiter/candidates' ? 'bg-gray-400 text-white' : 'text-zinc-800 hover:bg-zinc-200'}`}
               >
                 <Users className="w-4 h-4" />
@@ -206,7 +197,6 @@ export default function Sidebar() {
         </nav>
       </div>
 
-      {/* Spacer for mobile header */}
       <div className="h-14 md:hidden" />
     </div>
   )

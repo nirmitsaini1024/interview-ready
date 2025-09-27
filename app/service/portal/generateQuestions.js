@@ -4,14 +4,14 @@ const generateQuestions = async (type, resume) => {
   try {
     const input = {
       type: type,
-      resume: resume 
-    }; 
+      resume: resume
+    };
 
     const response = await fetch(`/api/portal/generate-questions`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-      }, 
+      },
       body: JSON.stringify(input),
     });
 

@@ -7,7 +7,7 @@ const fetchUserResume = async () => {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-      }, 
+      },
       cache: 'no-store',
     });
 
@@ -36,7 +36,7 @@ const fetchUserResume = async () => {
     return {
       state: false,
       error: err.message || 'Something went wrong',
-      message: 'Failed', 
+      message: 'Failed',
     };
   }
 };

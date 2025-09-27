@@ -44,7 +44,6 @@ export default function Dashboard() {
           fetchAllReports(),
         ]);
 
-        // Interviews
         if (!interviewRes?.state) {
           toast.error('Failed to fetch interviews');
         } else if (isMounted) {
@@ -54,18 +53,16 @@ export default function Dashboard() {
           setInterviews(interviewRes.data.slice(0, 3));
         }
 
-        // Reports
         if (!reportRes?.state) {
           toast.error('Failed to fetch reports');
         } else if (isMounted) {
-          // console.log(reportRes.data);
+
           setReports(reportRes.data || []);
 
-          // To get Top score reports
           setTopScoreReports(reportRes?.data.sort(SortScores).slice(0,3))
         }
       } catch (err) {
-        // console.error('Dashboard fetch error:', err);
+
         toast.error('Something went wrong while loading dashboard.');
       } finally {
         if (isMounted) setLoading(false);
@@ -131,9 +128,9 @@ export default function Dashboard() {
 
   return (
     <div className="p-6 space-y-6 mt-16 lg:mt-0 md:mt-0">
-      {/* Top Section */}
+      {}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {/* Create Interview */}
+        {}
         <div className="bg-white shadow rounded-xl p-6 flex flex-col justify-between">
           <div>
             <h2 className="text-xl font-semibold text-gray-800">Create New Interview</h2>
@@ -150,7 +147,7 @@ export default function Dashboard() {
           </Link>
         </div>
 
-        {/* Performance Metrics */}
+        {}
         <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 gap-4">
           {performanceMetrics.map((metric, i) => {
             const Icon = metricIcons[metric.icon];
@@ -175,7 +172,7 @@ export default function Dashboard() {
       </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Recent Interviews */}
+          {}
           <div>
             {interviews.length > 0 ? (
               <InterviewList interviews={interviews} />
@@ -189,7 +186,7 @@ export default function Dashboard() {
             )}
           </div>
 
-          {/* Top Reports */}
+          {}
           <div>
             <div className="bg-white shadow rounded-xl p-6 h-full">
               <h3 className="text-lg font-semibold text-gray-800 mb-4">Top Score Interviews</h3>
@@ -235,7 +232,6 @@ export default function Dashboard() {
             </div>
           </div>
         </div>
-
 
     </div>
   );

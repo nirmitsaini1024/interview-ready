@@ -1,6 +1,3 @@
-/**
- * Service for chat with AI agent
- */
 
 
 const chatWithAgent = async (report, chat) => {
@@ -17,9 +14,8 @@ const chatWithAgent = async (report, chat) => {
             body: JSON.stringify(input),
         });
 
-
         if (!response.ok) {
-            //const errorData = await response.text();
+
             return {
                 status: false,
                 error: "Failed to fetch data",
@@ -42,7 +38,7 @@ const chatWithAgent = async (report, chat) => {
             data: result?.data,
             message: 'Success',
         };
-        
+
     } catch (error) {
         return {
             status: false,
@@ -51,7 +47,5 @@ const chatWithAgent = async (report, chat) => {
         };
     }
 };
-
-
 
 export default chatWithAgent

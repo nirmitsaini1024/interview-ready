@@ -6,26 +6,24 @@ import Tabs from "@/components/Tabs";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
-
 export default function ReportComponent({ id }) {
 
     const [reportDetails, setReportDetails] = useState();
     const [loading, setLoading] = useState(false);
 
-
-    useEffect(() =>{ 
+    useEffect(() =>{
         async function getReport() {
             try{
                 setLoading(true);
                 const result = await fetchReportDetails(id);
                 if(!result?.state){
-                    // console.log("Error: ", result?.error);
+
                     toast.error("Error in fetching report card");
                 }
-                // console.log(result?.data);
+
                 setReportDetails(result?.data);
             } catch(err){
-                // console.log(err); 
+
             } finally{
                 setLoading(false);
                 toast.info("Successfully fetched the report");
@@ -43,8 +41,8 @@ export default function ReportComponent({ id }) {
     }
 
     return(
-        <> 
+        <>
             <Tabs reportDetails={reportDetails} />
         </>
-    )    
+    )
 }

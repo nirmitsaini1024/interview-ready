@@ -12,12 +12,10 @@ export default function JobDetails({ job }) {
     default: "bg-gray-100 text-gray-600",
   };
 
-  
-
   return (
     <>
       <div className="max-w-4xl mx-auto p-6 mt-8 bg-white rounded-2xl shadow-sm space-y-6">
-        {/* Header */}
+        {}
         <div className="flex justify-between items-start">
           <div className="flex gap-2 space-y-1">
             {job?.company_logo && (
@@ -47,7 +45,7 @@ export default function JobDetails({ job }) {
           </div>
         </div>
 
-        {/* Details */}
+        {}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm text-gray-500">
           <div className="border border-gray-200 shadow p-3 rounded-xl">
             <p className="text-xs text-gray-400 mb-1">Interview Date</p>
@@ -93,7 +91,7 @@ export default function JobDetails({ job }) {
           </div>
         </div>
 
-        {/* Description */}
+        {}
         <div>
           <Accordion
             header="Job Description"
@@ -101,15 +99,13 @@ export default function JobDetails({ job }) {
           />
         </div>
 
-        {/* Interview Link Card */}
+        {}
         <div className="border border-gray-200 rounded-lg p-5 bg-gray-50 space-y-4">
           <div className="flex justify-between items-start">
             <div>
               <h3 className="text-md font-semibold text-gray-800">Interview Link</h3>
             </div>
-            {/* <span className="text-xs font-medium text-teal-700 bg-teal-100 px-2 py-1 rounded-full">
-              Valid for 30 days
-            </span> */}
+            {}
           </div>
 
           <div className="flex justify-between items-center bg-white border border-gray-200 rounded-md px-4 py-2">
@@ -129,7 +125,7 @@ export default function JobDetails({ job }) {
             </div>
         </div>
 
-        {/* Share Section */}
+        {}
         <div className="pt-4">
           <div className="flex items-center">
             <span className="text-sm text-gray-600 font-medium flex items-center gap-2">

@@ -13,10 +13,9 @@ export default function AllResume() {
     const [resumes, setResumes] = useState([]);
     const [loading, setLoading] = useState(false);
     const [openModalIndex, setOpenModalIndex] = useState(null);
-    
 
     const resumeRef = useRef(null);
-    
+
     const getResumes = async () =>{
         try{
             setLoading(true);
@@ -38,7 +37,6 @@ export default function AllResume() {
         getResumes();
     }, []);
 
-
     if(loading){
         return(
             <>
@@ -46,7 +44,7 @@ export default function AllResume() {
             </>
         )
     }
-  
+
     return (
         <>
         <div>
@@ -57,19 +55,19 @@ export default function AllResume() {
           </h1>
         </div>
       <div className="w-full max-w-4xl mx-auto pt-4">
-      {/* Resume List */}
+      {}
       {resumes && resumes.length > 0 ? (
         resumes.map((resume, index) => (
           <div
             key={index}
             className="flex items-start justify-between p-5 border border-gray-200 rounded-lg bg-white shadow-sm hover:shadow-md transition duration-200 mb-4"
           >
-            {/* Resume Info */}
+            {}
             <div className="flex items-start gap-4">
               <div className="flex flex-col gap-1">
-                {/* File Info Tags */}
+                {}
                 <div className="flex flex-wrap gap-2 text-sm text-gray-600">
-                  {/* file_name as link */}
+                  {}
                   <button
                     onClick={() => setOpenModalIndex(index)}
                     className="flex items-center gap-1 bg-gray-100 border border-gray-200 rounded-full px-3 py-1 text-xs font-medium text-indigo-700 hover:underline"
@@ -78,14 +76,14 @@ export default function AllResume() {
                     {resume?.file_name}
                   </button>
 
-                  {/* file_type */}
+                  {}
                   <span className="flex items-center gap-1 bg-gray-100 border border-gray-200 rounded-full px-3 py-1 text-xs font-medium">
                     <Briefcase className="w-3.5 h-3.5 text-indigo-600" />
                     {resume?.file_type}
                   </span>
                 </div>
 
-                {/* Upload Date */}
+                {}
                 <p className="text-xs text-gray-500 mt-1">
                   Uploaded on:{" "}
                   <span className="font-medium text-gray-700">
@@ -95,7 +93,7 @@ export default function AllResume() {
               </div>
             </div>
 
-            {/* Modal for each resume */}
+            {}
 {openModalIndex === index && (
   <Modal
     isOpen={openModalIndex === index}
@@ -127,5 +125,4 @@ export default function AllResume() {
     </>
     )
 };
-
 

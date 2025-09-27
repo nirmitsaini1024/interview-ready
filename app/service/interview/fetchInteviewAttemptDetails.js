@@ -2,12 +2,12 @@
 
 const fetchInteviewAttemptDetails = async (interviewId) => {
 
-  try { 
+  try {
     const response = await fetch(`/api/interview/interview-attempts/${interviewId}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-      }, 
+      },
       cache: 'no-store',
     });
 

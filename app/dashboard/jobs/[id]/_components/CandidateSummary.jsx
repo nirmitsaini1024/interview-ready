@@ -12,7 +12,6 @@ export default function CandidateSummary({
 }
 ) {
 
-
   return (
     <>
       <Card className="p-4 flex gap-4 items-center">

@@ -1,7 +1,6 @@
-// components/Card.tsx
+
 import { Pencil } from 'lucide-react';
 import React from 'react';
-
 
 const Card = ({ title, children, editAction }) => {
   return (

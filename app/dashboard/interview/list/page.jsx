@@ -1,17 +1,13 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-// import CreateInterview from './_components/CreateInterview';
-// import InprogressInterviewsList from './_components/InprogressInterviewsList';
-// import AllInteviewsList from './_components/AllInteviewsList';
+
 import fetchAllInterviews from '@/app/service/interview/fetchAllInterviews';
 import LoadingOverlay from '@/components/LoadingOverlay';
 import EmptyStateComponent from '@/app/_components/EmptyStateComponent';
 import CreateInterview from '../_components/CreateInterview';
 import InprogressInterviewsList from '../_components/InprogressInterviewsList';
 import AllInteviewsList from '../_components/AllInteviewsList';
-
-
 
 export default function InterviewDashboardPage() {
     const [interviews, setInterviews] = useState([]);
@@ -29,7 +25,7 @@ export default function InterviewDashboardPage() {
             if (!isMounted) return;
 
             if (!result?.state) {
-                //console.error('Error fetching interviews:', error);
+
                 setError(error);
             } else {
                 setInterviews(result?.data);
@@ -91,11 +87,10 @@ export default function InterviewDashboardPage() {
 
         return (
             <>
-                {/* New Open Interviews */}
+                {}
                 <InprogressInterviewsList inProgressInterviews={inProgressInterviews} /> :
 
-
-                {/* All Interviews */}
+                {}
                 <AllInteviewsList interviews={interviews} />
             </>
         );

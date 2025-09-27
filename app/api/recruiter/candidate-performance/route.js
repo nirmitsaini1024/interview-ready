@@ -4,7 +4,7 @@ import { ratelimit } from '@/lib/ratelimiter/rateLimiter';
 
 export async function GET(req) {
   try {
-    // Rate limiting
+
     const ip = req.headers.get('x-forwarded-for') || 'anonymous';
     const { success } = await ratelimit.limit(ip);
 
@@ -12,11 +12,8 @@ export async function GET(req) {
       return NextResponse.json({ state: false, error: 'Rate limit exceeded' }, { status: 429 });
     }
 
-    // For demo purposes, use a hardcoded recruiter user ID
     const recruiterId = 'demo_user_123';
 
-    // Get all interview attempts (both from job postings and direct interviews)
-    // For demo purposes, show all interview attempts since we don't have separate recruiters
     const interviewAttempts = await prisma.interviewAttempt.findMany({
       include: {
         interview: {
@@ -57,7 +54,6 @@ export async function GET(req) {
 
     console.log("Found interview attempts:", interviewAttempts.length);
 
-    // Convert BigInt to string for JSON serialization
     const serializedAttempts = interviewAttempts.map(attempt => ({
       ...attempt,
       id: attempt.id.toString(),
@@ -76,18 +72,18 @@ export async function GET(req) {
       }))
     }));
 
-    return NextResponse.json({ 
-      state: true, 
-      data: serializedAttempts, 
-      message: "Candidate performance data fetched successfully" 
+    return NextResponse.json({
+      state: true,
+      data: serializedAttempts,
+      message: "Candidate performance data fetched successfully"
     }, { status: 200 });
 
   } catch (err) {
     console.error('Unexpected error:', err);
-    return NextResponse.json({ 
-      state: false, 
-      error: 'Internal Server Error', 
-      message: "Failed to fetch candidate performance" 
+    return NextResponse.json({
+      state: false,
+      error: 'Internal Server Error',
+      message: "Failed to fetch candidate performance"
     }, { status: 500 });
   }
 }

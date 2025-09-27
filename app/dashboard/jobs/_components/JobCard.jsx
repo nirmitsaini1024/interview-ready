@@ -22,24 +22,17 @@ export default function JobCard({
 
   const pathname = usePathname();
 
-  // console.log("company name", companyLogo);
-
   return (
     <div className={`rounded-xl`}>
       <div
         className={`rounded-xl bg-white p-5 space-y-2 border border-gray-100 shadow-md flex flex-col gap-1`}
       >
-        {/* Top Section */}
+        {}
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 relative">
-              {/* <Image
-                src="https://logo.clearbit.com/google.com"
-                alt={companyName}
-                fill
-                className="rounded-full object-contain"
-              /> */}
-              
+              {}
+
               <CompanyLogo logo={companyLogo} company={companyName?.charAt(0).toUpperCase()} width="w-10" height="h-10" />
 
             </div>
@@ -52,18 +45,18 @@ export default function JobCard({
             </span>
             </div>
           </div>
-          <span 
+          <span
             className={`text-xs font-medium px-2 py-1 rounded-md ${
               status.toUpperCase() === 'SCHEDULED'
                 ? "bg-yellow-100 text-yellow-800"
                 : "bg-pink-100 text-pink-600"
             }`}
-          > 
+          >
             {status}
           </span>
         </div>
 
-        {/* Job Title */}
+        {}
         <h3
           className={`text-lg font-semibold ${
             highlight
@@ -74,13 +67,13 @@ export default function JobCard({
           {title}
         </h3>
 
-        {/* Tags */}
+        {}
         <div className="flex flex-wrap gap-2">
           <span
               className="text-xs border border-gray-300 text-gray-700 px-3 py-1 rounded-md"
             >
-              {employmentType} 
-            </span> 
+              {employmentType}
+            </span>
             <span
               className="text-xs border border-gray-300 text-gray-700 px-3 py-1 rounded-md"
             >
@@ -91,7 +84,7 @@ export default function JobCard({
           </span>
         </div>
 
-        {/* Footer */}
+        {}
         <div className="flex justify-between">
           <div className="flex items-center gap-2">
             <div className="w-6 h-6 relative">
@@ -120,12 +113,8 @@ export default function JobCard({
   </Link>
 )}
 
-          
           {/* // <Link href={`/dashboard/jobs/${id}`} className="flex items-center gap-2 bg-[#462eb4] text-white px-4 py-2 text-xs rounded-md hover:bg-gradient-to-b hover:from-indigo-600 hover:to-indigo-950 cursor-pointer">
-          //   View Details
-          //   <ArrowRight className="w-3 h-3" />
-          // </Link> */}
-          
+
         </div>
       </div>
     </div>

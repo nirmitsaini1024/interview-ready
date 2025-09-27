@@ -109,8 +109,8 @@ export default function ResumeTextExtractor({ onSubmit, setStep, step }) {
         <label
           htmlFor="file-upload"
           className={`relative group block overflow-hidden border-2 border-dashed rounded-2xl p-8 transition-all duration-300 cursor-pointer ${
-            content 
-              ? 'border-emerald-400 bg-emerald-50 hover:bg-emerald-100' 
+            content
+              ? 'border-emerald-400 bg-emerald-50 hover:bg-emerald-100'
               : loading
               ? 'border-violet-400 bg-violet-50'
               : error
@@ -118,13 +118,13 @@ export default function ResumeTextExtractor({ onSubmit, setStep, step }) {
               : 'border-gray-200 hover:border-violet-300 hover:bg-violet-25 hover:scale-[1.02]'
           }`}
         >
-          {/* Animated background gradient */}
+          {}
           <div className="absolute inset-0 bg-gradient-to-br from-violet-500/5 via-purple-500/5 to-pink-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-          
+
           <div className="relative flex flex-col items-center text-center space-y-4">
             <div className={`relative p-4 rounded-full transition-all duration-300 ${
-              content 
-                ? 'bg-emerald-100 text-emerald-600' 
+              content
+                ? 'bg-emerald-100 text-emerald-600'
                 : loading
                 ? 'bg-violet-100 text-violet-600'
                 : error
@@ -142,17 +142,17 @@ export default function ResumeTextExtractor({ onSubmit, setStep, step }) {
                 <div className="absolute -inset-2 rounded-full bg-violet-400 opacity-20 animate-ping"></div>
               )}
             </div>
-            
+
             <div>
               <h3 className={`text-lg font-semibold mb-2 ${
-                content 
-                  ? 'text-emerald-700' 
-                  : error 
+                content
+                  ? 'text-emerald-700'
+                  : error
                   ? 'text-red-700'
                   : 'text-gray-800'
               }`}>
-                {content 
-                  ? 'Resume Uploaded Successfully!' 
+                {content
+                  ? 'Resume Uploaded Successfully!'
                   : loading
                   ? 'Processing Resume...'
                   : error
@@ -161,7 +161,7 @@ export default function ResumeTextExtractor({ onSubmit, setStep, step }) {
                 }
               </h3>
               <p className="text-sm text-gray-500 leading-relaxed">
-                {content 
+                {content
                   ? 'Your resume has been processed and is ready for analysis'
                   : loading
                   ? 'Extracting text content from your PDF...'
@@ -171,7 +171,7 @@ export default function ResumeTextExtractor({ onSubmit, setStep, step }) {
                 }
               </p>
             </div>
-            
+
             {!content && !loading && (
               <div className="text-xs text-gray-400 flex items-center gap-2">
                 <span>Supports PDF files up to 5MB</span>
@@ -211,11 +211,11 @@ export default function ResumeTextExtractor({ onSubmit, setStep, step }) {
             className="group relative overflow-hidden w-full bg-gradient-to-r from-[#462eb4] to-indigo-600 hover:from-violet-700 hover:to-purple-700 text-white px-8 py-4 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-3"
             disabled={!content || loading}
           >
-            {/* Button background animation */}
+            {}
             <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
-            
+
             <div className="relative flex items-center gap-3">
-              {/* <Zap size={20} /> */}
+              {}
               <span>Submit Resume</span>
               <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform duration-200" />
             </div>

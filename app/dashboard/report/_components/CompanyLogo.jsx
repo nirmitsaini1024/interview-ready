@@ -13,7 +13,6 @@ export default function CompanyLogo({
 }) {
   const [imgError, setImgError] = useState(false)
 
-  // Generate a random light pastel color (HSL)
   const bgColor = useMemo(() => {
     const hue = Math.floor(Math.random() * 360)
     return `hsl(${hue}, 70%, 85%)` // light pastel

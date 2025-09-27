@@ -23,7 +23,7 @@ export async function POST(req) {
   const { conversations } = await req.json();
 
   try {
-    // Enqueue the OpenAI task
+
     const response = await openaiQueue.add(async () => {
       return await openai.chat.completions.create({
         model: 'meta-llama/llama-3.3-8b-instruct:free',
@@ -40,7 +40,6 @@ export async function POST(req) {
 The following is a structured array of messages between the candidate and the interviewer. Use this conversation to evaluate the candidate:
 
 ${JSON.stringify(conversations, null, 2)}
-
 
 ---
 
@@ -90,7 +89,7 @@ Give score out of 10 and give recommendation (YES or NO)
 > This section is **internal only** and should reflect the final decision.
 > Do not repeat full notes here—only the final YES or NO.
 
-Output Format Example: 
+Output Format Example:
 {
   "skill_evaluation": {
     "technical_knowledge": {
@@ -125,7 +124,7 @@ Output Format Example:
       "feedback": ""
     }
   ],
-  "key_strengths": [], 
+  "key_strengths": [],
   "areas_for_improvement": [],
   "topics_to_focus_on": [],
   "suggested_learning_resources": [
@@ -139,7 +138,6 @@ Output Format Example:
     "score": ""
   }
 }
-
 
 **Note**: Strictly follow this output format, dont generate any additional character/string/object/array`
 
