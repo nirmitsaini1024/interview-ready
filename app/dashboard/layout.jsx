@@ -1,19 +1,9 @@
 
+'use client';
 
-import { SignedIn, SignedOut, SignInButton, SignUpButton, UserButton } from "@clerk/nextjs";
-import { Bell } from "lucide-react";
-import { currentUser } from '@clerk/nextjs/server';
 import Sidebar from "../_components/Sidebar";
 
-
-
-
-export default async function RootLayout({ children }) {
-
-
-  const user = await currentUser();
-
-
+export default function RootLayout({ children }) {
   return (
     <div className="flex h-screen overflow-hidden">
       {/* Sidebar stays fixed/sticky on left */}
@@ -22,23 +12,14 @@ export default async function RootLayout({ children }) {
       {/* Main content scrolls independently */}
       <main className="flex-1 overflow-y-auto">
         <header className="hidden md:flex sticky top-0 z-50 bg-white border-b border-zinc-100 px-6 py-2 h-14 items-center justify-between">
-          {/* Left: User Name */}
+          {/* Left: Welcome Message */}
           <div>
-            <h1 className="font-semibold text-gray-700">Welcome, {user?.firstName}</h1>
+            <h1 className="font-semibold text-gray-700">Welcome to Hirenom</h1>
           </div>
 
-          {/* Right: Icons and Auth Buttons */}
+          {/* Right: Empty for now */}
           <div className="flex gap-4 items-center">
-            <Bell className="w-5 h-5 text-gray-600" />
-
-            <SignedOut>
-              <SignInButton />
-              <SignUpButton />
-            </SignedOut>
-
-            <SignedIn>
-              <UserButton />
-            </SignedIn>
+            {/* Future: Add any global actions here */}
           </div>
         </header>
 

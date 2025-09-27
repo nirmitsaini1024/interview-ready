@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect, useState } from "react";
-import { useUser } from "@clerk/nextjs";
+import { useEffect, useState, useMemo } from "react";
+// Removed authentication - using demo mode
 import CallComponent from "./CallComponent";
 import InterviewJoinScreen from "./InterviewJoinScreen";
 import { toast } from "sonner";
@@ -15,18 +15,23 @@ export default function InterviewPage({ interviewId }) {
   const [showCallComponent, setShowCallComponent] = useState(false);
   const [interviewData, setInterviewData] = useState(null);
   const [loadingMessage, setLoadingMessage] = useState("");
+  const [validating, setValidating] = useState(false);
 
-  const { isSignedIn, user, isLoaded } = useUser();
- 
+  // Demo user for development - use useMemo to prevent recreation
+  const user = useMemo(() => ({ id: 'demo_user_123', name: 'Demo User' }), []);
+  const isAuthenticated = true;
+  const authLoading = false;
+
   // Validate user and get Interview details
   useEffect(() => {
     validateUser();
-  }, [user, interviewId]);
+  }, [interviewId]); // Remove user from dependencies since it's stable now
 
   async function validateUser() {
-      if (!user?.id) return;
+      if (!user?.id || validating) return; // Prevent multiple simultaneous requests
 
       try {
+        setValidating(true);
         setLoadingMessage("Fetching Interview Details...");
         const response = await fetch(`/api/interview/validate/${interviewId}`)
         const result = await response.json();
@@ -57,6 +62,7 @@ export default function InterviewPage({ interviewId }) {
         setError('Something went wrong validating user');
       } finally {
         setLoading(false);
+        setValidating(false);
       }
   }
 
@@ -93,11 +99,11 @@ export default function InterviewPage({ interviewId }) {
 
   // --- Conditional UI ---
 
-  if (!isLoaded || loading) {
+  if (authLoading || loading) {
     return <div className="text-center mt-20 text-gray-600">Loading...</div>;
   }
 
-  if (!isSignedIn) {
+  if (!isAuthenticated) {
     return (
       <div className="text-center mt-20">
         <p className="text-red-600 font-semibold">Please sign in to continue</p>

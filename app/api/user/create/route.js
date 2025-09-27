@@ -12,8 +12,14 @@ export async function POST(request) {
     });
 
     if (existingUser) {
+      // Convert BigInt to string for JSON serialization
+      const serializedExistingUser = {
+        ...existingUser,
+        id: existingUser.id.toString(),
+      };
+      
       return NextResponse.json(
-        { state: true, data: existingUser, message: 'User already exists' },
+        { state: true, data: serializedExistingUser, message: 'User already exists' },
         { status: 200 }
       );
     }
@@ -38,10 +44,16 @@ export async function POST(request) {
       }
     });
 
+    // Convert BigInt to string for JSON serialization
+    const serializedUserData = {
+      ...userData,
+      id: userData.id.toString(),
+    };
+
     return NextResponse.json(
       {
         state: true,
-        data: userData,
+        data: serializedUserData,
         message: 'User and usage created successfully',
       },
       { status: 201 }

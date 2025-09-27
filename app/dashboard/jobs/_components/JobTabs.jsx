@@ -2,7 +2,7 @@
 
 import { useState, useRef, useLayoutEffect } from 'react'
 import { motion } from 'framer-motion'
-import { useUser } from '@clerk/nextjs'
+// Removed authentication - using demo mode
 import JobDetails from '../[id]/_components/JobDetails'
 import QuestionsList from './QuestionsList'
 import JobAttemptDetails from './JobAttemptDetails'
@@ -14,7 +14,9 @@ export default function JobTabs({ details }) {
     const [candidatesData, setCandidatesData] = useState(null)
     const [loadingCandidates, setLoadingCandidates] = useState(false)
 
-    const { isLoaded, user } = useUser()
+    // Demo user for development
+    const user = { id: 'demo_user_123', name: 'Demo User' };
+    const loading = false;
     // console.log("======== user ID =======")
     // console.log(user?.id)
 

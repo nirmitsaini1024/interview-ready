@@ -2,14 +2,14 @@
 
 import { useEffect, useRef, useState } from "react";
 import VideoCallUI from "./VideoCallUI";
-import { SignedIn, useUser } from "@clerk/nextjs";
+// Removed authentication - using demo mode
 import Vapi from "@vapi-ai/web";
 import { toast } from 'sonner';
 import LoadingOverlay from "@/components/LoadingOverlay";
 import getRandomGreeting from "@/lib/utils/getRandomGreeting";
 
 
-export default function InterviewCallComponent({ interviewId, interviewData, leftUsage }) {
+export default function InterviewCallComponent({ interviewId, interviewData }) {
   // const [interviewData, setInterviewData] = useState(null);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -26,12 +26,14 @@ export default function InterviewCallComponent({ interviewId, interviewData, lef
   const conversationsRef = useRef([]);
   const vapiRef = useRef(null);
 
-  const { isSignedIn, user } = useUser();
+  // Demo user for development
+  const user = { id: 'demo_user_123', name: 'Demo User', firstName: 'Demo' };
+  const isAuthenticated = true;
 
   // console.log("interview data:", interviewData);
   // console.log("user name", user?.firstName)
 
-  console.log(interviewId, interviewData, leftUsage);
+  console.log(interviewId, interviewData);
 
   if (!interviewData) {
     return (
@@ -43,7 +45,7 @@ export default function InterviewCallComponent({ interviewId, interviewData, lef
     )
   }
 
-  if (!isSignedIn || !user) {
+  if (!isAuthenticated || !user) {
     return (
       <>
         <div>
@@ -69,9 +71,11 @@ export default function InterviewCallComponent({ interviewId, interviewData, lef
   }, []);
 
 
-  const questionsList = Object.values(interviewData?.questions)
-    .map(q => `"${q?.question}"`)
-    .join(",\n");
+  const questionsList = interviewData?.questions 
+    ? Object.values(interviewData.questions)
+        .map(q => `"${q?.question}"`)
+        .join(",\n")
+    : `"Tell me about yourself", "What are your academic achievements?", "Why do you want to pursue this course?", "Describe a leadership experience", "What are your career goals?"`;
 
   console.log("questionsList::: ", questionsList)
 
@@ -109,7 +113,7 @@ export default function InterviewCallComponent({ interviewId, interviewData, lef
 
 ## Introduction
 
-> You are a highly professional MBA admissions interviewer name "Jina" from "Hirenom" for top Indian B-schools like IIMs, FMS, XLRI, etc. 
+> You are a highly professional MBA admissions interviewer name "Gina" from "Swipe" for top Indian B-schools like IIMs, FMS, XLRI, etc. 
 Your role is to conduct a **realistic, college-specific mock interview** 
 for the user based on the given question list. You are NOT a chatbot — act like a 
 real human interviewer.
@@ -134,7 +138,7 @@ Step 2: Invite the candidate to introduce themselves
 ⚙️ INTERVIEW RULES & BEHAVIOR:
 - Ask one question at a time. Wait silently for the user's response before proceeding.
 - Do not continue or interrupt until the user replies. Simulate a human wait.
-- Ask **10–15 core questions** and at most **2–3 follow-up questions per main question**, only when necessary.
+- Ask **5–10 core questions** and at most **2–3 follow-up questions per main question**, only when necessary.
 - Keep the tone professional, slightly formal, but not robotic. Friendly yet evaluative.
 - Base your questions on the user's profile, their academic/work history, and their B-school of choice.
 
@@ -164,7 +168,7 @@ ${questionsList}
 - Start with a brief welcome line (1 sentence only)
 - Ask questions in the following areas:
   1. Tell me about yourself
-  2. Why MBA / Why now
+  2. Why this company / Why now
   3. Why this college
   4. Work experience-related questions
   5. Academic questions (based on degree)
@@ -215,14 +219,19 @@ ${questionsList}
     vapi.on("speech-end", () => setAssistantSpeaking(false));
     vapi.on("call-end", () => {
       setCallStarted(false);
-      toast("Call ended");
+      toast.success("Interview completed successfully!");
     });
     vapi.on("error", (e) => {
-      // console.error(e);
-      toast.error("Call error occurred");
-      setVapiError("Error during call");
+      console.error("Vapi error:", e);
+      console.error("Error details:", JSON.stringify(e, null, 2));
+      
+      // Extract error message from various possible properties
+      const errorMessage = e?.message || e?.error?.message || e?.error || 
+                          e?.details || e?.code || 'Connection issue occurred';
+      
+      toast.error(`Call error: ${errorMessage}`);
+      setVapiError(`Error during call: ${errorMessage}`);
       setCallStarted(false);
-      toast("Call ended");
       setOnErrorCall(true);
     });
 
@@ -301,7 +310,6 @@ ${questionsList}
               conversationsRef={conversationsRef}
               onErrorCall={onErrorCall}
               setOnErrorCall={setOnErrorCall}
-              leftUsage={leftUsage}
             />
           </div>
 

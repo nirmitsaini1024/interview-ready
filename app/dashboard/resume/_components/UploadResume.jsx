@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { UploadCloud, CheckCircle, Loader } from 'lucide-react'
-import { useUser } from '@clerk/nextjs'
+import { useAuth } from '@/app/context/AuthContext'
 import uploadResume from '@/app/service/resume/uploadResume'
 
 export default function UploadResume() {
@@ -10,9 +10,9 @@ export default function UploadResume() {
   const [status, setStatus] = useState('idle')
   const [message, setMessage] = useState('');
 
-  const { user } = useUser();
+  const { user } = useAuth();
 
-  const clerkId = user?.id; // Replace with real Clerk ID from context or prop
+  const clerkId = user?.id; // User ID from our auth system
 
   const handleUpload = async () => {
     if (!file) return

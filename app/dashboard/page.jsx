@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import JobList from './jobs/_components/JobList';
+import { useState, useEffect } from 'react';
 
 // data/mockDashboardData.ts
 
@@ -70,6 +71,16 @@ export const performanceMetrics = [
 
 
 export default function Dashboard() {
+  // Get user type from localStorage (same as sidebar)
+  const [userType, setUserType] = useState('CANDIDATE');
+
+  // Check localStorage for user type on component mount
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const savedUserType = localStorage.getItem('userType') || 'CANDIDATE';
+      setUserType(savedUserType);
+    }
+  }, []);
 
   const recentInterviews = interviewList.slice(0, 3);
 
@@ -85,19 +96,37 @@ export default function Dashboard() {
     <div className="p-6 space-y-6 mt-16 lg:mt-0 md:mt-0">
       {/* Top Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {/* Create Interview */}
-        <div className="bg-white shadow rounded-xl p-6 flex flex-col justify-between">
-          <div>
-            <h2 className="text-xl font-semibold text-gray-800">Create New Job</h2>
-            <p className="text-sm text-gray-500 mt-1">
-              Post a new job session tailored to your job test
-            </p>
+        {/* Create Job - Only for Recruiters */}
+        {userType === 'RECRUITER' && (
+          <div className="bg-white shadow rounded-xl p-6 flex flex-col justify-between">
+            <div>
+              <h2 className="text-xl font-semibold text-gray-800">Create New Job</h2>
+              <p className="text-sm text-gray-500 mt-1">
+                Post a new job session tailored to your job test
+              </p>
+            </div>
+            <Link href='/dashboard/jobs/create' className="mt-4 inline-flex items-center gap-2 px-4 py-2 bg-[#462eb4] hover:bg-indigo-900 cursor-pointer text-white rounded-md  transition">
+              <PlusCircle size={18} />
+              Create New Job
+            </Link>
           </div>
-          <Link href='/dashboard/jobs/create' className="mt-4 inline-flex items-center gap-2 px-4 py-2 bg-[#462eb4] hover:bg-indigo-900 cursor-pointer text-white rounded-md  transition">
-            <PlusCircle size={18} />
-            Create New Job
-          </Link>
-        </div>
+        )}
+
+        {/* Create Interview - Only for Candidates */}
+        {userType === 'CANDIDATE' && (
+          <div className="bg-white shadow rounded-xl p-6 flex flex-col justify-between">
+            <div>
+              <h2 className="text-xl font-semibold text-gray-800">Create New Interview</h2>
+              <p className="text-sm text-gray-500 mt-1">
+                Start a new interview session tailored to your job test
+              </p>
+            </div>
+            <Link href='/dashboard/interview/create' className="mt-4 inline-flex items-center gap-2 px-4 py-2 bg-[#462eb4] hover:bg-indigo-900 cursor-pointer text-white rounded-md  transition">
+              <PlusCircle size={18} />
+              Create New Interview
+            </Link>
+          </div>
+        )}
 
         {/* <ShowCreditComponent /> */}
         {/* Performance Cards */}
@@ -127,8 +156,19 @@ export default function Dashboard() {
 
 
       {/** Job List */}
-      <h3 className='text-lg font-semibold'>All Jobs</h3>
-      <JobList />
+      {userType === 'RECRUITER' && (
+        <>
+          <h3 className='text-lg font-semibold'>All Jobs</h3>
+          <JobList />
+        </>
+      )}
+      
+      {userType === 'CANDIDATE' && (
+        <>
+          <h3 className='text-lg font-semibold'>Available Jobs</h3>
+          <JobList />
+        </>
+      )}
 
       
     </div>

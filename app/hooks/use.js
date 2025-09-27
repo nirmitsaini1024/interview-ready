@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import Vapi from '@vapi-ai/web';
-import { useUser } from '@clerk/nextjs';
+import { useAuth } from '@/app/context/AuthContext';
 import { useReport } from './useReport';
 
 export const useVapi = (interviewDetails, questions, interviewAttemptId) => {
@@ -18,7 +18,7 @@ export const useVapi = (interviewDetails, questions, interviewAttemptId) => {
 
   const conversationsRef = useRef([]);
   //const vapi = new Vapi(process.env.NEXT_PUBLIC_VAPI_KEY);
-  const { isSignedIn, user, isLoaded } = useUser();
+  const { user, isAuthenticated, loading: authLoading } = useAuth();
 
   const stopCall = () => {
     if (vapi && callStarted && !callEnded.current) {

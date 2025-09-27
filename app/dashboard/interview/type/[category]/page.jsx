@@ -3,28 +3,6 @@ import { ArrowLeft, ChevronRight, Users, Clock, Trophy, Target, Code, Briefcase,
 import React from 'react';
 
 const subCategories = {
-  cat: [
-    { name: 'IIM Ahmedabad', difficulty: 'Expert', duration: '45 min', popularity: '95%' },
-    { name: 'IIM Bangalore', difficulty: 'Expert', duration: '40 min', popularity: '92%' },
-    { name: 'IIM Calcutta', difficulty: 'Expert', duration: '45 min', popularity: '90%' },
-    { name: 'XLRI Jamshedpur', difficulty: 'Advanced', duration: '35 min', popularity: '85%' },
-    { name: 'FMS Delhi', difficulty: 'Advanced', duration: '30 min', popularity: '88%' },
-    { name: 'SPJIMR Mumbai', difficulty: 'Advanced', duration: '35 min', popularity: '82%' },
-    { name: 'ISB Hyderabad', difficulty: 'Expert', duration: '40 min', popularity: '89%' },
-    { name: 'IIFT Delhi', difficulty: 'Intermediate', duration: '30 min', popularity: '78%' },
-  ],
-
-  gmat: [
-    { name: 'Harvard Business School', difficulty: 'Expert', duration: '50 min', popularity: '98%' },
-    { name: 'Stanford GSB', difficulty: 'Expert', duration: '50 min', popularity: '97%' },
-    { name: 'Wharton', difficulty: 'Expert', duration: '45 min', popularity: '94%' },
-    { name: 'INSEAD', difficulty: 'Advanced', duration: '40 min', popularity: '91%' },
-    { name: 'London Business School', difficulty: 'Advanced', duration: '40 min', popularity: '88%' },
-    { name: 'Kellogg', difficulty: 'Advanced', duration: '35 min', popularity: '86%' },
-    { name: 'Duke Fuqua', difficulty: 'Advanced', duration: '35 min', popularity: '83%' },
-    { name: 'Columbia Business School', difficulty: 'Expert', duration: '45 min', popularity: '92%' },
-  ],
-
   technical: [
     { name: 'Frontend', difficulty: 'Intermediate', duration: '60 min', popularity: '94%' },
     { name: 'Backend', difficulty: 'Advanced', duration: '75 min', popularity: '91%' },

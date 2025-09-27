@@ -1,58 +1,43 @@
 import { NextResponse } from 'next/server';
-import { currentUser } from '@clerk/nextjs/server';
-import supabase from '@/lib/supabase/client';
+import { prisma } from '@/lib/prisma/client';
 import { ratelimit } from '@/lib/ratelimiter/rateLimiter';
-
 
 export async function GET(req) {
   try {
+    // Rate limiting
     const ip = req.headers.get('x-forwarded-for') || 'anonymous';
-
     const { success } = await ratelimit.limit(ip);
 
     if (!success) {
       return NextResponse.json({ state: false, error: 'Rate limit exceeded' }, { status: 429 });
     }
 
-    // Step 1: Get authenticated Clerk user
-    const user = await currentUser();
-    const userId = user?.id;
+    // Query the database for jobs/interviews using Prisma
+    const jobs = await prisma.interview.findMany({
+      where: {
+        type: 'JOB'
+      },
+      include: {
+        user: true
+      },
+      orderBy: {
+        created_date: 'desc'
+      }
+    });
 
-    if (!userId) {
-      return NextResponse.json({ state: false, error: 'Unauthorized', message: "Failed" }, { status: 401 });
-    }
+    console.log("jobs length::: ", jobs?.length);
 
-    // Step 3: Verify the user exists in Supabase "users" table
-    const { data: userRecord, error: userError } = await supabase
-      .from('users')
-      .select('*')
-      .eq('clerk_id', userId)
-      .single();
+    // Convert BigInt to string for JSON serialization
+    const serializedJobs = jobs.map(job => ({
+      ...job,
+      id: job.id.toString(),
+      user: job.user ? {
+        ...job.user,
+        id: job.user.id.toString()
+      } : null
+    }));
 
-    if (userError || !userRecord) {
-      return NextResponse.json({ state: false, error: 'User not found in database', message: "Failed" }, { status: 403 });
-    }
-
-    // Step 5: Fetch all interviews  
-
-    const { data: jobs, error } = await supabase
-    .from('interviews')
-    .select(`
-      *,
-      users:users(*)
-    `)
-    .eq('type', 'JOB')
-
-
-
-
-    console.log("jobs length::: ", jobs?.length)
-
-    if (error) {
-      return NextResponse.json({ state: false, error: 'Failed to fetch interviews', message: "Failed" }, { status: 500 });
-    }
-
-    return NextResponse.json({ state: true, data: jobs, message: "Success" }, { status: 200 });
+    return NextResponse.json({ state: true, data: serializedJobs, message: "Success" }, { status: 200 });
 
   } catch (err) {
     console.error('Unexpected error:', err);

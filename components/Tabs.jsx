@@ -2,7 +2,7 @@
 
 import { useState, useRef, useLayoutEffect } from 'react'
 import { motion } from 'framer-motion'
-import { useUser } from '@clerk/nextjs'
+// Removed authentication - using demo mode
 
 import InterviewSummary from '@/app/dashboard/report/_components/InterviewSummary'
 import OverallFeedbackSection from '@/app/dashboard/report/_components/OverallFeedbackSection'
@@ -15,7 +15,8 @@ export default function Tabs({ content, code, reportDetails }) {
   const [activeTab, setActiveTab] = useState(0)
   const contentRef = useRef(null)
   const [height, setHeight] = useState(0)
-  const { user } = useUser()
+  // Demo user for development
+  const user = { id: 'demo_user_123', name: 'Demo User' };
 
   // Handle chat conversation
   let finalConversation = []

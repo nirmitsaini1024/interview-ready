@@ -1,25 +1,8 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowRight, Users, Trophy, Brain, BookOpen, Target, Zap, History } from 'lucide-react';
+import { ArrowRight, Brain, Users, Trophy, Zap, History } from 'lucide-react';
 
 const categories = [
-  {
-    name: 'CAT',
-    slug: 'cat',
-    description: 'Prepare for top B-Schools with real case-style mock interviews.',
-    image: 'https://logo.clearbit.com/hbs.edu',
-    avatars: [
-       'https://logo.clearbit.com/iima.ac.in',              // IIM Ahmedabad
-  'https://logo.clearbit.com/iimb.ac.in',              // IIM Bangalore
-  'https://logo.clearbit.com/iimcal.ac.in',            // IIM Calcutta
-  'https://logo.clearbit.com/xlri.ac.in',              // XLRI Jamshedpur
-  'https://logo.clearbit.com/fms.edu',                 // FMS Delhi
-    ],
-    icon: Trophy,
-    color: 'from-purple-500 to-pink-500',
-    bgColor: 'bg-purple-50',
-    stats: '12K+ prepared'
-  },
   {
     name: 'Technical',
     slug: 'technical',
@@ -37,70 +20,6 @@ const categories = [
     bgColor: 'bg-blue-50',
     stats: '25K+ coders'
   },
-  {
-    name: 'HR',
-    slug: 'hr',
-    description: 'Practice behavioral & situational HR questions confidently.',
-    image: 'https://logo.clearbit.com/indeed.com',
-    avatars: [
-      'https://logo.clearbit.com/accenture.com',
-      'https://logo.clearbit.com/pwc.com',
-      'https://logo.clearbit.com/wipro.com',
-      'https://logo.clearbit.com/ey.com',
-      'https://logo.clearbit.com/kpmg.com',
-    ],
-    icon: Users,
-    color: 'from-green-500 to-emerald-500',
-    bgColor: 'bg-green-50',
-    stats: '18K+ professionals'
-  },
-  {
-    name: 'GMAT',
-    slug: 'gmat',
-    description: 'Master GMAT interview prep with adaptive mock formats.',
-    image: 'https://logo.clearbit.com/mba.com',
-    avatars: [
-      'https://logo.clearbit.com/duke.edu',
-      'https://logo.clearbit.com/columbia.edu',
-      'https://logo.clearbit.com/northeastern.edu',
-      'https://logo.clearbit.com/harvard.edu',
-      'https://logo.clearbit.com/cornell.edu',
-    ],
-    icon: Target,
-    color: 'from-indigo-500 to-purple-500',
-    bgColor: 'bg-indigo-50',
-    stats: '15K+ achievers'
-  },
-  // {
-  //   name: 'CSAT',
-  //   slug: 'csat',
-  //   description: 'Improve your aptitude and interview performance together.',
-  //   image: 'https://logo.clearbit.com/testbook.com',
-  //   avatars: [
-  //     'https://logo.clearbit.com/iitb.ac.in',
-  //     'https://logo.clearbit.com/iitg.ac.in',
-  //     'https://logo.clearbit.com/iitd.ac.in',
-  //   ],
-  //   icon: Zap,
-  //   color: 'from-teal-500 to-green-500',
-  //   bgColor: 'bg-teal-50',
-  //   stats: '22K+ aspirants'
-  // },
-  // {
-  //   name: 'SAT',
-  //   slug: 'sat',
-  //   description: 'Get ready for SAT with verbal & reasoning mock sessions.',
-  //   image: 'https://logo.clearbit.com/collegeboard.org',
-  //   avatars: [
-  //     'https://logo.clearbit.com/harvard.edu',
-  //     'https://logo.clearbit.com/mit.edu',
-  //     'https://logo.clearbit.com/stanford.edu',
-  //   ],
-  //   icon: BookOpen,
-  //   color: 'from-orange-500 to-red-500',
-  //   bgColor: 'bg-orange-50',
-  //   stats: '8K+ students'
-  // },
 ];
 
 export default function InterviewCategory() {
@@ -237,32 +156,6 @@ export default function InterviewCategory() {
         </div>
       </div>
 
-      {/* Bottom CTA Section */}
-      <div className="relative overflow-hidden bg-gradient-to-r from-indigo-900 to-indigo-600 mx-6 mb-12 rounded-3xl">
-        <div className="absolute inset-0 bg-black/10"></div>
-        <div className="relative px-8 py-12 text-center">
-          <h3 className="text-3xl font-bold text-white mb-4">
-            Ready to Transform Your Career?
-          </h3>
-          <p className="text-blue-100 text-lg mb-8 max-w-2xl mx-auto">
-            Join thousands of successful candidates who've aced their interviews with our AI-powered preparation platform.
-          </p>
-          <div className="flex flex-wrap justify-center gap-6 text-white/90">
-            <div className="flex items-center gap-2">
-              <Users className="w-5 h-5" />
-              <span className="font-semibold">100K+ Users</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Trophy className="w-5 h-5" />
-              <span className="font-semibold">95% Success Rate</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Zap className="w-5 h-5" />
-              <span className="font-semibold">AI-Powered</span>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   );
 }

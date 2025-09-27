@@ -58,11 +58,6 @@ export default function InterviewDashboardPage() {
                     paragraph="Initiate a new AI-driven interview session tailored to your requirements."
                     iconType="mic"
                 />
-                <CreateInterview
-                    header="Create Phone Screening"
-                    paragraph="Set up an AI-powered phone screening to assess candidates efficiently."
-                    iconType="phone"
-                />
             </div>
         </div>
     );

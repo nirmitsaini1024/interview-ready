@@ -3,7 +3,6 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { Menu, TriangleDashed, X } from 'lucide-react';
-import { SignedIn, SignedOut, SignInButton, SignUpButton, UserButton } from "@clerk/nextjs";
 import Image from 'next/image';
 import logo from '../../../public/match-fox-5.jpg'
 
@@ -44,76 +43,39 @@ const Header = () => {
             </Link>
           </div>
 
-          {/* Navigation Links (Desktop) */}
-          <div className="hidden sm:flex sm:items-center sm:justify-center flex-1">
-            <div className="flex items-center gap-6 text-sm">
-              <Link href="/" className="text-gray-700 transition hover:text-gray-700/75">
-                Home
-              </Link>
-              {/* <Link href="/" className="text-gray-700 transition hover:text-gray-700/75">
-                Explore
-              </Link> */}
-              <Link href="/payment" className="text-gray-700 transition hover:text-gray-700/75">
-                Payment
-              </Link>
-              <SignedIn>
-                <Link href="/dashboard/candidate" className="text-gray-700 transition hover:text-gray-700/75">
-                  Dashboard
-                </Link>
-              </SignedIn>
+               {/* Navigation Links (Desktop) */}
+               <div className="hidden sm:flex sm:items-center sm:justify-center flex-1">
+                 <div className="flex items-center gap-6 text-sm">
+                   <Link href="/" className="text-gray-700 transition hover:text-gray-700/75">
+                     Home
+                   </Link>
+                   <Link href="/dashboard" className="text-gray-700 transition hover:text-gray-700/75">
+                     Dashboard
+                   </Link>
+                 </div>
+               </div>
 
-            </div>
-          </div>
-
-          {/* Login Button (Right) */}
-          <SignedOut>
-            <SignInButton>
-              <Link
-                className="block rounded-full bg-gradient-to-br bg-[#462eb4] px-6 py-3 text-xs font-semibold text-gray-50  hover:text-neutral-100 transition hover:bg-purple-900"
-                href="#"
-              >
-                Login
-              </Link>
-            </SignInButton>
-          </SignedOut>
-
-          <SignedIn>
-            <UserButton />
-          </SignedIn>
+               {/* Dashboard Button (Right) */}
+               <Link
+                 href="/dashboard"
+                 className="block rounded-full bg-gradient-to-br bg-[#462eb4] px-6 py-3 text-xs font-semibold text-gray-50 hover:text-neutral-100 transition hover:bg-purple-900"
+               >
+                 Go to Dashboard
+               </Link>
         </div>
       </div>
 
-      {/* Mobile Menu */}
-      <div className={`${isMenuOpen ? 'block' : 'hidden'} sm:hidden`}>
-        <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-          <Link href="/home" className="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:bg-gray-700">
-            Home
-          </Link>
-          <Link href="/" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-700">
-            How It Works
-          </Link>
-
-          <SignedIn>
-            <Link href="/dashboard/candidate" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-700">
-              Dashboard
-            </Link>
-          </SignedIn>
-
-          <SignedIn>
-            <Link href="/payment" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-700">
-              Payment
-            </Link>
-          </SignedIn>
-
-          <SignedOut>
-            <SignInButton>
-              <Link href="/login" className="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-700">
-                Login
-              </Link>
-            </SignInButton>
-          </SignedOut>
-        </div>
-      </div>
+           {/* Mobile Menu */}
+           <div className={`${isMenuOpen ? 'block' : 'hidden'} sm:hidden`}>
+             <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+               <Link href="/" className="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:bg-gray-700">
+                 Home
+               </Link>
+               <Link href="/dashboard" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-700">
+                 Dashboard
+               </Link>
+             </div>
+           </div>
     </nav>
   );
 };

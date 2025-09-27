@@ -2,14 +2,14 @@
 
 import { useEffect, useRef, useState } from "react";
 import VideoCallUI from "./VideoCallUI";
-import { SignedIn, useUser } from "@clerk/nextjs";
+// Removed authentication - using demo mode
 import Vapi from "@vapi-ai/web";
 import { toast } from 'sonner';
 import LoadingOverlay from "@/components/LoadingOverlay";
 import getRandomGreeting from "@/lib/utils/getRandomGreeting";
 import CameraComponent from "./CameraComponent";
 
-export default function CallComponent({ interviewId, interviewData, leftUsage }) {
+export default function CallComponent({ interviewId, interviewData }) {
   // const [interviewData, setInterviewData] = useState(null);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -26,7 +26,9 @@ export default function CallComponent({ interviewId, interviewData, leftUsage })
   const conversationsRef = useRef([]);
   const vapiRef = useRef(null);
 
-  const { isSignedIn, user } = useUser();
+  // Demo user for development
+  const user = { id: 'demo_user_123', name: 'Demo User', firstName: 'Demo' };
+  const isAuthenticated = true;
 
   // console.log("interview data:", interviewData);
   // console.log("user name", user?.firstName)
@@ -41,7 +43,7 @@ export default function CallComponent({ interviewId, interviewData, leftUsage })
     )
   }
 
-  if (!isSignedIn || !user) {
+  if (!isAuthenticated || !user) {
     return (
       <>
         <div>
@@ -67,9 +69,11 @@ export default function CallComponent({ interviewId, interviewData, leftUsage })
   }, []);
 
 
-  const questionsList = Object.values(interviewData?.questions)
-    .map(q => `"${q}"`)
-    .join(",\n");
+  const questionsList = interviewData?.questions 
+    ? Object.values(interviewData.questions)
+        .map(q => `"${q}"`)
+        .join(",\n")
+    : `"Tell me about yourself", "What are your strengths and weaknesses?", "Why are you interested in this position?", "Describe a challenging project you worked on", "Where do you see yourself in 5 years?"`;
 
   console.log("questionsList::: ", questionsList)
 
@@ -107,7 +111,7 @@ export default function CallComponent({ interviewId, interviewData, leftUsage })
 
 ## Introduction
 
-> You are a Smart AI voice assistant name "Jina" from "Hirenom" conducting interviews.
+> You are a Smart AI voice assistant name "Gina" from "Swipe" conducting interviews.
 > Your job is to ask candidates provided interview questions and assess their responses.
 > Always follow the DRY (Do not repeat yourself) rule.
 > Begin the conversation with a friendly introduction using a relaxed yet professional tone. 
@@ -657,14 +661,19 @@ Avoid repeating the same sentence (like “Want a hint?”) multiple times—var
     vapi.on("speech-end", () => setAssistantSpeaking(false));
     vapi.on("call-end", () => {
       setCallStarted(false);
-      toast("Call ended");
+      toast.success("Interview completed successfully!");
     });
     vapi.on("error", (e) => {
-      // console.error(e);
-      toast.error("Call error occurred");
-      setVapiError("Error during call");
+      console.error("Vapi error:", e);
+      console.error("Error details:", JSON.stringify(e, null, 2));
+      
+      // Extract error message from various possible properties
+      const errorMessage = e?.message || e?.error?.message || e?.error || 
+                          e?.details || e?.code || 'Connection issue occurred';
+      
+      toast.error(`Call error: ${errorMessage}`);
+      setVapiError(`Error during call: ${errorMessage}`);
       setCallStarted(false);
-      toast("Call ended");
       setOnErrorCall(true);
     });
 
@@ -743,7 +752,6 @@ Avoid repeating the same sentence (like “Want a hint?”) multiple times—var
               conversationsRef={conversationsRef}
               onErrorCall={onErrorCall}
               setOnErrorCall={setOnErrorCall}
-              leftUsage={leftUsage}
             />
           </div>
 

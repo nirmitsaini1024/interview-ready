@@ -91,7 +91,7 @@ export default function SubCategoryPage({ params }) {
     
           if (createResult.state) {
             // console.log("Interview created successfully:", createResult);
-            setInterviewData(createResult?.data[0])
+            setInterviewData(createResult?.data)
             setOpen(true); // Trigger success modal or state
           }
         } catch (error) {

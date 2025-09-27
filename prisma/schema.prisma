@@ -7,60 +7,191 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Candidate {
-  id         Int         @id @default(autoincrement())
-  name       String
-  email      String
-  phone      String?
-  resumeRaw  String      @default("")
-  resumeJson Json?
-  createdAt  DateTime    @default(now())
-  updatedAt  DateTime
-  jobId      Int
-  Job        Job         @relation(fields: [jobId], references: [id])
-  Interview  Interview[]
+model User {
+  id                   BigInt    @id @default(autoincrement())
+  clerk_id             String    @unique
+  name                 String?
+  username             String?
+  email                String?
+  img_url              String?
+  designation          String?   @default("Not available")
+  social_accounts      String?   @default("Not available")
+  personal_info        String?   @default("Not available")
+  work_type            String?   @default("Not available")
+  career_status        String?   @default("Not available")
+  experience           String?   @default("Not available")
+  created_at           DateTime  @default(now())
+  updated_at           DateTime  @updatedAt
+
+  // Relations
+  usage                Usage[]
+  interviews           Interview[]
+  interview_attempts   InterviewAttempt[]
+  ai_reports           AiReport[]
+  resumes              Resume[]
+  admission_interviews AdmissionInterview[]
+  resume_html          ResumeHtml[]
+  advertisement_interviews AdvertisementInterview[]
+
+  @@map("users")
+}
+
+model Usage {
+  id                 BigInt   @id @default(autoincrement())
+  user_id            String
+  tokens_used        Int      @default(0)
+  video_minutes_used Int      @default(0)
+  created_at         DateTime @default(now())
+  updated_at         DateTime @updatedAt
+
+  // Relations
+  user User @relation(fields: [user_id], references: [clerk_id], onDelete: Cascade)
+
+  @@map("usage")
 }
 
 model Interview {
-  id          Int        @id @default(autoincrement())
-  status      String     @default("in_progress")
-  finalScore  Int?
-  summary     String?
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime
-  candidateId Int
-  Candidate   Candidate  @relation(fields: [candidateId], references: [id])
-  Question    Question[]
+  id               BigInt    @id @default(autoincrement())
+  user_id          String?
+  interview_name   String?
+  interview_time   DateTime?
+  company          String?
+  company_logo     String?
+  position         String?
+  location         String?
+  difficulty_level String?
+  experience       String?
+  status           String    @default("ACTIVE")
+  duration         Int?
+  interview_style  String?
+  job_description  String?
+  interview_link   String?
+  expiry_date      DateTime?
+  salary           String?
+  recruiter_title  String?
+  employment_type  String?
+  job_type         String?
+  type             String?
+  interview_type   String?
+  created_date     DateTime  @default(now())
+  current_duration Int       @default(0)
+
+  // Relations
+  user               User?              @relation(fields: [user_id], references: [clerk_id])
+  interview_attempts InterviewAttempt[]
+
+  @@map("interviews")
 }
 
-model Interviewer {
-  id        Int      @id @default(autoincrement())
-  username  String   @unique
-  password  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime
-  Job       Job[]
+model AdvertisementInterview {
+  id              BigInt   @id @default(autoincrement())
+  user_id         String?
+  interview_name  String?
+  company         String?
+  company_logo    String?
+  position        String?
+  location        String?
+  job_description String?
+  salary          String?
+  recruiter_title String?
+  employment_type String?
+  job_type        String?
+  type            String   @default("JOB")
+  status          String   @default("ACTIVE")
+  created_date    DateTime @default(now())
+
+  // Relations
+  user User? @relation(fields: [user_id], references: [clerk_id])
+
+  @@map("advertisement_interviews")
 }
 
-model Job {
-  id            Int         @id @default(autoincrement())
-  title         String
-  description   String
-  requirements  String
-  createdAt     DateTime    @default(now())
-  updatedAt     DateTime
-  interviewerId Int
-  Candidate     Candidate[]
-  Interviewer   Interviewer @relation(fields: [interviewerId], references: [id])
+model InterviewAttempt {
+  id                BigInt    @id @default(autoincrement())
+  user_id           String
+  interview_id      BigInt?
+  started_at        DateTime?
+  completed_at      DateTime?
+  status            String    @default("PENDING")
+  interview_attempt Int       @default(1)
+  chat_conversation Json?
+  created_at        DateTime  @default(now())
+  updated_at        DateTime  @updatedAt
+
+  // Relations
+  user       User       @relation(fields: [user_id], references: [clerk_id], onDelete: Cascade)
+  interview  Interview? @relation(fields: [interview_id], references: [id])
+  ai_reports AiReport[]
+
+  @@map("interview_attempts")
 }
 
-model Question {
-  id          Int       @id @default(autoincrement())
-  content     String
-  answer      String?
-  score       Int?
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime
-  interviewId Int
-  Interview   Interview @relation(fields: [interviewId], references: [id])
+model AiReport {
+  id             BigInt   @id @default(autoincrement())
+  attempt_id     BigInt?
+  user_id        String?
+  report_content String?
+  report_type    String   @default("GENERAL")
+  created_at     DateTime @default(now())
+  updated_at     DateTime @updatedAt
+
+  // Relations
+  attempt InterviewAttempt? @relation(fields: [attempt_id], references: [id], onDelete: Cascade)
+  user    User?             @relation(fields: [user_id], references: [clerk_id])
+
+  @@map("ai_reports")
 }
+
+model Resume {
+  id          BigInt   @id @default(autoincrement())
+  user_id     String
+  resume_data String?
+  resume_type String?
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+
+  // Relations
+  user User @relation(fields: [user_id], references: [clerk_id], onDelete: Cascade)
+
+  @@map("resumes")
+}
+
+model ResumeHtml {
+  id          BigInt   @id @default(autoincrement())
+  clerk_id    String
+  resume_html String?
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+
+  // Relations
+  user User @relation(fields: [clerk_id], references: [clerk_id], onDelete: Cascade)
+
+  @@map("resume_html")
+}
+
+model Logo {
+  id         BigInt   @id @default(autoincrement())
+  filename   String
+  url        String?
+  created_at DateTime @default(now())
+
+  @@map("logos")
+}
+
+model AdmissionInterview {
+  id             BigInt   @id @default(autoincrement())
+  user_id        String?
+  interview_name String?
+  company        String?
+  position       String?
+  location       String?
+  description    String?
+  duration       Int?
+  created_date   DateTime @default(now())
+
+  // Relations
+  user User? @relation(fields: [user_id], references: [clerk_id])
+
+  @@map("admission_interviews")
+}
+

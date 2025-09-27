@@ -10,7 +10,6 @@
     "postbuild": "next-sitemap"
   },
   "dependencies": {
-    "@clerk/nextjs": "^6.19.4",
     "@splinetool/react-spline": "^4.0.0",
     "@supabase/supabase-js": "^2.49.5",
     "@upstash/ratelimit": "^2.0.5",

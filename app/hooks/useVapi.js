@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import Vapi from '@vapi-ai/web';
-import { useUser } from '@clerk/nextjs';
+import { useAuth } from '@/app/context/AuthContext';
 import { useReport } from './useReport';
 
 export const useVapi = (interviewData, interviewId) => {
@@ -13,7 +13,7 @@ export const useVapi = (interviewData, interviewId) => {
 
   const conversationsRef = useRef([]);
   const vapi = new Vapi(process.env.NEXT_PUBLIC_VAPI_KEY);
-  const { isSignedIn, user, isLoaded } = useUser();
+  const { user, isAuthenticated, loading: authLoading } = useAuth();
 
   // Initialize useReport hook at the top level
   // const { loadingReport, loadingGenerateReport, reportError, handleCall } = useReport(

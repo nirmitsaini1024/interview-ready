@@ -102,7 +102,7 @@ export default function JobCard({
               <p className="text-gray-500 text-[11px]">{personTitle}</p>
             </div>
           </div>
-          {pathname.startsWith('/dashboard/jobs/find') || pathname.startsWith('/dashboard/interview') ? (
+          {pathname.startsWith('/dashboard/interview') ? (
   <Link
     href={`/dashboard/meetings/${id}`}
     className="flex items-center gap-2 bg-[rgb(70,46,180)] text-white px-4 py-2 text-xs rounded-md hover:bg-gradient-to-b hover:from-indigo-600 hover:to-indigo-950 cursor-pointer"

@@ -13,7 +13,6 @@ import {
   Cross,
   X
 } from "lucide-react";
-import updateTimeUsage from "@/app/service/interview/updateTimeUsage";
 import { useRouter } from "next/navigation";
 import generateReport from "@/app/service/interview/generateReport";
 import submitInteviewAttempt from "@/app/service/interview/submitInteviewAttempt";
@@ -38,8 +37,7 @@ export default function VideoCallUI({
   assistantSpeaking,
   chatMessages,
   conversationsRef,
-  onErrorCall,
-  leftUsage
+  onErrorCall
 }) {
   const [callTime, setCallTime] = useState(0);
   const [isVideoOff, setIsVideoOff] = useState(false);
@@ -49,8 +47,6 @@ export default function VideoCallUI({
   const [loadingMessage, setLoadingMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [buttonStatus, setButtonStatus] = useState(true);
-  const [limitCheck, setLimitCheck] = useState(false);
-  const [openModalIndex, setOpenModalIndex] = useState(false);
 
 
   const router = useRouter();
@@ -84,14 +80,6 @@ export default function VideoCallUI({
   };
 
   const handleStartCall = () => {
-    // Add this check at the start of the function
-    if (leftUsage <= 0) {
-      toast.error("Credit limit exceeded. Cannot start call.");
-      setLimitCheck(true);
-      setOpenModalIndex(true)
-      return;
-    }
-
     setIsLoading(true)
     setButtonStatus(false)
 
@@ -118,8 +106,6 @@ export default function VideoCallUI({
       setButtonStatus(false);
       setLoading(true);
 
-      const updateResult = await handleUpdateUsage();
-      if (!updateResult) return;
 
       const generatedReport = await handleGenerateReport();
       if (!generatedReport?.status || !generatedReport?.data) {
@@ -184,17 +170,6 @@ export default function VideoCallUI({
     }
   };
 
-  const handleUpdateUsage = async () => {
-    setLoadingMessage("Saving Interview...");
-    const result = await updateTimeUsage(callTime);
-    if (!result.state) {
-      toast.error(result.error);
-      return false;
-    }
-    // console.log(`Usage upadted for ${callTime} seconds in DB`)
-    toast(`interview completed after (${Math.floor(parseInt(interviewData?.duration) / 60)} seconds)`);
-    return true;
-  };
 
   const handleGenerateReport = async () => {
     setLoadingMessage("Generating Report...");
@@ -228,24 +203,17 @@ export default function VideoCallUI({
    */
 
   useEffect(() => {
-    // console.log("leftUsage: ", leftUsage);
-    if(leftUsage <= 0){
-      toast("Credit limit exceeded");
-      setLimitCheck(true);
-      setOpenModalIndex(true);
-      return;
-    }
-    const durationLeft = Number(interviewData?.duration) - Number(interviewData?.current_duration);
-    const threshold = leftUsage > durationLeft ? durationLeft : leftUsage;
+    // Convert duration from minutes to seconds, subtract current_duration (already in seconds)
+    const durationInSeconds = Number(interviewData?.duration) * 60; // Convert minutes to seconds
+    const currentDurationInSeconds = Number(interviewData?.current_duration) || 0;
+    const durationLeft = durationInSeconds - currentDurationInSeconds;
+    const threshold = durationLeft;
 
-    // console.log("durationLeft", durationLeft);
-    // console.log("threshold", threshold);
-
-    if (isNaN(durationLeft) || isNaN(leftUsage) || leftUsage <= 0) return;
+    if (isNaN(durationLeft) || durationLeft <= 0) return;
 
     if (!callStatus) return;
 
-    if (callTime === threshold) {
+    if (callTime >= threshold) {
       // console.log("Times up !!!");
       handleEndCall();
     }
@@ -256,7 +224,7 @@ export default function VideoCallUI({
         toast.warning(`You have ${secondsLeft} seconds left`);
       }
     }
-  }, [callTime, callStatus, leftUsage, interviewData?.duration, interviewData?.current_duration]);
+  }, [callTime, callStatus, interviewData?.duration, interviewData?.current_duration]);
 
 
   useEffect(() => {
@@ -275,34 +243,6 @@ export default function VideoCallUI({
     )
   }
 
-  if(limitCheck){
-    return(
-      <>
-        <Modal
-          isOpen={openModalIndex}
-          onClose={() => router.push('/payment')}
-          title="Interview Report"
-          width="max-w-lg"
-        >
-          <div className="flex items-center justify-center h-full">
-            <div className="text-center">
-              <h3 className="flex items-center justify-center gap-1 mb-4 text-red-600 font-semibold">
-                <X />
-                Credit limit exceeded
-              </h3>
-              <Link
-                href="/payment"
-                className="bg-indigo-700 p-3 hover:bg-indigo-900 text-white rounded-md cursor-pointer text-sm inline-block"
-              >
-                Buy More Credits
-              </Link>
-            </div>
-          </div>
-        </Modal>
-
-      </>
-    )
-  }
 
   return (
     <div className="relative w-full h-[400px] bg-gray-700 text-white flex items-center justify-center overflow-hidden">

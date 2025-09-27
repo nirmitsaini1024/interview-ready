@@ -2,7 +2,7 @@
 
 
 import { useState } from "react";
-import { useUser } from "@clerk/nextjs";
+// Removed authentication - using demo mode
 import { Loader2, SquareSquare } from "lucide-react";
 import { useRouter } from "next/navigation";
 import createNewJobs from "@/app/service/jobs/createNewJobs";
@@ -32,7 +32,6 @@ export default function JobForm() {
   const [employmentType, setEmploymentType] = useState('');
   const [jobType, setJobType] = useState('');
   const [loading, setLoading] = useState(false);
-  const [limitReached, setLimitReached] = useState(false);
 
   const statuses = ["Scheduled", "In-Progress", "Completed", "Cancelled"];
   const interviewTypes = ["Video", "In-person"];
@@ -43,7 +42,8 @@ export default function JobForm() {
   const employmentTypes = ["Full Time", "Internship", "Contract"];
   const jobTypes = ["On-Site", "Hybrid", "Remote"];
 
-  const { user } = useUser();
+  // Demo user for development
+  const user = { id: 'demo_user_123', name: 'Demo User' };
 
   // console.log(user)
 
@@ -80,20 +80,7 @@ export default function JobForm() {
       setLoading(true);
       let logoUrl = null;
 
-      // check usage limit
-      const usage = await checkUsage();
-
-      if (!usage?.status) {
-        toast.error("Something went wrong");
-        return;
-      }
-      // console.log(usage)
-
-      if (usage?.remaining_minutes < duration*60) {
-        toast.error("Limit exceeded. Please upgrade your plan.");
-        setLimitReached(true);
-        return;
-      }
+      // No usage restrictions - removed payment/credit system
 
       // ✅ If companyLogo exists and is a File, upload separately (e.g., to S3 or a /upload route)
       // Usage inside component or handler
@@ -199,62 +186,15 @@ export default function JobForm() {
     } 
   }
 
-  const checkUsage = async () =>{
-    try {
-      const response = await fetch("/api/interview/check-usage");
-      const result = await response.json();
-
-      console.log("check usage", result);
-
-      if(!result?.state){
-        console.log("error in fetching usage");
-        toast.error("Error in fetching usage");
-        return{
-          status: false
-        }
-      }
-
-      const remaining_minutes = result?.data.remaining_minutes;
-      return {
-        status: true,
-        remaining_minutes: remaining_minutes
-      };
-
-    } catch (err) {
-      console.log("Something went wrong: " + (err?.message || String(err)));
-      toast.error("Something went wrong: " + (err?.message || String(err)));
-
-    }
-  }
 
 
-  if (limitReached) {
-    return (
-      <>
-        <div className="flex items-center justify-center">
-          <div className="bg-white max-w-xl mx-auto text-center px-10 py-10 shadow">
-        <h1 className="text-2xl font-semibold mb-4">Usage Limit Reached</h1>
-        <p className="text-gray-600 mb-4">
-          You’ve reached your monthly limit. Please upgrade your plan to create more interviews.
-        </p>
-        <button
-          className="bg-[#462eb4] cursor-pointer text-sm text-white px-4 py-2.5 rounded hover:bg-indigo-700"
-          onClick={() => router.push("/payment")}
-        >
-          Upgrade Plan
-        </button>
-      </div>
-        </div>
-      </>
-    );
-  }
 
 
   return (
     <div className="max-w-2xl mx-auto">
       <div className="flex gap-1 items-center py-6">
         <SquareSquare className="w-5 h-5" />
-        <h2 className="text-xl font-semibold text-gray-800">Create New Job</h2>
+        <h2 className="text-xl font-semibold text-white">Create New Job</h2>
       </div>
 
       <form onSubmit={handleSubmit} className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 space-y-6">
@@ -265,7 +205,7 @@ export default function JobForm() {
             type="text"
             value={companyName}
             onChange={(e) => setCompanyName(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-200 rounded-md text-sm"
+            className="w-full px-3 py-2 border border-gray-200 rounded-md text-sm text-black placeholder-gray-500"
             placeholder="e.g. Google"
           />
         </div>
@@ -277,7 +217,7 @@ export default function JobForm() {
             type="text"
             value={interviewName}
             onChange={(e) => setInterviewName(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-200 rounded-md text-sm"
+            className="w-full px-3 py-2 border border-gray-200 rounded-md text-sm text-black placeholder-gray-500"
             placeholder="e.g. Cloud Engineer"
           />
         </div>
@@ -288,7 +228,7 @@ export default function JobForm() {
           <textarea
             value={jobDescription}
             onChange={(e) => setJobDescription(e.target.value)}
-            className="w-full h-40 px-3 py-2 border border-gray-200 rounded-md text-sm"
+            className="w-full h-40 px-3 py-2 border border-gray-200 text-black rounded-md text-sm placeholder-gray-500"
             placeholder="Enter Job Description"
           />
         </div>
@@ -301,7 +241,7 @@ export default function JobForm() {
               type="datetime-local"
               value={interviewTime}
               onChange={(e) => setInterviewTime(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-200 rounded-md text-sm"
+              className="w-full px-3 py-2 border border-gray-200 rounded-md text-sm placeholder-gray-500"
             />
           </div>
           <div>
@@ -404,7 +344,7 @@ export default function JobForm() {
             type="text"
             value={recruiterTitle}
             onChange={(e) => setRecruiterTitle(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-200 rounded-md text-sm"
+            className="w-full px-3 py-2 border border-gray-200 rounded-md text-sm text-black placeholder-gray-500"
             placeholder="e.g. Hiring Manager"
           />
         </div>
@@ -436,7 +376,7 @@ export default function JobForm() {
             type="number"
             value={duration}
             onChange={(e) => setDuration(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-200 rounded-md text-sm"
+            className="w-full px-3 py-2 border border-gray-200 rounded-md text-sm text-black placeholder-gray-500"
             placeholder="e.g. 45"
           />
         </div>
@@ -448,7 +388,7 @@ export default function JobForm() {
             type="text"
             value={position}
             onChange={(e) => setPosition(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-200 rounded-md text-sm"
+            className="w-full px-3 py-2 border border-gray-200 rounded-md text-sm text-black placeholder-gray-500"
             placeholder="Enter a Position Eg: Full Stack Developer"
           />
         </div>
@@ -459,7 +399,7 @@ export default function JobForm() {
           <select
             value={difficultyLevel}
             onChange={(e) => setDifficultyLevel(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-200 rounded-md text-sm"
+            className="w-full px-3 py-2 border border-gray-200 rounded-md text-sm text-black placeholder-gray-500"
           >
             <option value="">Select difficulty level</option>
             {difficulty.map((p) => (
@@ -476,7 +416,7 @@ export default function JobForm() {
           <select
             value={experience}
             onChange={(e) => setExperience(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-200 rounded-md text-sm"
+            className="w-full px-3 py-2 border border-gray-200 rounded-md text-sm text-black placeholder-gray-500"
           >
             <option value="">Select Experience Level</option>
             {experiences.map((p) => (
@@ -494,7 +434,7 @@ export default function JobForm() {
             type="text"
             value={salary}
             onChange={(e) => setSalary(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-200 rounded-md text-sm"
+            className="w-full px-3 py-2 border border-gray-200 rounded-md text-sm text-black placeholder-gray-500"
             placeholder="e.g. Google"
           />
         </div>
@@ -506,7 +446,7 @@ export default function JobForm() {
             type="text"
             value={location}
             onChange={(e) => setLocation(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-200 rounded-md text-sm"
+            className="w-full px-3 py-2 border border-gray-200 rounded-md text-sm text-black placeholder-gray-500"
             placeholder="e.g. Seattle, WA"
           />
         </div> 
