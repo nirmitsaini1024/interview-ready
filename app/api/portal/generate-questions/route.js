@@ -13,19 +13,17 @@ export async function POST(req) {
       return NextResponse.json({ state: false, error: 'Rate limit exceeded' }, { status: 429 });
     }
 
-    const { jobDescription, resume, type, questionsCount = 5 } = await req.json();
+    const { resume, type, questionsCount = 5 } = await req.json();
 
-    if (!jobDescription && !resume) {
+    if (!resume) {
       return NextResponse.json(
-        { state: false, error: 'Job description or resume is required' },
+        { state: false, error: 'Resume is required' },
         { status: 400 }
       );
     }
 
     const questions = await openaiQueue.add(async () => {
-      const prompt = resume
-        ? `Generate ${questionsCount} ${type || 'frontend-development'} interview questions based on this candidate's resume:\n\n${resume.substring(0, 800)}...`
-        : `Job Description: ${jobDescription}\n\nGenerate ${questionsCount} interview questions for this position.`;
+      const prompt = `Generate ${questionsCount} ${type || 'frontend-development'} interview questions based on this candidate's resume:\n\n${resume.substring(0, 800)}...`;
 
       console.log('AI Model:', 'mistralai/mistral-7b-instruct:free');
       console.log('Questions Count:', questionsCount);
