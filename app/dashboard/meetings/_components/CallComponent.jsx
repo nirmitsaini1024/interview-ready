@@ -7,6 +7,7 @@ import Vapi from "@vapi-ai/web";
 import { toast } from 'sonner';
 import LoadingOverlay from "@/components/LoadingOverlay";
 import getRandomGreeting from "@/lib/utils/getRandomGreeting";
+import { extractNameFromResume, getFirstName } from '@/lib/utils/extractNameFromResume';
 import CameraComponent from "./CameraComponent";
 
 export default function CallComponent({ interviewId, interviewData }) {
@@ -25,7 +26,15 @@ export default function CallComponent({ interviewId, interviewData }) {
   const conversationsRef = useRef([]);
   const vapiRef = useRef(null);
 
-  const user = { id: 'demo_user_123', name: 'Nirmit Saini', firstName: 'Nirmit' };
+  // Extract name from resume
+  const fullName = extractNameFromResume(interviewData?.resume);
+  const firstName = getFirstName(fullName);
+  
+  const user = { 
+    id: 'demo_user_123', 
+    name: fullName, 
+    firstName: firstName 
+  };
   const isAuthenticated = true;
 
   if (!interviewData) {
@@ -62,13 +71,8 @@ export default function CallComponent({ interviewId, interviewData }) {
     };
   }, []);
 
-  const questionsList = interviewData?.questions
-    ? Object.values(interviewData.questions)
-        .map(q => `"${q}"`)
-        .join(",\n")
-    : `"Tell me about yourself", "What are your strengths and weaknesses?", "Why are you interested in this position?", "Describe a challenging project you worked on", "Where do you see yourself in 5 years?"`;
-
-  console.log("questionsList::: ", questionsList)
+  // Questions will now be generated based on resume and position
+  console.log("Interview Data::: ", interviewData)
 
   const startCall = () => {
     const vapi = vapiRef.current;
@@ -102,8 +106,31 @@ export default function CallComponent({ interviewId, interviewData }) {
 
 ## Introduction
 
-> You are a Smart AI voice assistant name "Gina" from "Swipe" conducting interviews.
-> Your job is to ask candidates provided interview questions and assess their responses.
+> You are a Smart AI voice assistant name "Gina" from "Swipe" conducting ${interviewData?.position} interviews at ${interviewData?.company}.
+> The candidate's name is ${firstName} (extracted from their resume).
+> 
+> INTERVIEW FLOW:
+> 1. First, ask ONE general question: "Tell me about yourself and your background"
+> 2. Wait for their response
+> 3. After they respond, ask questions from the PRE-GENERATED QUESTION LIST below
+> 
+> CANDIDATE INFO:
+> - Name: ${firstName} (${fullName})
+> 
+> POSITION DETAILS:
+> - Role: ${interviewData?.position}
+> - Company: ${interviewData?.company}
+> - Job Description: ${interviewData?.job_description || 'Not provided'}
+> 
+> PRE-GENERATED QUESTIONS (based on candidate's resume and position):
+> ${interviewData?.questions ? JSON.stringify(interviewData.questions, null, 2) : 'No questions provided'}
+> 
+> GUIDELINES:
+> - Ask questions from the pre-generated list above
+> - Ask one question at a time and wait for response
+> - Ask follow-up questions based on their answers
+> - Keep the conversation natural and flowing
+> 
 > Always follow the DRY (Do not repeat yourself) rule.
 > Begin the conversation with a friendly introduction using a relaxed yet professional tone.
 > First start with an introduction of yourself and then ask the candidate to give some introduction about them.
@@ -153,9 +180,11 @@ Step 2: Invite the candidate to introduce themselves
 
 ## Interview Questions
 
-Ask the following questions one by one:
+Ask questions based on the candidate's resume and position:
 
-${questionsList}
+## Interview Structure:
+- Start with general introduction question
+- Then ask resume and position-specific questions
 
 ---
 

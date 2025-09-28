@@ -4,8 +4,44 @@ import { prisma } from '@/lib/prisma/client';
 export async function POST(req) {
   try {
     const { formData, questions, college_interview_data } = await req.json();
+    
+    // Extract resume from college_interview_data
+    const resumeData = college_interview_data?.resume || null;
 
     console.log('Creating interview with data:', { formData, questions, college_interview_data });
+
+    // Always generate personalized questions from resume
+    let finalQuestions = null;
+    if (resumeData) {
+      console.log('Generating personalized questions from resume...');
+      try {
+        const generateResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/portal/generate-questions`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            type: formData?.company || 'frontend-development',
+            resume: resumeData,
+            questionsCount: 5
+          })
+        });
+        
+        if (generateResponse.ok) {
+          const genResult = await generateResponse.json();
+          if (genResult.state && genResult.data) {
+            finalQuestions = genResult.data;
+            console.log('Generated personalized questions from resume:', finalQuestions);
+          }
+        }
+      } catch (error) {
+        console.error('Error generating questions:', error);
+      }
+    }
+    
+    // Use generated questions or fallback to provided questions
+    if (!finalQuestions) {
+      finalQuestions = questions;
+      console.log('Using fallback questions:', finalQuestions);
+    }
 
     let demoUser;
     try {
@@ -39,6 +75,8 @@ export async function POST(req) {
         duration: parseInt(formData?.duration) || 30,
         interview_style: formData?.interview_style || 'Technical',
         job_description: formData?.job_description || 'Demo job description',
+        resume: resumeData,
+        questions: finalQuestions,
         type: 'INTERVIEW',
         status: 'ACTIVE'
       }

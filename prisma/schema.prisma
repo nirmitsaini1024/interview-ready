@@ -65,6 +65,8 @@ model Interview {
   duration         Int?
   interview_style  String?
   job_description  String?
+  resume           String?
+  questions        Json?
   interview_link   String?
   expiry_date      DateTime?
   salary           String?

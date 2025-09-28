@@ -17,6 +17,9 @@ export const metadata = {
   title: "Swipe – AI Mock Interview Platform",
   description: "AI powered mock interview platform, resume builder & LinkedIn optimization.",
   robots: "index, follow", // ✅ This is the fix!
+  icons: {
+    icon: '/icon.svg',
+  },
 };
 
 export default function RootLayout({ children }) {

@@ -65,7 +65,54 @@ Return JSON format: {"Question 1": "...", "Question 2": "...", etc}`,
         ],
       });
 
-      return response.choices[0].message.content;
+      const content = response.choices[0].message.content;
+      console.log('AI Response:', content);
+
+      // Clean the content more thoroughly
+      let cleanedContent = content
+        .replace(/^<s>\s*/, '') // Remove <s> prefix
+        .replace(/\s*<\/s>$/, '') // Remove </s> suffix
+        .replace(/^\[ASSISTANT\]\s*/, '') // Remove [ASSISTANT] prefix
+        .replace(/^```json\s*/i, '') // Remove opening ```json
+        .replace(/\s*```$/, '') // Remove closing ```
+        .trim();
+      
+      // Additional cleaning - remove any remaining <s> at the start
+      if (cleanedContent.startsWith('<s>')) {
+        cleanedContent = cleanedContent.substring(3).trim();
+      }
+      
+      console.log('Cleaned content:', cleanedContent);
+
+      try {
+        const parsed = JSON.parse(cleanedContent);
+        if (Array.isArray(parsed)) {
+          return parsed;
+        } else if (typeof parsed === 'object' && parsed !== null) {
+          // Convert object format to array
+          return Object.values(parsed);
+        }
+      } catch (error) {
+        console.log('JSON parsing failed, trying text extraction');
+      }
+
+      // Fallback: extract questions from text
+      const questionMatches = cleanedContent.match(/[^.!]*\?[^.!]*/g);
+      if (questionMatches) {
+        return questionMatches.map(q => q.trim()).filter(q => q.length > 15);
+      }
+
+      // Final fallback questions
+      const fallbackQuestions = [
+        "Can you explain your experience with software development?",
+        "What programming languages and frameworks are you most comfortable with?",
+        "Describe a challenging project you worked on recently.",
+        "How do you approach problem-solving in your development work?",
+        "What are your thoughts on current technology trends?"
+      ];
+      
+      console.log('Using fallback questions');
+      return fallbackQuestions;
     });
 
     console.log("✅ OpenRouter API Success");

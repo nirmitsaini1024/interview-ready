@@ -11,6 +11,7 @@ import {
 import Header from "./Header";
 import Link from "next/link";
 import SiteFooter from "./SiteFooter";
+import Logo from "../../../components/Logo";
 
 const FloatingCard = ({ children, className, delay = 0 }) => (
   <motion.div
@@ -118,14 +119,14 @@ export default function LandingPage() {
                 transition={{ duration: 0.8, delay: 0.4 }}
               >
                 <Link
-                  href="/dashboard"
+                  href="/dashboard/interview"
                   className="inline-flex items-center px-8 py-4 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors shadow-lg"
                 >
                   Start Practicing Now
                   <ArrowRight className="w-5 h-5 ml-2" />
                 </Link>
                 <Link
-                  href="/dashboard"
+                  href="/dashboard/interview"
                   className="inline-flex items-center px-8 py-4 border-2 border-gray-300 text-gray-700 font-semibold rounded-lg hover:border-gray-400 hover:bg-gray-50 transition-colors"
                 >
                   <Play className="w-5 h-5 mr-2" />
@@ -169,51 +170,14 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div className="col-span-1 md:col-span-2">
-              <h3 className="text-2xl font-bold mb-4">Swipe</h3>
+              <div className="flex items-center gap-2 mb-4">
+                <Logo className="w-8 h-8" />
+                <h3 className="text-2xl font-bold">Swipe</h3>
+              </div>
               <p className="text-gray-400 mb-6 max-w-md text-sm">
                 Empowering professionals to succeed in their career journey
                 through AI-powered interview preparation and job matching.
               </p>
-            </div>
-            <div>
-              <h4 className="text-lg font-semibold mb-4">Product</h4>
-              <ul className="space-y-2 text-sm text-gray-400">
-                <li>
-                  <Link href="/dashboard" className="hover:text-white transition-colors">
-                    Mock Interviews
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/dashboard" className="hover:text-white transition-colors">
-                    AI Feedback
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/dashboard" className="hover:text-white transition-colors">
-                    Job Matching
-                  </Link>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="text-lg font-semibold mb-4">Company</h4>
-              <ul className="space-y-2 text-sm text-gray-400">
-                <li>
-                  <Link href="/about" className="hover:text-white transition-colors">
-                    About
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/dashboard" className="hover:text-white transition-colors">
-                    Contact
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/dashboard" className="hover:text-white transition-colors">
-                    Support
-                  </Link>
-                </li>
-              </ul>
             </div>
           </div>
 

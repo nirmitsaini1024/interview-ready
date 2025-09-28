@@ -9,8 +9,7 @@ import {
   Info,
   SquareDot
 } from 'lucide-react';
-import Image from 'next/image';
-import logo from '../.../../../../../public/match-fox-5.jpg';
+import Logo from '../../../../components/Logo';
 
 export default function InterviewJoinScreen({ onJoinInterview, interviewData }) {
   const [checkingPermissions, setCheckingPermissions] = useState(false);
@@ -45,7 +44,7 @@ export default function InterviewJoinScreen({ onJoinInterview, interviewData }) 
         {}
         <div className="text-center space-y-1">
           <h1 className="flex gap-2 items-center justify-center text-indigo-900 font-bold text-2xl">
-            <Image src={logo} className="w-8 h-8 rounded-md" alt="logo" />
+            <Logo className="w-8 h-8" />
             Swipe
           </h1>
           <p className="text-gray-500 text-sm">AI-Powered Interview Platform</p>

@@ -12,12 +12,14 @@ export default function ResumeTextExtractor({ onSubmit, setStep, step }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [hasNotified, setHasNotified] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const handleFileChange = async (event) => {
     const file = event.target.files[0];
     setContent(null);
     setError(null);
     setHasNotified(false);
+    setIsSubmitted(false);
 
     if (!file) {
       setError('No file selected.');
@@ -93,6 +95,7 @@ export default function ResumeTextExtractor({ onSubmit, setStep, step }) {
       return;
     }
 
+    setIsSubmitted(true);
     onSubmit(content);
   };
 
@@ -206,20 +209,25 @@ export default function ResumeTextExtractor({ onSubmit, setStep, step }) {
         </div>
 
         <div className="flex justify-between items-center w-full mt-10">
-          <button
-            onClick={handlePdfSubmit}
-            className="group relative overflow-hidden w-full bg-gradient-to-r from-[#462eb4] to-indigo-600 hover:from-violet-700 hover:to-purple-700 text-white px-8 py-4 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-3"
-            disabled={!content || loading}
-          >
-            {}
-            <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
-
-            <div className="relative flex items-center gap-3">
-              {}
-              <span>Submit Resume</span>
-              <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform duration-200" />
+          {isSubmitted ? (
+            <div className="w-full bg-gradient-to-r from-emerald-500 to-green-600 text-white px-8 py-4 rounded-xl font-semibold shadow-lg flex items-center justify-center gap-3">
+              <CheckCircle size={20} />
+              <span>Resume Submitted Successfully!</span>
             </div>
-          </button>
+          ) : (
+            <button
+              onClick={handlePdfSubmit}
+              className="group relative overflow-hidden w-full bg-gradient-to-r from-[#462eb4] to-indigo-600 hover:from-violet-700 hover:to-purple-700 text-white px-8 py-4 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-3"
+              disabled={!content || loading}
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
+
+              <div className="relative flex items-center gap-3">
+                <span>Submit Resume</span>
+                <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform duration-200" />
+              </div>
+            </button>
+          )}
         </div>
       </div>
     </div>

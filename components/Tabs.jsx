@@ -58,6 +58,7 @@ export default function Tabs({ content, code, reportDetails }) {
       recommendation={!!reportDetails?.recommendation}
       Skill_Evaluation={reportDetails?.report?.Skill_Evaluation}
       summary={reportDetails?.report?.overall_summary}
+      conversation={reportDetails?.interview_attempts?.chat_conversation}
     />,
     <OverallFeedbackSection feedback={feedback} />,
     <QuestionsWiseFeedback feedbackData={reportDetails?.report?.Question_Wise_Feedback} />,

@@ -27,7 +27,10 @@ const generateQuestions = async (type, resume) => {
 
     const result = await response.json();
 
-    console.log("result", result);
+    console.log("generateQuestions - Full result:", result);
+    console.log("generateQuestions - result.state:", result.state);
+    console.log("generateQuestions - result.data:", result.data);
+    console.log("generateQuestions - result.data type:", typeof result.data);
 
     if (!result.state) {
       return {

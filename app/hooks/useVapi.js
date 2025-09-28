@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import Vapi from '@vapi-ai/web';
 import { useAuth } from '@/app/context/AuthContext';
+import { extractNameFromResume, getFirstName } from '@/lib/utils/extractNameFromResume';
 import { useReport } from './useReport';
 
 export const useVapi = (interviewData, interviewId) => {
@@ -27,9 +28,13 @@ export const useVapi = (interviewData, interviewId) => {
   }, [vapi]);
 
   const chat = useCallback(() => {
+    // Extract name from resume
+    const fullName = extractNameFromResume(interviewData?.resume);
+    const firstName = getFirstName(fullName);
+    
     const assistantOptions = {
       name: 'AI Recruiter',
-      firstMessage: `Hi ${user?.firstName}, how are you? Ready for your ${interviewData?.company} ${interviewData?.position} interview? `,
+      firstMessage: `Hi ${firstName}, how are you? Ready for your ${interviewData?.company} ${interviewData?.position} interview? `,
       transcriber: {
         provider: 'deepgram',
         model: 'nova-2',
@@ -53,12 +58,33 @@ export const useVapi = (interviewData, interviewId) => {
             role: 'system',
             content: `
 
-              You are an AI recruiter. You have a list of interview questions and your job is to take the interview based on the above questions.
-              First ask the question wait for user's response then ask next question.
-              Always wait for user's response.
-              Ask only 5 questions
-              Questions List:
-              ${interviewData?.questions}
+              You are an AI recruiter conducting a ${interviewData?.position} interview at ${interviewData?.company}.
+              The candidate's name is ${firstName} (extracted from their resume).
+              
+              INTERVIEW FLOW:
+              1. First, ask ONE general question: "Tell me about yourself and your background"
+              2. Wait for their response
+              3. After they respond, ask questions from the PRE-GENERATED QUESTION LIST below
+              
+              CANDIDATE INFO:
+              - Name: ${firstName} (${fullName})
+              
+              POSITION DETAILS:
+              - Role: ${interviewData?.position}
+              - Company: ${interviewData?.company}
+              - Job Description: ${interviewData?.job_description || 'Not provided'}
+              
+              PRE-GENERATED QUESTIONS (based on candidate's resume and position):
+              ${interviewData?.questions ? JSON.stringify(interviewData.questions, null, 2) : 'No questions provided'}
+              
+              GUIDELINES:
+              - Ask questions from the pre-generated list above
+              - Ask one question at a time and wait for response
+              - Ask follow-up questions based on their answers
+              - Keep the conversation natural and flowing
+              
+              Always wait for user's response before asking the next question.
+              Ask a total of 5-6 questions maximum.
 
             `.trim(),
           },
@@ -119,7 +145,7 @@ export const useVapi = (interviewData, interviewId) => {
       setVapiError('Error with voice assistant');
 
       try {
-              stopCall(); // Use the same stopCall function for consistency
+              stopCall(); 
 
       } catch (error) {
         console.error('Error handling call after VAPI error:', error);

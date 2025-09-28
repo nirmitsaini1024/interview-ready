@@ -1,7 +1,7 @@
 'use client';
 
 import { calculatePerformance } from '@/lib/utils/helper';
-import { ThumbsUp, ThumbsDown } from 'lucide-react';
+import { ThumbsUp, ThumbsDown, MessageSquare } from 'lucide-react'; 
 import Link from 'next/link';
 import CompanyLogo from './CompanyLogo';
 
@@ -16,6 +16,7 @@ export default function InterviewSummary({
   recommendation,
   Skill_Evaluation = {},
   summary = 'No summary provided.',
+  conversation = null,
 }) {
   const performance = calculatePerformance(overallScore);
 
@@ -26,6 +27,22 @@ export default function InterviewSummary({
     { label: 'Confidence & Composure', key: 'Confidence_&_Composure' },
     { label: 'Best practices', key: 'Best_Practices_&_Style' },
   ];
+
+  // Process conversation data
+  let processedConversation = [];
+  try {
+    if (conversation && typeof conversation === 'object') {
+      // Handle different conversation formats
+      if (conversation.current && Array.isArray(conversation.current)) {
+        processedConversation = conversation.current.filter(msg => msg.role !== 'system');
+      } else if (Array.isArray(conversation)) {
+        processedConversation = conversation.filter(msg => msg.role !== 'system');
+      }
+    }
+  } catch (error) {
+    console.error('Error processing conversation:', error);
+    processedConversation = [];
+  }
 
   return (
     <div className="max-w-5xl mx-auto p-8 bg-white dark:bg-zinc-900 border border-gray-100 dark:border-zinc-800 rounded-3xl shadow-md transition-all duration-300 hover:shadow-2xl">
@@ -98,6 +115,42 @@ export default function InterviewSummary({
           })}
         </div>
       </div>
+
+      {}
+      {processedConversation.length > 0 && (
+        <div className="mb-8">
+          <h3 className="text-xl font-bold mb-4 text-gray-900 dark:text-white flex items-center gap-2">
+            <MessageSquare className="w-5 h-5" />
+            Interview Conversation
+          </h3>
+          <div className="space-y-4 max-h-96 overflow-y-auto border border-gray-200 dark:border-zinc-700 rounded-xl p-4 bg-gray-50 dark:bg-zinc-800">
+            {processedConversation.map((message, index) => (
+              <div
+                key={index}
+                className={`p-4 rounded-lg ${
+                  message.role === 'user'
+                    ? 'bg-blue-50 dark:bg-blue-900/20 border-l-4 border-blue-400 ml-4'
+                    : 'bg-gray-100 dark:bg-zinc-700 border-l-4 border-gray-400 mr-4'
+                }`}
+              >
+                <div className="flex items-center gap-2 mb-2">
+                  <span className={`font-semibold text-sm ${
+                    message.role === 'user' ? 'text-blue-700 dark:text-blue-300' : 'text-gray-700 dark:text-gray-300'
+                  }`}>
+                    {message.role === 'user' ? userName : 'AI Interviewer'}
+                  </span>
+                  <span className="text-xs text-gray-500 dark:text-gray-400">
+                    {message.role === 'user' ? 'Candidate' : 'Interviewer'}
+                  </span>
+                </div>
+                <p className="text-gray-800 dark:text-gray-200 whitespace-pre-wrap text-sm leading-relaxed">
+                  {message.content}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {}
       <div>

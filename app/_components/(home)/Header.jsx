@@ -3,8 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { Menu, TriangleDashed, X } from 'lucide-react';
-import Image from 'next/image';
-import logo from '../../../public/match-fox-5.jpg'
+import Logo from '../../../components/Logo';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -33,7 +32,7 @@ const Header = () => {
 
           <div className="flex-shrink-0 text-gray-700 flex items-center justify-center sm:justify-start flex-1 sm:flex-none">
             <Link href="/" className="flex gap-2 items-center justify-center font-bold text-xl">
-              <Image src={logo} alt='logo' className='w-7 h-7 rounded-lg' />
+              <Logo className="w-7 h-7" />
               <span className='text-indigo-900'>Swipe</span>
             </Link>
           </div>
@@ -43,14 +42,14 @@ const Header = () => {
                    <Link href="/" className="text-gray-700 transition hover:text-gray-700/75">
                      Home
                    </Link>
-                   <Link href="/dashboard" className="text-gray-700 transition hover:text-gray-700/75">
-                     Dashboard
+                   <Link href="/dashboard/interview" className="text-gray-700 transition hover:text-gray-700/75">
+                     Interviews
                    </Link>
                  </div>
                </div>
 
                <Link
-                 href="/dashboard"
+                 href="/dashboard/interview"
                  className="block rounded-full bg-gradient-to-br bg-[#462eb4] px-6 py-3 text-xs font-semibold text-gray-50 hover:text-neutral-100 transition hover:bg-purple-900"
                >
                  Go to Dashboard
@@ -63,8 +62,8 @@ const Header = () => {
                <Link href="/" className="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:bg-gray-700">
                  Home
                </Link>
-               <Link href="/dashboard" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-700">
-                 Dashboard
+               <Link href="/dashboard/interview" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-700">
+                 Interviews
                </Link>
              </div>
            </div>

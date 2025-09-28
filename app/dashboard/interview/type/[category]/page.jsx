@@ -1,92 +1,41 @@
 import Link from 'next/link';
-import { ArrowLeft, ChevronRight, Users, Clock, Trophy, Target, Code, Briefcase, BookOpen, Zap, Star, CheckCircle } from 'lucide-react';
+import { ArrowLeft, ChevronRight, Users, Clock, Trophy, Target, Code, Briefcase, Star, CheckCircle } from 'lucide-react';
 import React from 'react';
 
 const subCategories = {
-  technical: [
-    { name: 'Frontend', difficulty: 'Intermediate', duration: '60 min', popularity: '94%' },
-    { name: 'Backend', difficulty: 'Advanced', duration: '75 min', popularity: '91%' },
-    { name: 'DevOps', difficulty: 'Advanced', duration: '50 min', popularity: '78%' },
-    { name: 'Full Stack', difficulty: 'Expert', duration: '90 min', popularity: '89%' },
-    { name: 'Mobile Development', difficulty: 'Intermediate', duration: '60 min', popularity: '76%' },
-    { name: 'Data Structures & Algorithms', difficulty: 'Advanced', duration: '45 min', popularity: '96%' },
-    { name: 'System Design', difficulty: 'Expert', duration: '60 min', popularity: '88%' },
-    { name: 'Machine Learning', difficulty: 'Expert', duration: '70 min', popularity: '82%' },
+  frontend: [
+    { name: 'Frontend Development', difficulty: 'Intermediate', duration: '60 min', popularity: '94%', slug: 'frontend-development' },
   ],
-
-  hr: [
-    { name: 'Entry-Level HR', difficulty: 'Beginner', duration: '25 min', popularity: '85%' },
-    { name: 'HR Generalist', difficulty: 'Intermediate', duration: '35 min', popularity: '88%' },
-    { name: 'Recruitment & Talent Acquisition', difficulty: 'Intermediate', duration: '40 min', popularity: '92%' },
-    { name: 'HR Manager', difficulty: 'Advanced', duration: '45 min', popularity: '86%' },
-    { name: 'Leadership Roles', difficulty: 'Expert', duration: '50 min', popularity: '79%' },
-    { name: 'Behavioral Interviews', difficulty: 'Intermediate', duration: '30 min', popularity: '94%' },
-    { name: 'Conflict Resolution', difficulty: 'Advanced', duration: '35 min', popularity: '81%' },
+  backend: [
+    { name: 'Backend Development', difficulty: 'Advanced', duration: '75 min', popularity: '91%', slug: 'backend-development' },
   ],
-
-  sat: [
-    { name: 'Reading Comprehension', difficulty: 'Intermediate', duration: '35 min', popularity: '91%' },
-    { name: 'Writing & Language', difficulty: 'Intermediate', duration: '30 min', popularity: '87%' },
-    { name: 'Mathematics (No Calculator)', difficulty: 'Advanced', duration: '25 min', popularity: '82%' },
-    { name: 'Mathematics (Calculator)', difficulty: 'Intermediate', duration: '40 min', popularity: '89%' },
-    { name: 'Essay (Discontinued)', difficulty: 'Advanced', duration: '25 min', popularity: '65%' },
-    { name: 'College Application Guidance', difficulty: 'Beginner', duration: '20 min', popularity: '78%' },
-  ],
-
-  csat: [
-    { name: 'Customer Interaction', difficulty: 'Beginner', duration: '20 min', popularity: '93%' },
-    { name: 'Problem Solving', difficulty: 'Intermediate', duration: '30 min', popularity: '89%' },
-    { name: 'Support Scenarios', difficulty: 'Intermediate', duration: '25 min', popularity: '86%' },
-    { name: 'Service Recovery', difficulty: 'Advanced', duration: '35 min', popularity: '82%' },
-    { name: 'Customer Empathy', difficulty: 'Beginner', duration: '20 min', popularity: '91%' },
-    { name: 'Feedback Handling', difficulty: 'Intermediate', duration: '25 min', popularity: '87%' },
-    { name: 'Retention Strategy', difficulty: 'Advanced', duration: '40 min', popularity: '79%' },
+  fullstack: [
+    { name: 'Full Stack Development', difficulty: 'Expert', duration: '90 min', popularity: '89%', slug: 'fullstack-development' },
   ],
 };
 
 const categoryConfig = {
-  cat: {
-    icon: Trophy,
-    color: 'from-purple-500 to-pink-500',
-    bgColor: 'bg-purple-50',
-    title: 'MBA Programs',
-    description: 'Prepare for interviews at top business schools worldwide'
-  },
-  gmat: {
-    icon: Target,
-    color: 'from-indigo-500 to-purple-500',
-    bgColor: 'bg-indigo-50',
-    title: 'GMAT Schools',
-    description: 'Master interviews for prestigious international programs'
-  },
-  technical: {
+  frontend: {
     icon: Code,
     color: 'from-blue-500 to-cyan-500',
     bgColor: 'bg-blue-50',
-    title: 'Technical Roles',
-    description: 'Ace coding interviews and technical assessments'
+    title: 'Frontend Development',
+    description: 'Master modern frontend frameworks and user interfaces'
   },
-  hr: {
-    icon: Users,
+  backend: {
+    icon: Code,
     color: 'from-green-500 to-emerald-500',
     bgColor: 'bg-green-50',
-    title: 'HR Positions',
-    description: 'Excel in behavioral and situational interviews'
+    title: 'Backend Development',
+    description: 'Ace server-side development and database design'
   },
-  sat: {
-    icon: BookOpen,
-    color: 'from-orange-500 to-red-500',
-    bgColor: 'bg-orange-50',
-    title: 'SAT Preparation',
-    description: 'Master SAT sections with targeted practice'
+  fullstack: {
+    icon: Code,
+    color: 'from-purple-500 to-pink-500',
+    bgColor: 'bg-purple-50',
+    title: 'Full Stack Development',
+    description: 'End-to-end development with complete technical expertise'
   },
-  csat: {
-    icon: Zap,
-    color: 'from-teal-500 to-green-500',
-    bgColor: 'bg-teal-50',
-    title: 'Customer Success',
-    description: 'Enhance customer service and satisfaction skills'
-  }
 };
 
 const getDifficultyColor = (difficulty) => {
@@ -127,6 +76,7 @@ export default function SubCategoryPage({ params }) {
       </div>
     );
   }
+
 
   const IconComponent = config.icon;
 

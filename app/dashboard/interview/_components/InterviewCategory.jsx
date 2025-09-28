@@ -4,9 +4,43 @@ import { ArrowRight, Brain, Users, Trophy, Zap, History } from 'lucide-react';
 
 const categories = [
   {
-    name: 'Technical',
-    slug: 'technical',
-    description: 'Ace coding rounds with system design & DSA mocks.',
+    name: 'Frontend',
+    slug: 'frontend',
+    description: 'Master React, Vue, Angular and modern frontend frameworks.',
+    image: 'https://logo.clearbit.com/github.com',
+    avatars: [
+      'https://logo.clearbit.com/google.com',
+      'https://logo.clearbit.com/facebook.com',
+      'https://logo.clearbit.com/netflix.com',
+      'https://logo.clearbit.com/airbnb.com',
+      'https://logo.clearbit.com/spotify.com',
+    ],
+    icon: Brain,
+    color: 'from-blue-500 to-cyan-500',
+    bgColor: 'bg-blue-50',
+    stats: '18K+ developers'
+  },
+  {
+    name: 'Backend',
+    slug: 'backend',
+    description: 'Ace server-side development, APIs, and database design.',
+    image: 'https://logo.clearbit.com/github.com',
+    avatars: [
+      'https://logo.clearbit.com/amazon.com',
+      'https://logo.clearbit.com/microsoft.com',
+      'https://logo.clearbit.com/oracle.com',
+      'https://logo.clearbit.com/ibm.com',
+      'https://logo.clearbit.com/salesforce.com',
+    ],
+    icon: Brain,
+    color: 'from-green-500 to-emerald-500',
+    bgColor: 'bg-green-50',
+    stats: '15K+ engineers'
+  },
+  {
+    name: 'Full Stack',
+    slug: 'fullstack',
+    description: 'End-to-end development with frontend and backend expertise.',
     image: 'https://logo.clearbit.com/github.com',
     avatars: [
       'https://logo.clearbit.com/google.com',
@@ -16,79 +50,20 @@ const categories = [
       'https://logo.clearbit.com/netflix.com',
     ],
     icon: Brain,
-    color: 'from-blue-500 to-cyan-500',
-    bgColor: 'bg-blue-50',
-    stats: '25K+ coders'
+    color: 'from-purple-500 to-pink-500',
+    bgColor: 'bg-purple-50',
+    stats: '22K+ developers'
   },
 ];
 
 export default function InterviewCategory() {
   return (
     <div className="min-h-screen rounded-2xl bg-gradient-to-br from-slate-50 via-white to-blue-50">
-      {}
-      <div className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-purple-950 to-indigo-950">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(120,119,198,0.3),transparent_50%)] pointer-events-none"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(59,130,246,0.2),transparent_50%)] pointer-events-none"></div>
-        <div className="absolute inset-0 bg-gradient-to-t from-transparent via-transparent to-white/5"></div>
-
-        {}
-        <div className="absolute top-20 left-10 w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
-        <div className="absolute top-32 right-20 w-1 h-1 bg-purple-400 rounded-full animate-pulse delay-1000"></div>
-        <div className="absolute bottom-20 left-1/4 w-1.5 h-1.5 bg-indigo-400 rounded-full animate-pulse delay-500"></div>
-        <div className="absolute top-10 left-50 w-1.5 h-1.5 bg-blue-400 rounded-full animate-pulse"></div>
-        <div className="absolute top-52 right-50 w-2 h-2 bg-purple-400 rounded-full animate-pulse delay-1000"></div>
-        <div className="absolute bottom-30 left-1/3 w-1.5 h-1.5 bg-indigo-400 rounded-full animate-pulse delay-500"></div>
-
-        <div className="relative px-6 pt-10 pb-16 max-w-7xl mx-auto">
-          <div className="text-center">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-md rounded-full border border-white/20 text-white/90 text-sm font-medium mb-4">
-              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-              AI-Powered Interview Platform
-            </div>
-
-            <h1 className="text-xl md:text-xl lg:text-5xl font-bold text-white mb-2 tracking-tight">
-              Choose Your { }
-              <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
-                Path
-              </span>
-            </h1>
-
-            <p className="text-md text-slate-300 max-w-2xl mx-auto leading-relaxed mb-6 font-light">
-              Master your next interview with AI-powered practice sessions designed for
-              <span className="text-blue-400 font-medium"> real success</span>
-            </p>
-
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Link href="/dashboard/interview/list">
-                <button className="group relative px-6 py-3 cursor-pointer bg-white text-slate-900 font-semibold rounded-2xl shadow-2xl hover:shadow-white/25 transition-all duration-500 transform hover:scale-105 overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-r from-indigo-600 to-purple-600  opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                  <div className="relative flex items-center gap-3 group-hover:text-white transition-colors duration-500">
-                    <History className="w-5 h-5" />
-                    View Interview List
-                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
-                  </div>
-                </button>
-              </Link>
-
-              <div className="flex items-center gap-4 text-slate-400 text-sm">
-                <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 bg-gradient-to-r from-green-400 to-emerald-400 rounded-full flex items-center justify-center">
-                    <span className="text-white font-bold text-xs">✓</span>
-                  </div>
-                  <span>10K+ Success Stories</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {}
-        <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-indigo-800 to-transparent"></div>
-      </div>
+   
 
       {}
       <div className="px-6 pb-20 pt-10 max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-1 xl:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
           {categories.map((cat, index) => {
             const IconComponent = cat.icon;
             return (
@@ -140,9 +115,9 @@ export default function InterviewCategory() {
                     <div className={`px-4 py-2 cursor-pointer hover:shadow-lg rounded-lg bg-gradient-to-r ${cat.color} text-white text-sm font-semibold shadow`}>
 
                       <Link
-                        href={`/dashboard/interview/type/${cat.slug}`}
+                        href={`/dashboard/interview/type/${cat.slug}/${cat.slug}-development`}
                       >
-                      Start Now</Link>
+                      Start Interview</Link>
                     </div>
                   </div>
 

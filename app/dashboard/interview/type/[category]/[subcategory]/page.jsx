@@ -14,6 +14,7 @@ import createInterviewFromAPI from '@/app/service/interview/createInterviewFromA
 export default function SubCategoryPage({ params }) {
     const [jobDescription, setJobDescription] = useState();
     const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
     const [jobDetails, setJobDetails] = useState(null);
     const [interviewData, setInterviewData] = useState();
     const [open, setOpen] = useState(false);
@@ -30,6 +31,40 @@ export default function SubCategoryPage({ params }) {
     const { category } = React.use(params);
     const { subcategory } = React.use(params);
 
+    const getFallbackQuestions = (type) => {
+        const fallbackQuestions = {
+            'frontend-development': [
+                "Can you explain the difference between a class component and a function component in React?",
+                "How do you handle state management in a React application?",
+                "What are some common performance optimization techniques for frontend applications?",
+                "How do you ensure your web applications are responsive across different devices?",
+                "Can you walk me through your debugging process for frontend issues?"
+            ],
+            'backend-development': [
+                "How do you design and implement RESTful APIs?",
+                "What are the key considerations for database design and optimization?",
+                "How do you handle authentication and authorization in backend systems?",
+                "What strategies do you use for scaling backend applications?",
+                "Can you explain your approach to error handling and logging?"
+            ],
+            'fullstack-development': [
+                "How do you architect a full-stack application from frontend to backend?",
+                "What are your strategies for maintaining consistency between frontend and backend?",
+                "How do you handle data flow between client and server applications?",
+                "What considerations do you make for deployment and DevOps?",
+                "How do you ensure security across the entire application stack?"
+            ]
+        };
+        
+        return fallbackQuestions[type] || [
+            "Tell me about your experience with software development.",
+            "What programming languages and frameworks are you most comfortable with?",
+            "Describe a challenging project you worked on recently.",
+            "How do you approach problem-solving in your development work?",
+            "What are your thoughts on current technology trends?"
+        ];
+    };
+
     if (!subcategory){
         return(
             <>
@@ -45,27 +80,63 @@ export default function SubCategoryPage({ params }) {
     }
 
     const getQuestions = async () => {
+        console.log("=== getQuestions function called ===");
+        console.log("Resume value:", resume);
+        console.log("Resume type:", typeof resume);
+        console.log("Resume length:", resume?.length);
         try {
             setGenerateQuestionStatus(true);
             if (resume === null) {
+                console.log("Resume is null, returning null");
                 setResumeStatus(false);
+                return null;
             }
 
             const genResult = await generateQuestions(subcategory || 'Not Available', resume || 'Not Available');
 
             if (!genResult?.status || !genResult?.data) {
                 setError("Failed to generate interview questions.");
-                return;
+                return null;
             }
 
+            console.log("Raw AI response:", genResult.data);
+            console.log("Raw AI response type:", typeof genResult.data);
+            console.log("Raw AI response length:", genResult.data?.length);
+            
+            console.log("About to call extractJsonBlock with:", genResult.data);
             const questions = extractJsonBlock(genResult.data);
-            const cleaned = `[${questions.trim()}]`;
-            const parsedQuestions = JSON.parse(cleaned);
+            console.log("Extracted questions:", questions);
+            console.log("Extracted questions type:", typeof questions);
+            console.log("Extracted questions length:", questions?.length);
+            
+            if (!questions || questions.trim().length < 10) {
+                console.error("No valid questions extracted from AI response");
+                console.log("Using fallback questions for type:", subcategory);
+                
+                // Use fallback questions based on the subcategory
+                const fallbackQuestions = getFallbackQuestions(subcategory);
+                return fallbackQuestions;
+            }
 
-            return parsedQuestions;
+            try {
+                const parsedQuestions = JSON.parse(questions);
+                console.log("Successfully generated questions:", parsedQuestions);
+                return parsedQuestions;
+            } catch (parseError) {
+                console.error("JSON parsing error:", parseError);
+                console.error("Failed to parse questions:", questions);
+                
+                // Try fallback questions if JSON parsing fails
+                console.log("Using fallback questions due to parsing error");
+                const fallbackQuestions = getFallbackQuestions(subcategory);
+                return fallbackQuestions;
+            }
 
         } catch (error) {
-            console.log("Error: ", error);
+            console.log("Error generating questions: ", error);
+            console.log("Using fallback questions due to error");
+            const fallbackQuestions = getFallbackQuestions(subcategory);
+            return fallbackQuestions;
         } finally {
             setGenerateQuestionStatus(false);
         }
@@ -95,10 +166,13 @@ export default function SubCategoryPage({ params }) {
     }
 
     const handleFinalSubmit = async () => {
+        console.log("=== handleFinalSubmit called ===");
         setLoading(true);
 
         try {
-            const questions = await getQuestions();
+            // Don't call getQuestions() again - let the API generate questions from resume
+            console.log("Creating interview - API will generate questions from resume");
+
             const college_interview_data = {
                 name: category,
                 program_name: subcategory,
@@ -115,7 +189,7 @@ export default function SubCategoryPage({ params }) {
                 type: 'ADMISSION'
             };
 
-            await handleInterviewCreate(mergedResult, questions, college_interview_data);
+            await handleInterviewCreate(mergedResult, null, college_interview_data);
         } catch (err) {
         console.error("Error in handleFinalSubmit:", err);
         } finally {
@@ -144,6 +218,25 @@ export default function SubCategoryPage({ params }) {
             <>
                 <LoadingOverlay text="Creating Interview..." />
             </>
+        )
+    }
+
+    if(error){
+        return(
+            <div className="min-h-screen bg-gradient-to-br from-slate-50 via-violet-50/30 to-purple-50/20 p-4 sm:p-6">
+                <div className="max-w-3xl mx-auto">
+                    <div className="bg-white/80 backdrop-blur-sm border border-red-200 rounded-3xl shadow-2xl p-8 text-center">
+                        <h2 className="text-2xl font-bold text-red-600 mb-4">Error</h2>
+                        <p className="text-gray-700 mb-6">{error}</p>
+                        <button 
+                            onClick={() => setError("")}
+                            className="px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+                        >
+                            Try Again
+                        </button>
+                    </div>
+                </div>
+            </div>
         )
     }
 
@@ -224,7 +317,10 @@ export default function SubCategoryPage({ params }) {
 
                                             <div className="w-full flex flex-col items-center justify-center gap-6">
                                                 <button
-                                                    onClick={handleFinalSubmit}
+                                                    onClick={() => {
+                                                        console.log("=== BUTTON CLICKED ===");
+                                                        handleFinalSubmit();
+                                                    }}
                                                     className="group relative overflow-hidden w-full bg-gradient-to-r from-[#462eb4] to-indigo-600 hover:from-violet-700 hover:to-purple-700 text-white px-8 py-4 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-3"
                                                 >
                                                     {}

@@ -8,8 +8,7 @@ import {
   User, Users, ChevronUp
 } from 'lucide-react'
 import Link from 'next/link'
-import Image from 'next/image'
-import matchfox from '../../public/match-fox-5.jpg'
+import Logo from '../../components/Logo'
 
 export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(false)
@@ -39,7 +38,7 @@ export default function Sidebar() {
           <Menu className="w-6 h-6 text-gray-600" />
         </button>
         <div className="flex items-center gap-1 text-lg text-indigo-900 font-semibold">
-          <Image src={matchfox} width={24} height={24} alt='logo' className='rounded-md' />
+          <Logo className="w-6 h-6" />
           Swipe
         </div>
         <div className="w-6" />
@@ -69,7 +68,7 @@ export default function Sidebar() {
             href="/"
             className="hidden md:flex items-center mt-1.5 pb-6 space-x-2 p-2 rounded"
           >
-            <Image src={matchfox} width={24} height={24} alt='logo' className="w-7 h-7 rounded-md" />
+            <Logo className="w-7 h-7" />
             <span className='font-bold text-lg text-indigo-900'>Swipe</span>
           </Link>
 
@@ -134,15 +133,6 @@ export default function Sidebar() {
           {userType === 'CANDIDATE' && (
             <>
                    <Link
-                     href="/dashboard"
-                     className={`flex items-center text-sm space-x-2 p-2 rounded
-                       ${pathname === '/dashboard' ? 'bg-gray-400 text-white' : 'text-zinc-800 hover:bg-zinc-200'}`}
-                   >
-                     <LayoutDashboard className="w-4 h-4" />
-                     <span>Dashboard</span>
-                   </Link>
-
-                   <Link
                      href="/dashboard/interview"
                      className={`flex items-center text-sm space-x-2 p-2 rounded
                        ${pathname === '/dashboard/interview' ? 'bg-gray-400 text-white' : 'text-zinc-800 hover:bg-zinc-200'}`}
@@ -165,24 +155,6 @@ export default function Sidebar() {
 
           {userType === 'RECRUITER' && (
             <>
-              <Link
-                href="/dashboard"
-                className={`flex items-center text-sm space-x-2 p-2 rounded
-                  ${pathname === '/dashboard' ? 'bg-gray-400 text-white' : 'text-zinc-800 hover:bg-zinc-200'}`}
-              >
-                <LayoutDashboard className="w-4 h-4" />
-                <span>Dashboard</span>
-              </Link>
-
-              <Link
-                href="/dashboard/jobs"
-                className={`flex items-center text-sm space-x-2 p-2 rounded
-                  ${pathname === '/dashboard/jobs' ? 'bg-gray-400 text-white' : 'text-zinc-800 hover:bg-zinc-200'}`}
-              >
-                <BriefcaseBusiness className="w-4 h-4" />
-                <span>Jobs Post</span>
-              </Link>
-
               <Link
                 href="/dashboard/recruiter/candidates"
                 className={`flex items-center text-sm space-x-2 p-2 rounded

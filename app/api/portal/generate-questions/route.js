@@ -24,29 +24,55 @@ export async function POST(req) {
 
     const questions = await openaiQueue.add(async () => {
       const prompt = resume
-        ? `Generate ${questionsCount} ${type || 'frontend'} interview questions based on this candidate profile: ${resume.substring(0, 500)}...`
+        ? `Generate ${questionsCount} ${type || 'frontend-development'} interview questions based on this candidate's resume:\n\n${resume.substring(0, 800)}...`
         : `Job Description: ${jobDescription}\n\nGenerate ${questionsCount} interview questions for this position.`;
 
-      const response = await openai.chat.completions.create({
-        model: 'mistralai/mistral-7b-instruct:free',
-        messages: [
-          {
-            role: 'system',
-            content: `You are an expert interview question generator. Generate exactly ${questionsCount} relevant interview questions based on the provided information. Return ONLY a JSON array of strings, no other text. Example format: ["Question 1?", "Question 2?", "Question 3?"]`
-          },
-          {
-            role: 'user',
-            content: prompt
-          }
-        ],
-        max_tokens: 1000,
-        temperature: 0.7
-      });
+      console.log('AI Model:', 'mistralai/mistral-7b-instruct:free');
+      console.log('Questions Count:', questionsCount);
 
+      let response;
+      try {
+        response = await openai.chat.completions.create({
+          model: 'mistralai/mistral-7b-instruct:free',
+          messages: [
+            {
+              role: 'system',
+              content: `You are an expert interview question generator. Generate exactly ${questionsCount} relevant interview questions based on the provided information. Return ONLY a JSON array of strings, no other text. Example format: ["Question 1?", "Question 2?", "Question 3?"]`
+            },
+            {
+              role: 'user',
+              content: prompt
+            }
+          ],
+          max_tokens: 1000,
+          temperature: 0.7
+        });
+      } catch (apiError) {
+        console.error('OpenAI API Error:', apiError);
+        throw new Error(`API call failed: ${apiError.message}`);
+      }
+
+      console.log('Full OpenAI Response:', JSON.stringify(response, null, 2));
+      
       const content = response.choices[0]?.message?.content || '';
       console.log('AI Response:', content);
+      console.log('AI Response Length:', content.length);
 
-      const cleanedContent = content.replace(/^<s>\s*/, '').replace(/\s*<\/s>$/, '').trim();
+      // Clean the content more thoroughly
+      let cleanedContent = content
+        .replace(/^<s>\s*/, '') // Remove <s> prefix
+        .replace(/\s*<\/s>$/, '') // Remove </s> suffix
+        .replace(/^\[ASSISTANT\]\s*/, '') // Remove [ASSISTANT] prefix
+        .replace(/^```json\s*/i, '') // Remove opening ```json
+        .replace(/\s*```$/, '') // Remove closing ```
+        .trim();
+      
+      // Additional cleaning - remove any remaining <s> at the start
+      if (cleanedContent.startsWith('<s>')) {
+        cleanedContent = cleanedContent.substring(3).trim();
+      }
+      
+      console.log('Cleaned content:', cleanedContent);
 
       try {
 
@@ -143,7 +169,7 @@ export async function POST(req) {
 
     return NextResponse.json({
       state: true,
-      data: { questions },
+      data: questions,
       message: 'Questions generated successfully'
     }, { status: 200 });
 
