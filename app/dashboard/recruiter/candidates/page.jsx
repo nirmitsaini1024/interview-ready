@@ -61,10 +61,37 @@ export default function CandidatePerformancePage() {
               ? JSON.parse(report.report_content) 
               : report.report_content;
             
-            score = parsedContent?.score || 0;
-            recommendation = parsedContent?.recommendation === true ? 'Recommended' : 
-                           parsedContent?.recommendation === false ? 'Not Recommended' : 
-                           'No recommendation';
+            // Handle both regular and coding interview score formats
+            const isCodingInterview = parsedContent?.type === 'coding_interview';
+            const rawScore = isCodingInterview ? (parsedContent?.totalScore || 0) : (parsedContent?.score || 0);
+            
+            // Ensure score is always a number
+            if (typeof rawScore === 'string') {
+              score = parseInt(rawScore) || 0;
+            } else if (typeof rawScore === 'number') {
+              score = rawScore;
+            } else {
+              score = 0;
+            }
+            
+            // Handle recommendation logic for both types
+            const rawRecommendation = parsedContent?.recommendation;
+            
+            if (typeof rawRecommendation === 'boolean') {
+              recommendation = rawRecommendation ? 'Recommended' : 'Not Recommended';
+            } else if (typeof rawRecommendation === 'string') {
+              const lowerRec = rawRecommendation.toLowerCase();
+              if (lowerRec.includes('recommend') || lowerRec.includes('strong') || lowerRec.includes('yes')) {
+                recommendation = 'Recommended';
+              } else if (lowerRec.includes('not') || lowerRec.includes('no') || lowerRec.includes('weak')) {
+                recommendation = 'Not Recommended';
+              } else {
+                recommendation = 'No recommendation';
+              }
+            } else {
+              // Fallback: recommend if score >= 70
+              recommendation = score >= 70 ? 'Recommended' : 'Not Recommended';
+            }
           }
         } catch (error) {
           console.error('Error parsing report content:', error);
@@ -91,7 +118,14 @@ export default function CandidatePerformancePage() {
       // Calculate stats
       const totalCandidates = candidates.length;
       const completedInterviews = candidates.filter(c => c.status === 'completed').length;
-      const averageScore = candidates.length > 0 ? candidates.reduce((sum, c) => sum + c.score, 0) / candidates.length : 0;
+      
+      // Ensure all scores are numbers before calculating average
+      const totalScore = candidates.reduce((sum, c) => {
+        const score = typeof c.score === 'number' ? c.score : parseInt(c.score) || 0;
+        return sum + score;
+      }, 0);
+      
+      const averageScore = candidates.length > 0 ? totalScore / candidates.length : 0;
       const recommended = candidates.filter(c => 
         c.recommendation === 'Recommended' || 
         c.recommendation === 'Strong Hire' || 

@@ -161,6 +161,25 @@ export default function ReportPage() {
             {reports.map((report, index) => {
               const parsedContent = parseReportContent(report.report_content);
               const reportData = parsedContent?.report || {};
+              
+              // Handle coding interview reports differently
+              const isCodingInterview = parsedContent?.type === 'coding_interview';
+              const summary = isCodingInterview ? parsedContent?.detailedAnalysis : reportData?.overall_summary;
+              const score = isCodingInterview ? parsedContent?.totalScore : parsedContent?.score;
+              const recommendation = isCodingInterview ? parsedContent?.recommendation : parsedContent?.recommendation;
+              
+              // Helper function to determine if candidate is recommended
+              const isRecommended = () => {
+                if (typeof recommendation === 'boolean') {
+                  return recommendation;
+                }
+                if (typeof recommendation === 'string') {
+                  const lowerRec = recommendation.toLowerCase();
+                  return lowerRec.includes('recommend') || lowerRec.includes('strong') || lowerRec.includes('yes');
+                }
+                // Fallback: recommend if score >= 70
+                return score >= 70;
+              };
 
               return (
                 <div key={index} className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
@@ -177,9 +196,9 @@ export default function ReportPage() {
                       <p className="text-sm text-gray-500 mb-2">
                         {formatDate(report.created_at || report.attempt?.created_at || report.attempt?.interview?.created_date)}
                       </p>
-                      {parsedContent?.recommendation !== undefined && (
+                      {recommendation !== undefined && (
                         <div className="mb-2">
-                          {getRecommendationBadge(parsedContent.recommendation)}
+                          {getRecommendationBadge(isRecommended())}
                         </div>
                       )}
                     </div>
@@ -201,22 +220,22 @@ export default function ReportPage() {
                   </div>
 
                   {}
-                  {parsedContent?.score && (
+                  {score && (
                     <div className="mb-4">
-                      <div className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${getScoreColor(parsedContent.score)}`}>
-                        Score: {parsedContent.score}/100
+                      <div className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${getScoreColor(score)}`}>
+                        Score: {score}/100
                       </div>
                     </div>
                   )}
 
                   {}
-                  {reportData.overall_summary && (
+                  {summary && (
                     <div className="border-t border-gray-200 pt-4">
                       <h4 className="text-sm font-medium text-gray-900 mb-2">Summary</h4>
                       <div className="text-gray-700 text-sm">
-                        {reportData.overall_summary.length > 200
-                          ? reportData.overall_summary.substring(0, 200) + '...'
-                          : reportData.overall_summary
+                        {summary.length > 200
+                          ? summary.substring(0, 200) + '...'
+                          : summary
                         }
                       </div>
                     </div>

@@ -32,6 +32,9 @@ model User {
   admission_interviews AdmissionInterview[]
   resume_html          ResumeHtml[]
   advertisement_interviews AdvertisementInterview[]
+  coding_interviews    CodingInterview[]
+  coding_interview_attempts CodingInterviewAttempt[]
+  coding_reports       CodingReport[]
 
   @@map("users")
 }
@@ -195,5 +198,67 @@ model AdmissionInterview {
   user User? @relation(fields: [user_id], references: [clerk_id])
 
   @@map("admission_interviews")
+}
+
+model CodingInterview {
+  id               BigInt    @id @default(autoincrement())
+  user_id          String?
+  interview_name   String?
+  company          String?
+  position         String?
+  difficulty_level String?   @default("Medium")
+  status           String    @default("ACTIVE")
+  questions        Json?     // Array of 6 questions with difficulty levels
+  total_score      Int?      @default(0)
+  completed_at     DateTime?
+  created_date     DateTime  @default(now())
+
+  // Relations
+  user                    User?                    @relation(fields: [user_id], references: [clerk_id])
+  coding_interview_attempts CodingInterviewAttempt[]
+
+  @@map("coding_interviews")
+}
+
+model CodingInterviewAttempt {
+  id                    BigInt    @id @default(autoincrement())
+  user_id               String
+  coding_interview_id   BigInt?
+  started_at            DateTime?
+  completed_at          DateTime?
+  status                String    @default("PENDING")
+  current_question      Int       @default(0)
+  answers               Json?     // Array of answers with timestamps
+  total_score           Int?      @default(0)
+  time_per_question     Json?     // Time spent on each question
+  created_at            DateTime  @default(now())
+  updated_at            DateTime  @updatedAt
+
+  // Relations
+  user            User            @relation(fields: [user_id], references: [clerk_id], onDelete: Cascade)
+  coding_interview CodingInterview? @relation(fields: [coding_interview_id], references: [id])
+  coding_reports  CodingReport[]
+
+  @@map("coding_interview_attempts")
+}
+
+model CodingReport {
+  id                    BigInt   @id @default(autoincrement())
+  attempt_id            BigInt?
+  user_id               String?
+  score                 Int?
+  recommendation        String?
+  detailed_analysis     String?
+  strengths             Json?    // Array of strengths
+  weaknesses            Json?    // Array of weaknesses
+  improvement_areas     Json?    // Array of improvement suggestions
+  created_at            DateTime @default(now())
+  updated_at            DateTime @updatedAt
+
+  // Relations
+  attempt CodingInterviewAttempt? @relation(fields: [attempt_id], references: [id], onDelete: Cascade)
+  user    User?                   @relation(fields: [user_id], references: [clerk_id])
+
+  @@map("coding_reports")
 }
 

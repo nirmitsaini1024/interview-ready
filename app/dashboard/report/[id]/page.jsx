@@ -172,7 +172,26 @@ export default function DetailedReportPage() {
 
   const parsedContent = parseReportContent(report.report_content);
   const reportData = parsedContent?.report || {};
-  const skillEvaluation = reportData.Skill_Evaluation || {};
+  
+  // Handle coding interview reports differently
+  const isCodingInterview = parsedContent?.type === 'coding_interview';
+  const skillEvaluation = isCodingInterview ? {} : (reportData.Skill_Evaluation || {});
+  const summary = isCodingInterview ? parsedContent?.detailedAnalysis : reportData?.overall_summary;
+  const score = isCodingInterview ? parsedContent?.totalScore : parsedContent?.score;
+  const recommendation = isCodingInterview ? parsedContent?.recommendation : parsedContent?.recommendation;
+  
+  // Helper function to determine if candidate is recommended
+  const isRecommended = () => {
+    if (typeof recommendation === 'boolean') {
+      return recommendation;
+    }
+    if (typeof recommendation === 'string') {
+      const lowerRec = recommendation.toLowerCase();
+      return lowerRec.includes('recommend') || lowerRec.includes('strong') || lowerRec.includes('yes');
+    }
+    // Fallback: recommend if score >= 70
+    return score >= 70;
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -226,19 +245,19 @@ export default function DetailedReportPage() {
           </div>
 
           {}
-          {parsedContent?.score && (
+          {score && (
             <div className="mb-8">
               <h2 className="text-xl font-semibold text-gray-900 mb-4">Overall Performance</h2>
               <div className="bg-gray-50 rounded-lg p-6">
                 <div className="flex items-center justify-between">
                   <div>
                     <h3 className="text-lg font-medium text-gray-900">Total Score</h3>
-                    <p className={`text-3xl font-bold ${getScoreColor(parsedContent.score)}`}>
-                      {parsedContent.score}/100
+                    <p className={`text-3xl font-bold ${getScoreColor(score)}`}>
+                      {score}/100
                     </p>
                   </div>
                   <div className="text-right">
-                    {parsedContent.recommendation === true || parsedContent.recommendation === "YES" ? (
+                    {isRecommended() ? (
                       <div className="flex items-center text-green-600">
                         <CheckCircle className="w-6 h-6 mr-2" />
                         <span className="font-medium">Recommended</span>
@@ -277,21 +296,22 @@ export default function DetailedReportPage() {
           )}
 
           {}
-          {reportData.overall_summary && (
+          {summary && (
             <div className="mb-8">
               <h2 className="text-xl font-semibold text-gray-900 mb-4">Summary</h2>
               <div className="bg-gray-50 rounded-lg p-4">
-                <p className="text-gray-700">{reportData.overall_summary}</p>
+                <p className="text-gray-700">{summary}</p>
               </div>
             </div>
           )}
 
           {}
-          {reportData.Key_Strengths && reportData.Key_Strengths.length > 0 && (
+          {/* Key Strengths - for both regular and coding interviews */}
+          {((reportData.Key_Strengths && reportData.Key_Strengths.length > 0) || (isCodingInterview && parsedContent?.strengths && parsedContent.strengths.length > 0)) && (
             <div className="mb-8">
               <h2 className="text-xl font-semibold text-gray-900 mb-4">Key Strengths</h2>
               <ul className="space-y-2">
-                {reportData.Key_Strengths.map((strength, index) => (
+                {(isCodingInterview ? parsedContent?.strengths : reportData.Key_Strengths).map((strength, index) => (
                   <li key={index} className="flex items-center text-green-700">
                     <CheckCircle className="w-4 h-4 mr-2 flex-shrink-0" />
                     <span>{strength}</span>
@@ -302,13 +322,30 @@ export default function DetailedReportPage() {
           )}
 
           {}
-          {reportData.Areas_for_Improvement && reportData.Areas_for_Improvement.length > 0 && (
+          {/* Weaknesses - for coding interviews */}
+          {isCodingInterview && parsedContent?.weaknesses && parsedContent.weaknesses.length > 0 && (
             <div className="mb-8">
               <h2 className="text-xl font-semibold text-gray-900 mb-4">Areas for Improvement</h2>
               <ul className="space-y-2">
-                {reportData.Areas_for_Improvement.map((area, index) => (
+                {parsedContent.weaknesses.map((weakness, index) => (
                   <li key={index} className="flex items-center text-orange-700">
                     <XCircle className="w-4 h-4 mr-2 flex-shrink-0" />
+                    <span>{weakness}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {}
+          {/* Areas for Improvement - for both regular and coding interviews */}
+          {((reportData.Areas_for_Improvement && reportData.Areas_for_Improvement.length > 0) || (isCodingInterview && parsedContent?.improvementAreas && parsedContent.improvementAreas.length > 0)) && (
+            <div className="mb-8">
+              <h2 className="text-xl font-semibold text-gray-900 mb-4">Improvement Suggestions</h2>
+              <ul className="space-y-2">
+                {(isCodingInterview ? parsedContent?.improvementAreas : reportData.Areas_for_Improvement).map((area, index) => (
+                  <li key={index} className="flex items-center text-blue-700">
+                    <CheckCircle className="w-4 h-4 mr-2 flex-shrink-0" />
                     <span>{area}</span>
                   </li>
                 ))}
@@ -317,14 +354,15 @@ export default function DetailedReportPage() {
           )}
 
           {}
-          {reportData.Question_Wise_Feedback && reportData.Question_Wise_Feedback.length > 0 && (
+          {/* Question-wise Feedback - for both regular and coding interviews */}
+          {((reportData.Question_Wise_Feedback && reportData.Question_Wise_Feedback.length > 0) || (isCodingInterview && parsedContent?.questionScores && parsedContent.questionScores.length > 0)) && (
             <div className="mb-8">
               <h2 className="text-xl font-semibold text-gray-900 mb-4">Question-wise Feedback</h2>
               <div className="space-y-4">
-                {reportData.Question_Wise_Feedback.map((feedback, index) => (
+                {(isCodingInterview ? parsedContent?.questionScores : reportData.Question_Wise_Feedback).map((feedback, index) => (
                   <div key={index} className="border border-gray-200 rounded-lg p-4">
                     <div className="flex items-center justify-between mb-2">
-                      <h3 className="font-medium text-gray-900">{feedback.question}</h3>
+                      <h3 className="font-medium text-gray-900">{feedback.question || feedback.questionId}</h3>
                       <div className="flex items-center">
                         {getRatingStars(feedback.score)}
                         <span className="ml-2 text-sm text-gray-600">({feedback.score}/5)</span>

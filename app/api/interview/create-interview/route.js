@@ -10,26 +10,58 @@ export async function POST(req) {
 
     console.log('Creating interview with data:', { formData, questions, college_interview_data });
 
+    // Check if this is a coding interview based on the category
+    const isCodingInterview = formData?.company && (
+      formData.company.includes('frontend-development') || 
+      formData.company.includes('backend-development') || 
+      formData.company.includes('fullstack-development')
+    );
+
     // Always generate personalized questions from resume
     let finalQuestions = null;
     if (resumeData) {
       console.log('Generating personalized questions from resume...');
       try {
-        const generateResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/portal/generate-questions`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            type: formData?.company || 'frontend-development',
-            resume: resumeData,
-            questionsCount: 5
-          })
-        });
-        
-        if (generateResponse.ok) {
-          const genResult = await generateResponse.json();
-          if (genResult.state && genResult.data) {
-            finalQuestions = genResult.data;
-            console.log('Generated personalized questions from resume:', finalQuestions);
+        if (isCodingInterview) {
+          // Generate coding interview questions with difficulty levels and timers
+          const generateResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/interview/generate-questions`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              position: formData?.position || 'Software Developer',
+              company: formData?.company || 'Tech Company',
+              difficulty_level: formData?.difficulty_level || 'Medium',
+              tech_stack: [formData?.company || 'General Programming'],
+              interview_type: 'coding',
+              resume: resumeData
+            })
+          });
+          
+          if (generateResponse.ok) {
+            const genResult = await generateResponse.json();
+            if (genResult.state && genResult.data) {
+              finalQuestions = genResult.data;
+              console.log('Generated coding interview questions:', finalQuestions);
+            }
+          }
+        } else {
+          // Regular interview questions
+          const generateResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/portal/generate-questions`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              type: formData?.company || 'frontend-development',
+              resume: resumeData,
+              questionsCount: 5
+            })
+          });
+          
+          if (generateResponse.ok) {
+            const genResult = await generateResponse.json();
+            if (genResult.state && genResult.data) {
+              finalQuestions = genResult.data;
+              console.log('Generated personalized questions from resume:', finalQuestions);
+            }
           }
         }
       } catch (error) {
@@ -77,7 +109,8 @@ export async function POST(req) {
         job_description: formData?.job_description || 'Demo job description',
         resume: resumeData,
         questions: finalQuestions,
-        type: 'INTERVIEW',
+        type: isCodingInterview ? 'CODING_INTERVIEW' : 'INTERVIEW',
+        interview_type: isCodingInterview ? 'coding' : 'regular',
         status: 'ACTIVE'
       }
     });
