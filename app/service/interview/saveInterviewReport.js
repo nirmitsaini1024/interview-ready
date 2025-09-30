@@ -2,10 +2,11 @@
 const saveInterviewReport = async (interviewId, interview_attempt_id, score, recommendation, report, duration) => {
 
   try {
+    const numericScore = Math.max(0, Math.min(100, Number(score) || 0));
     const input = {
         interviewId: interviewId,
         interview_attempt_id: interview_attempt_id,
-        score: score,
+        score: numericScore,
         recommendation: recommendation,
         report: report,
         duration: duration,

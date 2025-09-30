@@ -101,23 +101,28 @@ Consider:
 
       try {
         const parsed = JSON.parse(cleanedContent);
-        
+
+        // Normalize score to a number within 0-100
+        const rawScore = parsed.totalScore ?? parsed.score ?? 0;
+        const numericScore = Math.max(0, Math.min(100, Number(rawScore) || 0));
+        parsed.totalScore = numericScore;
+
         // Ensure recommendation is a boolean based on score
         if (typeof parsed.recommendation === 'string') {
-          // If it's a string, convert to boolean based on score
-          parsed.recommendation = parsed.totalScore >= 70;
+          parsed.recommendation = numericScore >= 70;
         } else if (typeof parsed.recommendation !== 'boolean') {
-          // If it's not a boolean, set based on score
-          parsed.recommendation = parsed.totalScore >= 70;
+          parsed.recommendation = numericScore >= 70;
         }
-        
+
         return parsed;
       } catch (parseError) {
         console.error('JSON parse error for scoring:', parseError);
         
         // Fallback scoring
-        const totalQuestions = questions.length;
-        const answeredQuestions = answers.filter(a => a.answer && a.answer !== "No response provided").length;
+        const totalQuestions = Array.isArray(questions) ? questions.length : 0;
+        const answeredQuestions = Array.isArray(answers)
+          ? answers.filter(a => typeof a?.answer === 'string' && a.answer.trim().length > 0 && a.answer.trim() !== 'No response provided').length
+          : 0;
         const baseScore = Math.round((answeredQuestions / totalQuestions) * 100);
         
         return {
@@ -125,16 +130,17 @@ Consider:
           recommendation: baseScore >= 70,
           recommendationText: baseScore >= 70 ? "Strong candidate" : baseScore >= 50 ? "Average candidate" : "Needs improvement",
           detailedAnalysis: `Candidate answered ${answeredQuestions} out of ${totalQuestions} questions. Base score calculated from completion rate.`,
-          strengths: answeredQuestions >= 4 ? ["Good participation", "Attempted most questions"] : ["Showed effort"],
-          weaknesses: answeredQuestions < 4 ? ["Limited responses", "Time management issues"] : ["Could improve response quality"],
+          strengths: answeredQuestions >= Math.ceil(totalQuestions * 0.66) ? ["Good participation", "Attempted most questions"] : ["Showed effort"],
+          weaknesses: answeredQuestions < Math.ceil(totalQuestions * 0.5) ? ["Limited responses", "Time management issues"] : ["Could improve response quality"],
           improvementAreas: ["Practice more coding problems", "Work on time management", "Improve problem-solving approach"],
-          questionScores: questions.map((q, index) => ({
-            questionId: q.id,
-            score: answers[index]?.answer && answers[index].answer !== "No response provided" ? 
-              (q.difficulty === 'Easy' ? 8 : q.difficulty === 'Medium' ? 10 : 12) : 0,
-            feedback: answers[index]?.answer && answers[index].answer !== "No response provided" ? 
-              "Answered the question" : "No response provided"
-          })),
+          questionScores: (Array.isArray(questions) ? questions : []).map((q, index) => {
+            const answered = Array.isArray(answers) && typeof answers[index]?.answer === 'string' && answers[index].answer.trim().length > 0 && answers[index].answer.trim() !== 'No response provided';
+            return {
+              questionId: q.id,
+              score: answered ? (q.difficulty === 'Easy' ? 8 : q.difficulty === 'Medium' ? 10 : 12) : 0,
+              feedback: answered ? "Answered the question" : "No response provided"
+            };
+          }),
           overallRating: baseScore >= 70 ? "Good" : baseScore >= 50 ? "Average" : "Needs Improvement",
           hiringRecommendation: baseScore >= 70 ? "Proceed to next round" : baseScore >= 50 ? "Consider for junior role" : "Not recommended"
         };

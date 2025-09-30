@@ -175,7 +175,7 @@ export default function DetailedReportPage() {
   
   // Handle coding interview reports differently
   const isCodingInterview = parsedContent?.type === 'coding_interview';
-  const skillEvaluation = isCodingInterview ? {} : (reportData.Skill_Evaluation || {});
+  const skillEvaluation = isCodingInterview ? {} : (reportData.Skill_Evaluation || reportData.skill_evaluation || {});
   const summary = isCodingInterview ? parsedContent?.detailedAnalysis : reportData?.overall_summary;
   const score = isCodingInterview ? parsedContent?.totalScore : parsedContent?.score;
   const recommendation = isCodingInterview ? parsedContent?.recommendation : parsedContent?.recommendation;
@@ -306,6 +306,22 @@ export default function DetailedReportPage() {
           )}
 
           {}
+          {/* Reasons (General report fallback) */}
+          {!isCodingInterview && Array.isArray(reportData?.reasons) && reportData.reasons.length > 0 && (
+            <div className="mb-8">
+              <h2 className="text-xl font-semibold text-gray-900 mb-4">Reasons</h2>
+              <ul className="space-y-2">
+                {reportData.reasons.map((reason, index) => (
+                  <li key={index} className="flex items-center text-gray-700">
+                    <CheckCircle className="w-4 h-4 mr-2 flex-shrink-0" />
+                    <span>{reason}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {}
           {/* Key Strengths - for both regular and coding interviews */}
           {((reportData.Key_Strengths && reportData.Key_Strengths.length > 0) || (isCodingInterview && parsedContent?.strengths && parsedContent.strengths.length > 0)) && (
             <div className="mb-8">
@@ -372,6 +388,22 @@ export default function DetailedReportPage() {
                   </div>
                 ))}
               </div>
+            </div>
+          )}
+
+          {}
+          {/* Reasons - show for GENERAL legacy shape */}
+          {!isCodingInterview && Array.isArray(parsedContent?.report) && parsedContent.report.length > 0 && (
+            <div className="mb-8">
+              <h2 className="text-xl font-semibold text-gray-900 mb-4">Reasons</h2>
+              <ul className="space-y-2">
+                {parsedContent.report.map((reason, index) => (
+                  <li key={index} className="flex items-center text-gray-700">
+                    <CheckCircle className="w-4 h-4 mr-2 flex-shrink-0" />
+                    <span>{reason}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
           )}
         </div>

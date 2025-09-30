@@ -2,7 +2,7 @@
 const generateReport = async (conversationsRef) => {
   try {
     const input = {
-        conversations: conversationsRef
+        conversations: conversationsRef?.current ?? conversationsRef
     };
 
     const response = await fetch(`/api/interview/generate-report`, {

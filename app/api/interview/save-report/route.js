@@ -14,6 +14,9 @@ export async function POST(req) {
 
     const { interviewId, interview_attempt_id, score, recommendation, report, duration } = await req.json();
 
+    // Normalize and clamp score 0-100
+    const normalizedScore = Math.max(0, Math.min(100, Number(score) || 0));
+
     console.log('Saving report with data:', { interviewId, interview_attempt_id, score, recommendation, report, duration });
 
     const userId = 'demo_user_123';
@@ -23,7 +26,7 @@ export async function POST(req) {
         attempt_id: BigInt(interview_attempt_id),
         user_id: userId,
         report_content: JSON.stringify({
-          score: score,
+          score: normalizedScore,
           recommendation: recommendation,
           report: report,
           duration: duration,

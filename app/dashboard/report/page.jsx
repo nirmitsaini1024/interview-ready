@@ -252,6 +252,28 @@ export default function ReportPage() {
                     </div>
                   )}
 
+                  {}
+                  {/* Reasons preview for GENERAL reports */}
+                  {!isCodingInterview && (
+                    Array.isArray(reportData?.reasons) || Array.isArray(parsedContent?.report)
+                  ) && (
+                    <div className="border-t border-gray-200 pt-4">
+                      <h4 className="text-sm font-medium text-gray-900 mb-2">Reasons</h4>
+                      <div className="text-gray-700 text-sm">
+                        {(
+                          Array.isArray(reportData?.reasons)
+                            ? reportData.reasons
+                            : (Array.isArray(parsedContent?.report) ? parsedContent.report : [])
+                        ).slice(0, 2).join(', ')}
+                        {(
+                          Array.isArray(reportData?.reasons)
+                            ? reportData.reasons
+                            : (Array.isArray(parsedContent?.report) ? parsedContent.report : [])
+                        ).length > 2 && '...'}
+                      </div>
+                    </div>
+                  )}
+
                   <div className="mt-4 pt-4 border-t border-gray-200">
                     <button
                       onClick={() => {
